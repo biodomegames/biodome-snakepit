@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-582c771c-6013-4b72-8363-a3c2234ba6db" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="uuid-d963a7e2-1b35-450a-864d-831c094195cf" data-name="Layer_6">
+    <g id="uuid-97c0d051-6265-4a57-97ed-311538b8d404" data-name="button-cavity">
+      <polygon points="168.2 7.7 31.8 7.7 7.7 31.8 7.7 168.2 31.8 192.3 168.2 192.3 192.3 168.2 192.3 31.8 168.2 7.7" style="opacity: .3;"/>
+      <path d="M168.2,7.7l24.2,24.2v136.3l-24.2,24.2H31.8l-24.2-24.2V31.8L31.8,7.7h136.3M170.4,0H29.6l-3.1,3.1L3.1,26.5l-3.1,3.1v140.8l3.1,3.1,23.5,23.5,3.1,3.1h140.8l3.1-3.1,23.5-23.5,3.1-3.1V29.6l-3.1-3.1-23.5-23.5-3.1-3.1h0Z" style="fill: #fff; opacity: .1;"/>
+    </g>
+  </g>
+</svg>

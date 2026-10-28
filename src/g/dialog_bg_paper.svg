@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-f4c84e46-ab59-4b0b-82c6-2a74f02a8bf4" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="uuid-3c01e632-9e9e-46f6-bdc0-117980f50bc9" data-name="Layer_1">
+    <g id="uuid-c1809096-280d-4897-a280-e440a1274631" data-name="dialog_x5F_bg_x5F_paper">
+      <polygon points="196 194.1 167 198 132.2 194.1 1.8 198 3 189.9 2 53.9 5.4 36.3 2 25 2 2 42.5 4 198 2 198 129.4 194.1 144.6 198 163.4 196 194.1" style="fill: #f4f4e1;"/>
+      <polygon points="2 23.5 42.5 4 2 2 2 23.5" style="fill: #ffe;"/>
+      <polygon points="194.1 144.6 125.7 153.2 198 129.4 194.1 144.6" style="fill: #ffe;"/>
+      <polygon points="3 189.9 132.2 168.3 198 163.4 196 194.1 167 198 132.2 194.1 1.8 198 3 189.9" style="fill: #ffe;"/>
+      <polygon points="132.2 194.1 181.2 175.2 167 198 132.2 194.1" style="fill: #f4f4e1;"/>
+      <polygon points="2 53.9 78 29.9 5.4 36.3 2 53.9" style="fill: #ffe;"/>
+      <path d="M197,3v126.6l-3.9,15.1-.2.7v.7c.1,0,4.1,18.8,4.1,18.8l-1.8,28.5-26.8,3.6-35.2-4h-.2s-.2,0-.2,0l-129.4,3.9.6-4.8v-.2s0-.2,0-.2l-1-138.5,3.4-17.6v-.7c.1,0,0-.7,0-.7l-3.3-11.1V3.1l38.2,1.8h0s0,0,0,0l155.6-2M200,0L41.4,2,0,0v23.5l3.4,11.5L0,53l1,138.8-1,8.3,132.8-4,35.5,4,29.6-4,2-31.3-4-19.2,4-15.5V0h0Z" style="fill: #d4d6c4;"/>
+    </g>
+  </g>
+</svg>

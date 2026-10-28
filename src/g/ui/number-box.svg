@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-f732d90f-eb22-4147-8e89-c2216d938c1d" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="uuid-e173bdd9-fba2-411f-a4a6-7d10f526fca3" data-name="Layer_6">
+    <g id="uuid-dccd73a8-cabc-469f-93d9-2496b74eb01a" data-name="number-box">
+      <polygon points="0 17.8 0 182.2 17.8 200 182.2 200 200 182.2 200 17.8 182.2 0 17.8 0 0 17.8" style="fill: #404449;"/>
+      <polygon points="0 182.2 17.8 200 182.2 200 200 182.2 200 17.8 182.2 0 175.2 12.2 12.2 175.2 0 182.2" style="fill: #232428;"/>
+      <polygon points="11 23.8 11 176.2 23.8 189 176.2 189 189 176.2 189 23.8 176.2 11 23.8 11 11 23.8" style="fill: #313b47;"/>
+      <g style="opacity: .2;">
+        <path d="M25.9,16h148.3s9.9,9.9,9.9,9.9v148.3l-9.9,9.9H25.9s-9.9-9.9-9.9-9.9V25.9l9.9-9.9M23.8,11l-12.8,12.8v152.4l12.8,12.8h152.4s12.8-12.8,12.8-12.8V23.8l-12.8-12.8H23.8Z" style="fill: #fff;"/>
+      </g>
+    </g>
+  </g>
+</svg>

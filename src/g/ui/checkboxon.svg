@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-6809b61a-16f2-48af-be6f-1d192774e970" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="192.6" height="100" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 192.6 100">
+  <defs>
+    <linearGradient id="uuid-67945aaa-e57b-4366-bcbe-9697e78a0ba2" x1="96.3" y1="87.8" x2="96.3" y2="12.2" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#06ff00"/>
+      <stop offset="1" stop-color="#05d900"/>
+    </linearGradient>
+  </defs>
+  <g id="uuid-34f4e689-ac82-409e-97b2-63a19f1df053" data-name="finished_assets">
+    <g id="uuid-c56d6690-1d0e-40ff-bad5-b9ef72288080" data-name="checkboxon">
+      <g>
+        <polygon points="28.7 87.8 12.2 71.3 12.2 28.7 28.7 12.2 163.9 12.2 180.5 28.7 180.5 71.3 163.9 87.8 28.7 87.8" style="fill: url(#uuid-67945aaa-e57b-4366-bcbe-9697e78a0ba2);"/>
+        <path d="M162.1,16.7l13.9,13.9v38.8l-13.9,13.9H30.6l-13.9-13.9V30.6l13.9-13.9h131.5M165.8,7.7H26.8L7.7,26.8v46.3l19.2,19.2h138.9l19.2-19.2V26.8l-19.2-19.2h0Z" style="fill: #33a12d;"/>
+      </g>
+      <g style="opacity: .3;">
+        <path d="M165.8,7.7l19.2,19.2v46.3l-19.2,19.2H26.8l-19.2-19.2V26.8L26.8,7.7h138.9M168.1,0H24.6L0,24.6v50.8l24.6,24.6h143.5l24.6-24.6V24.6L168.1,0h0Z" style="fill: #fff;"/>
+      </g>
+      <path d="M163.7,12.7l16.3,16.3v42.2l-16.3,16.3H28.9l-16.3-16.3V28.9L28.9,12.7h134.8M165.8,7.7H26.8L7.7,26.8v46.3l19.2,19.2h138.9l19.2-19.2V26.8l-19.2-19.2h0Z" style="fill: #33353b;"/>
+      <polygon points="80 34 67.1 28.4 55.8 53 46.8 39.1 35 46.6 51 71.6 63 71.6 80 34" style="fill: #eaffe0;"/>
+      <path d="M67.1,28.4l12.9,5.6-17,37.6h-12l-16-25,11.9-7.5,9,13.9,11.3-24.6M65.2,23.2l-1.6,3.6-8.3,18-5-7.8-2.2-3.3-3.3,2.1-11.9,7.5-3.4,2.2,2.2,3.4,16,25,1.2,1.8h16.7l1.1-2.3,17-37.6,1.7-3.7-3.7-1.6-12.9-5.6-3.6-1.6h0Z" style="fill: #33a12d;"/>
+      <g id="uuid-edd44c91-09f4-4d87-a08e-3dbb33cd9308" data-name="checkbox-button">
+        <polygon points="98.5 32.7 98.5 67.3 113.2 82 159.5 82 174.1 67.3 174.1 32.7 159.5 18 113.2 18 98.5 32.7" style="fill: #595f66;"/>
+        <polygon points="98.5 67.3 113.2 82 159.5 82 174.1 67.3 174.1 32.7 159.5 18 152.8 30.1 110.5 60.7 98.5 67.3" style="fill: #3c3e45;"/>
+        <polygon points="108.4 38.4 108.4 61.6 118.4 71.6 154.2 71.6 164.2 61.6 164.2 38.4 154.2 28.4 118.4 28.4 108.4 38.4" style="fill: #455363;"/>
+        <g style="opacity: .2;">
+          <polygon points="114.2 43.6 114.2 50 157.4 50 157.4 43.6 150 36.2 122.6 36.2 114.2 43.6" style="fill: #fff;"/>
+        </g>
+        <rect x="80" width="112.6" height="100" style="fill: none;"/>
+      </g>
+    </g>
+  </g>
+</svg>

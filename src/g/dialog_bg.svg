@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-28af4e8a-8085-4abc-b5ec-2b6f05f21949" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <g id="uuid-438466b7-c9ad-40cf-8969-587aef51b4c7" data-name="Layer_1">
+    <g id="uuid-5b962f65-ad8f-46c3-9b6e-b68835d9ee14" data-name="dialog_x5F_bg">
+      <g>
+        <rect x="2" y="2" width="96" height="96" rx="26.9" ry="26.9" style="fill: #899aae;"/>
+        <path d="M71.1,4c13.7,0,24.9,11.2,24.9,24.9v42.3c0,13.7-11.2,24.9-24.9,24.9H28.9c-13.7,0-24.9-11.2-24.9-24.9V28.9C4,15.2,15.2,4,28.9,4h42.3M71.1,0H28.9C12.9,0,0,12.9,0,28.9v42.3c0,15.9,12.9,28.9,28.9,28.9h42.3c15.9,0,28.9-12.9,28.9-28.9V28.9c0-15.9-12.9-28.9-28.9-28.9h0Z" style="fill: #bcc8d8;"/>
+      </g>
+      <rect x="8.9" y="8.9" width="82.3" height="82.3" rx="20.2" ry="20.2" style="fill: #98adc0;"/>
+      <path d="M8.9,59.1v-30c0-11.2,9.1-20.2,20.2-20.2h41.8c11.2,0,20.2,9.1,20.2,20.2v30H8.9Z" style="fill: #b0c8db;"/>
+    </g>
+  </g>
+</svg>

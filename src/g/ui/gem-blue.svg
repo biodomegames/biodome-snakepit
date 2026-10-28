@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-374e7254-492b-4f32-ab94-195f44702d4a" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="uuid-3d3f3b1b-99d8-437d-8ad2-dc1f99ed4c91" data-name="Layer_6">
+    <g id="uuid-8351797b-5fe4-494e-901f-d2ae0fb24ba4" data-name="gem-blue">
+      <polygon points="186.1 154.9 194 37.6 162.5 6.2 37.5 6.2 6 37.6 13.9 154.9 61.1 194.2 138.9 194.2 186.1 154.9" style="fill: #2b61f9; stroke: #003ef9; stroke-miterlimit: 10;"/>
+      <polygon points="165.5 141.3 171.5 52.2 147.5 28.3 52.5 28.3 28.5 52.2 34.5 141.3 70.4 171.2 129.6 171.2 165.5 141.3" style="fill: #0086e0;"/>
+      <path d="M35.8,120.8c-19.1-18.7-13.5-49.4,8.7-57.4,22.1-7.9,53.5,6.2,64.2-8.9,16.1-22.7,45.6-6.3,54.7,8.3,19,30.3,1.4,72.7-23.1,82.3-24.5,9.6-40.5,20.4-59.4,8.1-12.8-8.3-31.8-19.4-45.1-32.4Z" style="fill: #0059e8;"/>
+      <rect width="200" height="200" style="fill: none;"/>
+      <polygon points="41.8 11.6 11.9 40.4 72.3 53.8 41.8 11.6" style="fill: #ccd7f9;"/>
+      <polygon points="188.3 40.4 158.4 11.6 127.9 53.8 188.3 40.4" style="fill: #71b2ff;"/>
+      <rect x="72.3" y="53.8" width="54.6" height="62.6" style="fill: #b6c6f9;"/>
+      <polygon points="126.9 116.4 138.8 185.6 180.7 151.7 126.9 116.4" style="fill: #71b2ff;"/>
+      <polygon points="72.3 116.4 20.6 152.1 64.1 189.1 72.3 116.4" style="fill: #71b2ff;"/>
+      <path d="M118.5,53.9l-39-7-7.2-39.4-7.1,39.3-39,6.7,39,6.9,7.4,39.3,6.9-39.2,39-6.6Z" style="fill: #fff;"/>
+    </g>
+  </g>
+</svg>

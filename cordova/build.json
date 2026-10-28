@@ -1,0 +1,10 @@
+{
+    "android": {
+        "debug": {
+            "outputFile": "../../builds/android-debug.apk"
+        },
+        "release": {
+            "outputFile": "../../builds/android-release.apk"
+        }
+    }
+} 

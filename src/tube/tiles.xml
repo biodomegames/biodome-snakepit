@@ -1,0 +1,56 @@
+<stuff>
+<frameReference name="grass_art" file="tiles_grass_art.png"></frameReference>
+<frameReference name="grass_art_b" file="tiles_grass_art_b.png"></frameReference>
+<frameReference name="hex_tile_blue" file="tiles_hex_tile_blue.png"></frameReference>
+<frameReference name="hex_tile_green" file="tiles_hex_tile_green.png"></frameReference>
+<frameReference name="hex_tile_red" file="tiles_hex_tile_red.png"></frameReference>
+<frameReference name="logo_art" file="tiles_logo_art.png"></frameReference>
+<frameReference name="rock_art" file="tiles_rock_art.png"></frameReference>
+<frameReference name="snake_face_art" file="tiles_snake_face_art.png"></frameReference>
+	<sequence name="anim">
+		<frame num="1">
+			<subsequence name="hexTile" posx="275" posy="200" angle="0" skewx="0" skewy="0" z="0" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="snakeFace" posx="120" posy="320" angle="0" skewx="0" skewy="0" z="1" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="rock" posx="420" posy="320" angle="0" skewx="0" skewy="0" z="2" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="grass" posx="60" posy="200" angle="0" skewx="0" skewy="0" z="3" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="grassB" posx="160" posy="200" angle="0" skewx="0" skewy="0" z="4" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="logo" posx="275" posy="60" angle="0" skewx="0" skewy="0" z="5" scalex="0.55" scaley="0.55" alpha="1" framespan="1"></subsequence>
+		</frame>
+	</sequence>
+	<sequence name="grass">
+		<frame num="1">
+			<sprite type="grass_art" spritename="tiles_grass_art.png" instancename="tuft" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="grassB">
+		<frame num="1">
+			<sprite type="grass_art_b" spritename="tiles_grass_art_b.png" instancename="tuft" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="hexTile">
+		<frame num="1">
+			<sprite type="hex_tile_green" spritename="tiles_hex_tile_green.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="2">
+			<sprite type="hex_tile_red" spritename="tiles_hex_tile_red.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="hex_tile_blue" spritename="tiles_hex_tile_blue.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="logo">
+		<frame num="1">
+			<sprite type="logo_art" spritename="tiles_logo_art.png" instancename="art" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="rock">
+		<frame num="1">
+			<sprite type="rock_art" spritename="tiles_rock_art.png" instancename="rock" posx="0.4727478" posy="-0.017791748" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="snakeFace">
+		<frame num="1">
+			<sprite type="snake_face_art" spritename="tiles_snake_face_art.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+</stuff>

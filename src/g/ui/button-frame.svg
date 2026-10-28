@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-5bf12cfc-cacb-4ae6-8cc5-0bf8c947cc46" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="200.7" height="200.7" viewBox="0 0 200.7 200.7">
+  <g id="uuid-c6e803fa-fdf8-4edd-bb69-7b9db5080495" data-name="finished_assets">
+    <g id="uuid-4ab7d646-9b00-4d94-b80a-a2d0f5d1ae7c" data-name="button-frame">
+      <polygon points="168.5 8 32.2 8 8 32.2 8 168.5 32.2 192.7 168.5 192.7 192.7 168.5 192.7 32.2 168.5 8" style="fill: #8f6907;"/>
+      <path d="M165.2,16l19.5,19.5v129.7l-19.5,19.5H35.5l-19.5-19.5V35.5l19.5-19.5h129.7M168.5,8H32.2l-24.2,24.2v136.3l24.2,24.2h136.3l24.2-24.2V32.2l-24.2-24.2h0Z" style="fill: #e69a00;"/>
+      <path d="M168.5,8l24.2,24.2v136.3l-24.2,24.2H32.2l-24.2-24.2V32.2l24.2-24.2h136.3M171.8,0H28.9l-2.3,2.3L2.3,26.5l-2.3,2.3v142.9l2.3,2.3,24.2,24.2,2.3,2.3h142.9l2.3-2.3,24.2-24.2,2.3-2.3V28.9l-2.3-2.3-24.2-24.2-2.3-2.3h0Z" style="fill: #ffba0d;"/>
+    </g>
+  </g>
+</svg>

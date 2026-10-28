@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-fe82708d-ecdc-482c-96f4-fed39977b681" data-name="Layer_1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="uuid-90ee28ae-cd11-4f61-b8f6-1018820eb3f2" data-name="Layer0_0_FILL">
+    <path d="M36.2,15.4l-20.9,20.9v127.6l13.1-7.2V43.5l15.1-15.1h113.2l7.2-13H36.2Z" style="fill: #8f989b;"/>
+    <path d="M171.6,156.6V43.5l-15-15.1H43.4l-15.1,15.1v113.2l15.1,15h113.2l15-15M163.8,47.6v48.2H36.2v-48.2l11.3-11.3h104.8l11.4,11.3Z" style="fill: #b9c5cd;"/>
+    <path d="M163.8,95.8v-48.2l-11.4-11.3H47.5l-11.3,11.3v48.2h127.6Z" style="fill: #cfdde6;"/>
+    <path d="M184.6,36.2l-20.8-20.9-7.2,13,15,15.1v113.2l-15,15H43.4l-15.1-15-13.1,7.2,20.9,20.8h127.6l20.8-20.8V36.2Z" style="fill: #637179;"/>
+  </g>
+</svg>

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="games.biodome.snakepit" version="0.5.0" ios-CFBundleVersion="50" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Snakepit</name>
+    <description>Snakepit</description>
+    <author email="hello@biodome.games" href="https://biodome.games">
+        Biodome Games
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <access origin="*" />
+    <access origin="https://sporkle.net/*" />
+    <access origin="https://*.sporkle.net/*" />
+    
+    <!-- Fullscreen Preferences -->
+    <preference name="Fullscreen" value="true" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarStyle" value="default" />
+    <preference name="Orientation" value="portrait" />
+    
+    <!-- iOS specific settings -->
+    <preference name="AllowInlineMediaPlayback" value="true" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="AllowBackForwardNavigationGestures" value="true" />
+    <preference name="Allow3DTouchLinkPreview" value="false" />
+    <preference name="AllowNewWindows" value="true" />
+    <preference name="MediaPlaybackAllowsAirPlay" value="true" />
+    <preference name="LimitsNavigationsToAppBoundDomains" value="false" />
+    <preference name="WebViewDebuggingEnabled" value="true" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="SuppressesLongPressGesture" value="true" />
+    <preference name="Suppresses3DTouchGesture" value="true" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="ViewportSize" value="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <preference name="ITSAppUsesNonExemptEncryption" value="false" />
+    <preference name="UIViewControllerBasedStatusBarAppearance" value="false" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#165672" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+
+    <!-- iOS Splash Screen Preferences -->
+    <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="SplashScreenDelay" value="1000" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="300" />
+    <preference name="SplashScreenBackgroundColor" value="#165672" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    
+    <preference name="scheme" value="app" />
+    <preference name="hostname" value="localhost" />
+    
+    <!-- AdMob Configuration -->
+    <preference name="ADMOB_APP_ID" value="ca-app-pub-1912122760844192~4127833681" />
+    <preference name="ADMOB_BANNER_ID" value="ca-app-pub-1912122760844192/1234567890" />
+    <preference name="ADMOB_INTERSTITIAL_ID" value="ca-app-pub-1912122760844192/0987654321" />
+    <preference name="ADMOB_REWARDVIDEO_ID" value="MMrewarded" />
+    
+    <!-- New Android 12+ Splash Screen Preferences -->
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/splash.png" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#FFFFFF" />
+    
+    <!-- Icons -->
+    <icon src="res/icon/icon.png" />
+    
+    <!-- Platform specific icons -->
+    <platform name="android">
+        <icon src="res/icon/icon.png" density="ldpi" />
+        <icon src="res/icon/icon.png" density="mdpi" />
+        <icon src="res/icon/icon.png" density="hdpi" />
+        <icon src="res/icon/icon.png" density="xhdpi" />
+        <icon src="res/icon/icon.png" density="xxhdpi" />
+        <icon src="res/icon/icon.png" density="xxxhdpi" />
+    </platform>
+    
+    <platform name="ios">
+        <preference name="deployment-target" value="12.0" />
+        
+        <!-- Hook to automatically fix Podfile deployment target -->
+        <hook type="after_prepare" src="scripts/fix-podfile-deployment-target.js" />
+        <!-- Hook to automatically set Swift version -->
+        <hook type="after_prepare" src="scripts/fix-swift-version.js" />
+        
+        <!-- iOS AdMob Configuration -->
+        <preference name="ADMOB_APP_ID" value="ca-app-pub-1912122760844192~4127833681" />
+        <!-- 
+        <preference name="ADMOB_BANNER_ID" value="ca-app-pub-1912122760844192/1234567890" />
+        <preference name="ADMOB_INTERSTITIAL_ID" value="ca-app-pub-1912122760844192/0987654321" />
+        <preference name="ADMOB_REWARDVIDEO_ID" value="MMrewarded" />
+        -->
+        <!-- Add this to ensure the app ID is set in Info.plist -->
+        <edit-config target="GADApplicationIdentifier" file="*-Info.plist" mode="replace">
+            <string>ca-app-pub-1912122760844192~4127833681</string>
+        </edit-config>
+        
+        <!-- Enable all orientations for iPad -->
+        <edit-config target="UISupportedInterfaceOrientations~ipad" file="*-Info.plist" mode="replace">
+            <array>
+                <string>UIInterfaceOrientationPortrait</string>
+                <string>UIInterfaceOrientationPortraitUpsideDown</string>
+                <string>UIInterfaceOrientationLandscapeLeft</string>
+                <string>UIInterfaceOrientationLandscapeRight</string>
+            </array>
+        </edit-config>
+        
+        <resource-file src="GoogleService-Info.plist" />
+        
+        <!-- Icons - Let Cordova generate these automatically from the main icon -->
+        <icon src="res/icon/icon.png" />
+        
+        <!-- iOS Splash Screens -->
+        <splash src="res/screen/splash.png" width="2048" height="2732" />
+        <splash src="res/screen/splash.png" width="1668" height="2388" />
+        <splash src="res/screen/splash.png" width="1536" height="2048" />
+        <splash src="res/screen/splash.png" width="1125" height="2436" />
+        <splash src="res/screen/splash.png" width="1242" height="2688" />
+        <splash src="res/screen/splash.png" width="1242" height="2208" />
+        <splash src="res/screen/splash.png" width="750" height="1334" />
+        <splash src="res/screen/splash.png" width="640" height="1136" />
+        <splash src="res/screen/splash.png" width="640" height="960" />
+        <splash src="res/screen/splash.png" width="320" height="480" />
+
+        <edit-config file="*-Info.plist" mode="add" target="ITSAppUsesNonExemptEncryption">
+            <false/>
+        </edit-config>
+        
+        <!-- Enable file sharing so exported files are accessible in Files app -->
+        <edit-config file="*-Info.plist" mode="add" target="UIFileSharingEnabled">
+            <true/>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="add" target="LSSupportsOpeningDocumentsInPlace">
+            <true/>
+        </edit-config>
+    </platform>
+    
+    <!-- Splash Screens -->
+    <splash src="res/screen/splash.png" />
+    
+    <!-- Platform specific splash screens -->
+    <platform name="android">
+        <splash src="res/screen/splash.png" density="port-ldpi" />
+        <splash src="res/screen/splash.png" density="port-mdpi" />
+        <splash src="res/screen/splash.png" density="port-hdpi" />
+        <splash src="res/screen/splash.png" density="port-xhdpi" />
+        <splash src="res/screen/splash.png" density="port-xxhdpi" />
+        <splash src="res/screen/splash.png" density="port-xxxhdpi" />
+    </platform>
+</widget>

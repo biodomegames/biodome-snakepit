@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover, height=device-height">
+    <meta name="format-detection" content="telephone=no, email=no, address=no">
+    <meta charset="UTF-8" />
+    <!--<web,ios,google>-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline' http://localhost:* file:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; media-src *; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: content: blob: http://localhost:* file: https://sporkle.net https://*.sporkle.net https://biodomegames.com https://*.biodomegames.com; connect-src 'self' * http://localhost:* file: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' * http://localhost:* file:; worker-src 'self' blob:; child-src 'self' blob: data:;">
+    <!--</web,ios,google>-->
+    <link rel="icon" type="image/png" href="web/favicon.png" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+      * {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      input, textarea {
+        -webkit-user-select: text;
+        -khtml-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: fixed;
+        background-color: #165672;
+        overscroll-behavior-y: none;
+        touch-action: manipulation;
+      }
+      /* Modern browsers: use dynamic viewport height */
+      @supports (height: 100dvh) {
+        html, body {
+          height: 100dvh;
+        }
+      }
+      /* iOS Safari fallback: use -webkit-fill-available */
+      @supports (-webkit-touch-callout: none) {
+        html {
+          height: -webkit-fill-available;
+          min-height: -webkit-fill-available;
+        }
+        body {
+          height: -webkit-fill-available;
+          min-height: -webkit-fill-available;
+        }
+      }
+      #gameContainer {
+        touch-action: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        background-color: #165672;
+      }
+      /* Modern browsers: use dynamic viewport height */
+      @supports (height: 100dvh) {
+        #gameContainer {
+          height: 100dvh;
+          min-height: 100dvh;
+        }
+      }
+      /* iOS Safari fallback: use -webkit-fill-available */
+      @supports (-webkit-touch-callout: none) {
+        #gameContainer {
+          height: -webkit-fill-available;
+          min-height: -webkit-fill-available;
+        }
+      }
+    </style>
+    <title>Snakepit</title>
+        <!-- SHARE STUFF -->
+  <meta property="og:title" content="Snakepit">
+  <meta property="og:description" content="Snakepit — a new game from Biodome Games.">
+  <meta property="og:image" content="./web/biodome-words-share.png">
+  <meta property="og:url" content="https://www.sporkle.net/snakepit">
+  <meta property="og:type" content="game">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Snakepit">
+  <meta name="twitter:description" content="Snakepit — a new game from Biodome Games.">
+  <meta name="twitter:image" content=".web/biodome-words-share.png">
+  <meta name="twitter:url" content="https://www.sporkle.net/snakepit">
+  
+  <!--<ios>-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!--</ios>-->
+   
+  </head>
+  <body>
+    <!--<frvr>-->
+    <!--<debug>-->
+    <script src="https://cdn.frvr.com/sdk/frvr-sdk.min.js"></script>    
+    <script src="https://cdn.frvr.com/sdk/frvr-channel-dev.min.js"></script>
+    
+    <script>
+      const style = 'background-color: blue; color: white; font-size: 2.5em;' //; font-style: italic; border: 5px solid hotpink; font-size: 2em;'
+      console.log("%cDEBUG frvr config... " , style);
+      
+          window.FRVR.config = {
+            gameId: "snakepit",
+            cloudStorage: {
+              playerStorage: {
+                gameId: "G35EDGH"
+              }
+            },
+            social: {
+              syncFriendsOnLogin: false
+            },
+            iap: {
+              catalog: {
+                //chestofgems: {
+                //  label: "chestofgems",
+                //  storeId: "chestofgems",
+                //  consumable: true
+                //}
+              }
+            },
+            ads: {
+              autoInit: true,
+              throttling: {
+                maxfrequency: 30000
+              },
+              providers: [
+              ]
+            },
+            auth: {
+              enableAnonymousLogin: true,
+              facebookSdk: {
+                permissions: "gaming_profile,gaming_user_picture"
+              }
+            },
+            features: {
+              gameId: "G35EDGH"
+            },
+            shop: {
+              gameId: "G35EDGH"
+            },
+            consent: {
+              providerName: "cookiepro",
+              config: {
+                websiteKey: "acd0a7d3-539e-483c-8c17-484beca00b4d"
+              }
+            }
+          };
+        </script>
+    <!--</debug>-->
+    <!--</frvr>-->
+
+    <div id="gameContainer"></div>
+    <!--<ios>-->
+    <script src="cordova.js"></script>
+    <!--</ios>-->
+    <script type="module" src="./src/js/main.js"></script>
+    <script>
+       <!--<ios>-->
+      (function() {
+        // Prevent long-press loupe/magnifier and double-tap zoom
+        let lastTouchEnd = 0;
+        let touchStartTime = 0;
+        let longPressTimer = null;
+        let isLongPressing = false;
+        
+        document.addEventListener('touchstart', function(e) {
+          touchStartTime = Date.now();
+          isLongPressing = false;
+          
+          // Don't interfere with input fields, consent dialog, or HTML dialogs (changelog, newversion, displayhtml)
+          const isInputElement = e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA');
+          const isConsentDialog = e.target && (
+            e.target.closest('[data-consent-dialog]') || 
+            e.target.closest('[data-consent-button]') ||
+            e.target.hasAttribute('data-consent-dialog') ||
+            e.target.hasAttribute('data-consent-button')
+          );
+          const isHtmlDialog = e.target && (
+            e.target.closest('[data-html-dialog]') || 
+            e.target.closest('[data-html-dialog-button]') ||
+            e.target.hasAttribute('data-html-dialog') ||
+            e.target.hasAttribute('data-html-dialog-button')
+          );
+          
+          if (isInputElement || window.inputInFocus || isConsentDialog || isHtmlDialog) {
+            return;
+          }
+          
+          e.preventDefault();
+          
+          // Set timer to detect long-press and prevent loupe
+          longPressTimer = setTimeout(function() {
+            isLongPressing = true;
+            // Force clear any selection that might trigger loupe
+            if (window.getSelection) {
+              window.getSelection().removeAllRanges();
+            }
+            if (document.selection) {
+              document.selection.empty();
+            }
+            // Try to cancel the touch to prevent loupe
+            if (e.target && e.target.dispatchEvent) {
+              const cancelEvent = document.createEvent('TouchEvent');
+              cancelEvent.initEvent('touchcancel', true, true);
+              e.target.dispatchEvent(cancelEvent);
+            }
+          }, 200); // Catch it before iOS shows loupe (~300ms)
+        }, { passive: false, capture: true });
+        
+        document.addEventListener('touchmove', function(e) {
+          // Clear timer on any movement - movement means not a long-press
+          if (longPressTimer) {
+            clearTimeout(longPressTimer);
+            longPressTimer = null;
+            isLongPressing = false;
+          }
+        }, { passive: false, capture: true });
+        
+        document.addEventListener('touchend', function(e) {
+          // Clear timer
+          if (longPressTimer) {
+            clearTimeout(longPressTimer);
+            longPressTimer = null;
+          }
+          
+          // If this was a long-press, prevent default
+          if (isLongPressing) {
+            e.preventDefault();
+            isLongPressing = false;
+          }
+          
+          // Prevent double-tap zoom (but allow for input fields, game elements, consent dialog, and HTML dialogs)
+          const isInputElement = e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA');
+          const gameContainer = document.getElementById('gameContainer');
+          const isGameElement = gameContainer && (gameContainer.contains(e.target) || e.target === gameContainer || e.target.tagName === 'CANVAS');
+          const isConsentDialog = e.target && (
+            e.target.closest('[data-consent-dialog]') || 
+            e.target.closest('[data-consent-button]') ||
+            e.target.hasAttribute('data-consent-dialog') ||
+            e.target.hasAttribute('data-consent-button')
+          );
+          const isHtmlDialog = e.target && (
+            e.target.closest('[data-html-dialog]') || 
+            e.target.closest('[data-html-dialog-button]') ||
+            e.target.hasAttribute('data-html-dialog') ||
+            e.target.hasAttribute('data-html-dialog-button')
+          );
+          
+          const now = Date.now();
+          // Only prevent default for double-tap zoom if it's NOT a game element, consent dialog, or HTML dialog
+          // Game elements and dialogs need to handle their own rapid taps
+          if (now - lastTouchEnd <= 300 && !isInputElement && !isGameElement && !isConsentDialog && !isHtmlDialog) {
+            e.preventDefault();
+          }
+          lastTouchEnd = now;
+          
+          // Force clear any selection immediately (but allow for input fields)
+          if (!isInputElement && !window.inputInFocus) {
+            if (window.getSelection) {
+              window.getSelection().removeAllRanges();
+            }
+            if (document.selection) {
+              document.selection.empty();
+            }
+          }
+        }, { passive: false, capture: true });
+        
+        // Prevent context menu
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+          return false;
+        }, { passive: false, capture: true });
+        
+        // Prevent text selection (but allow for input fields)
+        document.addEventListener('selectstart', function(e) {
+          const isInputElement = e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA');
+          if (!isInputElement && !window.inputInFocus) {
+            e.preventDefault();
+            return false;
+          }
+        }, { passive: false, capture: true });
+        
+        // Continuously clear selection to prevent loupe (but allow for input fields)
+        setInterval(function() {
+          if (!window.inputInFocus) {
+            if (window.getSelection) {
+              const selection = window.getSelection();
+              // Only clear if selection is not in an input/textarea
+              if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                const container = range.commonAncestorContainer;
+                const isInInput = container.nodeType === Node.TEXT_NODE 
+                  ? (container.parentElement && (container.parentElement.tagName === 'INPUT' || container.parentElement.tagName === 'TEXTAREA'))
+                  : (container.tagName === 'INPUT' || container.tagName === 'TEXTAREA');
+                if (!isInInput) {
+                  selection.removeAllRanges();
+                }
+              }
+            }
+          }
+        }, 50);
+      })();
+      <!--</ios>-->
+      </script>
+    <!--<ios,google>-->
+    <script>
+      document.addEventListener('deviceready', function() {
+        
+        // iOS Debugging - Comprehensive viewport diagnostics
+        if (cordova.platformId === 'ios') {
+          const logViewportInfo = () => {
+            const container = document.getElementById('gameContainer');
+            const containerRect = container?.getBoundingClientRect();
+            const vv = window.visualViewport;
+            const computedStyle = container ? window.getComputedStyle(container) : null;
+            
+            // Log each property individually so Xcode console can display them
+            console.log('=== iOS Viewport Diagnostics ===');
+            console.log('Screen width: ' + window.screen.width);
+            console.log('Screen height: ' + window.screen.height);
+            console.log('Screen availWidth: ' + window.screen.availWidth);
+            console.log('Screen availHeight: ' + window.screen.availHeight);
+            console.log('Window innerWidth: ' + window.innerWidth);
+            console.log('Window innerHeight: ' + window.innerHeight);
+            console.log('Window outerWidth: ' + window.outerWidth);
+            console.log('Window outerHeight: ' + window.outerHeight);
+            console.log('Document clientWidth: ' + document.documentElement.clientWidth);
+            console.log('Document clientHeight: ' + document.documentElement.clientHeight);
+            console.log('Document scrollWidth: ' + document.documentElement.scrollWidth);
+            console.log('Document scrollHeight: ' + document.documentElement.scrollHeight);
+            
+            if (vv) {
+              console.log('VisualViewport width: ' + vv.width);
+              console.log('VisualViewport height: ' + vv.height);
+              console.log('VisualViewport scale: ' + vv.scale);
+              console.log('VisualViewport offsetLeft: ' + vv.offsetLeft);
+              console.log('VisualViewport offsetTop: ' + vv.offsetTop);
+            } else {
+              console.log('VisualViewport: Not available');
+            }
+            
+            if (containerRect) {
+              console.log('Container rect width: ' + containerRect.width);
+              console.log('Container rect height: ' + containerRect.height);
+              console.log('Container rect top: ' + containerRect.top);
+              console.log('Container rect left: ' + containerRect.left);
+            } else {
+              console.log('Container rect: Not found');
+            }
+            
+            if (computedStyle) {
+              console.log('Container computed width: ' + computedStyle.width);
+              console.log('Container computed height: ' + computedStyle.height);
+            }
+            
+            console.log('SafeArea top: ' + (window.safeAreaInsets?.top || 0));
+            console.log('SafeArea bottom: ' + (window.safeAreaInsets?.bottom || 0));
+            console.log('SafeArea left: ' + (window.safeAreaInsets?.left || 0));
+            console.log('SafeArea right: ' + (window.safeAreaInsets?.right || 0));
+            
+            // Also log canvas size if available
+            if (window.app && window.app.view) {
+              console.log('Canvas width: ' + window.app.view.width);
+              console.log('Canvas height: ' + window.app.view.height);
+              console.log('Renderer width: ' + window.app.renderer?.width);
+              console.log('Renderer height: ' + window.app.renderer?.height);
+            }
+            
+            console.log('===============================');
+          };
+          
+          // Log immediately
+         //logViewportInfo();
+          
+          // Force resize after viewport has settled
+          const forceResize = () => {
+            //logViewportInfo();
+            if (window.refreshGameSize) {
+              window.refreshGameSize();
+            } else {
+              window.dispatchEvent(new Event('resize'));
+            }
+          };
+          
+          // Wait for CSS to apply, then resize
+          setTimeout(forceResize, 100);
+          setTimeout(forceResize, 500);
+          
+          // Listen for splash screen hide event
+          if (navigator.splashscreen) {
+            document.addEventListener('splashscreenhide', () => {
+              console.log('Splash screen hidden - forcing resize');
+              setTimeout(forceResize, 100);
+            });
+          }
+          
+          // CRITICAL: Listen for app resume event (when app comes back from background)
+          // This is when iOS recalculates the viewport correctly
+          document.addEventListener('resume', () => {
+            console.log('App resumed from background - forcing resize (this fixes the viewport)');
+            // Force resize immediately and after a short delay
+            forceResize();
+            setTimeout(forceResize, 100);
+            setTimeout(forceResize, 300);
+            setTimeout(forceResize, 500);
+          }, false);
+          
+          // Also listen for visibility change (when app becomes visible)
+          document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+              console.log('App became visible - forcing resize');
+              setTimeout(forceResize, 100);
+              setTimeout(forceResize, 300);
+            }
+          }, false);
+          
+          // Simulate the "resume" behavior on initial launch
+          // The issue is that viewport isn't settled on launch, but it is after resume
+          // When app resumes, iOS recalculates the viewport. We'll simulate this by:
+          // 1. Forcing a layout recalculation similar to what resume does
+          // 2. Waiting for viewport to settle, then forcing multiple resizes
+          const simulateResumeBehavior = () => {
+            console.log('Simulating resume behavior on launch - forcing viewport recalculation');
+            const container = document.getElementById('gameContainer');
+            if (container) {
+              // Force a layout recalculation by temporarily toggling display
+              // This is similar to what happens when the app resumes
+              const originalDisplay = container.style.display;
+              container.style.display = 'none';
+              void container.offsetHeight; // Force reflow
+              container.style.display = originalDisplay;
+              void container.offsetHeight; // Force reflow again
+              
+              // Now force multiple resizes like resume does
+              forceResize();
+              setTimeout(forceResize, 50);
+              setTimeout(forceResize, 150);
+              setTimeout(forceResize, 300);
+              setTimeout(forceResize, 500);
+            }
+          };
+          
+          // Try simulating resume behavior at multiple intervals
+          setTimeout(simulateResumeBehavior, 800);
+          setTimeout(simulateResumeBehavior, 1500);
+          setTimeout(simulateResumeBehavior, 2500);
+        }
+        
+        // Force reload assets after Cordova is ready (but skip cordova.js to avoid redefinition errors)
+        // NOTE: Disabled in Cordova - script reload causes "module already defined" errors
+        // because reloading scripts can re-initialize Cordova plugins
+        const isCordova = typeof window.cordova !== 'undefined';
+        if (!isCordova) {
+          const scripts = document.getElementsByTagName('script');
+          for (let script of scripts) {
+            if (script.src && !script.src.includes('cordova.js')) {
+              const newScript = document.createElement('script');
+              newScript.src = script.src;
+              script.parentNode.replaceChild(newScript, script);
+            }
+          }
+        }
+      }, false);
+    </script>
+    <!--</ios,google>-->
+  </body>
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-97a81c2a-1b16-4383-a6f9-fe3b59ad7eb4" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <g id="uuid-45e37401-4dd5-4e22-8557-56cc06833c0c" data-name="Layer_1">
+    <g id="uuid-7aa700e5-486f-4e29-85f1-3092e4b57fb6" data-name="progressbar_x5F_fill_x5F_paper">
+      <rect width="100" height="100" style="fill: none;"/>
+      <g>
+        <polygon points="22 84.4 15.6 78 15.6 22 22 15.6 78 15.6 84.4 22 84.4 78 78 84.4 22 84.4" style="fill: #cc352e;"/>
+        <path d="M77.4,17.1l5.6,5.6v54.7l-5.6,5.6H22.6l-5.6-5.6V22.6l5.6-5.6h54.7M78.6,14.1H21.4l-.9.9-5.6,5.6-.9.9v57.2l.9.9,5.6,5.6.9.9h57.2l.9-.9,5.6-5.6.9-.9V21.4l-.9-.9-5.6-5.6-.9-.9h0Z" style="fill: #efd5d5;"/>
+      </g>
+      <polygon points="74.9 77.1 24.5 77.1 23 75.6 23 25.2 24.5 23.7 74.9 23.7 76.4 25.2 76.4 75.6 74.9 77.1" style="fill: #d34e40;"/>
+    </g>
+  </g>
+</svg>

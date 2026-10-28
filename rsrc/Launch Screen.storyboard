@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient.png" translatesAutoresizingMaskIntoConstraints="NO" id="79N-MO-AQ5">
+                                <rect key="frame" x="0.0" y="18" width="393" height="766"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
+                                <rect key="frame" x="0.0" y="832" width="393" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="biodome.png" translatesAutoresizingMaskIntoConstraints="NO" id="vdi-du-WWE">
+                                <rect key="frame" x="52.666666666666657" y="279" width="288" height="174"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="Ml3-N1-4ZU"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
+                        <color key="backgroundColor" systemColor="tintColor"/>
+                        <constraints>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="79N-MO-AQ5" secondAttribute="trailing" id="AyX-QF-tEO"/>
+                            <constraint firstAttribute="bottom" secondItem="79N-MO-AQ5" secondAttribute="bottom" constant="-78" id="LHr-e5-Jol"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="79N-MO-AQ5" secondAttribute="bottom" id="N8x-hK-8fC"/>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" symbolic="YES" id="SfN-ll-jLj"/>
+                            <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="Y44-ml-fuU"/>
+                            <constraint firstItem="79N-MO-AQ5" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="Zl0-ck-Ru0"/>
+                            <constraint firstItem="79N-MO-AQ5" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="-100" id="kII-Hd-hqe"/>
+                            <constraint firstItem="vdi-du-WWE" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-60" id="oLP-VZ-gUd"/>
+                            <constraint firstItem="79N-MO-AQ5" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="-100" id="psf-Pz-gCD"/>
+                            <constraint firstItem="79N-MO-AQ5" firstAttribute="bottom" secondItem="Bcu-3y-fUS" secondAttribute="bottom" constant="-78" id="qWe-8f-x6N"/>
+                            <constraint firstItem="79N-MO-AQ5" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="-100" id="rC7-aN-Ped"/>
+                            <constraint firstItem="79N-MO-AQ5" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="rLs-mC-CIj"/>
+                            <constraint firstItem="vdi-du-WWE" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="yT8-yW-b3D"/>
+                            <constraint firstItem="79N-MO-AQ5" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="yww-EZ-v5L"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52.671755725190835" y="374.64788732394368"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="biodome.png" width="600" height="174"/>
+        <image name="gradient.png" width="200" height="200"/>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

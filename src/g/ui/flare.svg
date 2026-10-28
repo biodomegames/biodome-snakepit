@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-e85f044f-8055-4c5e-a801-112401422ea2" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="400" height="400" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 400">
+  <defs>
+    <radialGradient id="uuid-09fa0534-3c73-4053-bebd-917adfe49278" cx="200" cy="200" fx="200" fy="200" r="200" gradientUnits="userSpaceOnUse">
+      <stop offset=".5" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g id="uuid-cdd5a1d2-f9bb-40b0-8f79-a1bfafebb4e7" data-name="finished_assets">
+    <g id="uuid-9119bc30-849e-4705-983f-cb345203e308" data-name="flare">
+      <polygon points="229.5 208.2 400 229.4 400 170.3 229.5 191.7 400 119.7 400 45.3 221.5 177.5 354.2 0 279.8 0 207.9 169.2 229.4 0 170.3 0 192.1 169.3 119.7 0 45.3 0 178.4 177.5 0 45.8 0 120.2 170.5 191.8 0 170.6 0 229.8 170.6 208.3 0 280.3 0 354.7 178.5 222.5 45.8 400 120.2 400 192.1 230.8 170.6 400 229.8 400 207.9 230.7 280.3 400 354.7 400 221.6 222.5 400 354.2 400 279.8 229.5 208.2" style="fill: url(#uuid-09fa0534-3c73-4053-bebd-917adfe49278);"/>
+    </g>
+  </g>
+</svg>

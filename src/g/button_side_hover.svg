@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-fa4ea2e9-5221-493c-abf3-9fef39b991ae" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <g id="uuid-ae9580f2-1980-460d-9f25-1782f47158ae" data-name="Layer_1">
+    <g>
+      <g>
+        <rect x="1" y="1" width="98" height="98" rx="13" ry="13" style="fill: #899aae;"/>
+        <path d="M86,2c6.6,0,12,5.4,12,12v72c0,6.6-5.4,12-12,12H14c-6.6,0-12-5.4-12-12V14C2,7.4,7.4,2,14,2h72M86,0H14C6.3,0,0,6.3,0,14v72c0,7.7,6.3,14,14,14h72c7.7,0,14-6.3,14-14V14c0-7.7-6.3-14-14-14h0Z" style="fill: #bcc8d8;"/>
+      </g>
+      <rect x="5" y="5" width="90" height="90" rx="9" ry="9" style="fill: #d8e6ef;"/>
+      <path d="M8.7,71.2h82.8c1.1,0,2,.9,2,2v11c0,5-4,9-9,9H15.7c-5,0-9-4-9-9v-11c0-1.1.9-2,2-2Z" style="fill: #c9d6e1;"/>
+      <path d="M15.7,6.9h68.8c5,0,9,4,9,9v12.1c0,1.1-.9,2-2,2H8.7c-1.1,0-2-.9-2-2v-12.1c0-5,4-9,9-9Z" style="fill: #e4f1f9;"/>
+    </g>
+  </g>
+</svg>

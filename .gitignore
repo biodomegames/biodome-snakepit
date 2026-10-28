@@ -1,0 +1,77 @@
+# Logs
+logs
+*.log
+__pycache__/
+.cursor/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+levelreport.html
+node_modules
+dist
+dist-ssr
+*.local
+rune/dome/*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+tubewatch-config.json
+
+RECOVER_*.*
+fla/temp/*
+soiltobias.fla
+
+deployPassword.json
+
+
+
+
+# Cordova specific
+/cordova/platforms/
+/cordova/plugins/
+/cordova/www/
+/cordova/node_modules/
+/cordova/hooks/
+/cordova/merges/
+/cordova/.gradle/
+/cordova/.idea/
+/cordova/*.log
+/cordova/config.xml.bak
+/cordova/package-lock.json
+
+# Platform specific
+/cordova/android/.gradle/
+/cordova/android/app/build/
+/cordova/android/.idea/
+/cordova/android/local.properties
+/cordova/ios/Pods/
+/cordova/ios/*.xcworkspace/
+/cordova/ios/*.xcodeproj/project.xcworkspace/
+/cordova/ios/*.xcodeproj/xcuserdata/
+
+# Environment and IDE
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Build outputs
+dist/
+build/
+prebuild/
+builds/*
+*.apk
+*.ipa
+*.aab

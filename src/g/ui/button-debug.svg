@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-d7251806-288d-4f97-9f54-2f29b018a4ef" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <g id="uuid-48603a1c-5234-4cc4-b7d8-a70e677c99cc" data-name="finished_assets">
+    <g id="uuid-05a3f591-05d7-41cd-a1d9-18bec73d536f" data-name="button-debug">
+      <polygon points="11 97.5 2.5 89 2.5 11 11 2.5 89 2.5 97.5 11 97.5 89 89 97.5 11 97.5" style="fill: #5fb7ff;"/>
+      <path d="M87.9,5l7.1,7.1v75.9l-7.1,7.1H12.1l-7.1-7.1V12.1l7.1-7.1h75.9M90,0H10L0,10v80l10,10h80l10-10V10L90,0h0Z" style="fill: #305f7f;"/>
+    </g>
+  </g>
+</svg>

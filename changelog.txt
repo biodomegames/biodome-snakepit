@@ -1,0 +1,4 @@
+------- Version 0.5.0 (Build 50) -------
+
+## 2026-10-01 (thursday)
+-  Starter project. Home dialog with sound and music toggles.

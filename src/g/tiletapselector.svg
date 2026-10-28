@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-a77762ad-547d-4097-b719-ba9a263e7594" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <g id="uuid-dcff8555-ab93-48e1-8daf-f9c55be8cf31" data-name="Layer_1">
+    <g id="uuid-ec463af1-ff5d-4033-83be-13b08e4da133" data-name="colorselectoutline">
+      <path d="M52,4c2.2,0,4,1.8,4,4v44c0,2.2-1.8,4-4,4H8c-2.2,0-4-1.8-4-4V8c0-2.2,1.8-4,4-4h44M52,0H8C3.6,0,0,3.6,0,8v44c0,4.4,3.6,8,8,8h44c4.4,0,8-3.6,8-8V8c0-4.4-3.6-8-8-8h0Z" style="fill: #fff;"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-b496affb-76ad-4efa-9038-5a5bc876ef70" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="45" height="28" viewBox="0 0 45 28">
+  <g id="uuid-668b2df4-3df7-4aec-b51e-d80cc6299b11" data-name="Layer_1">
+    <g>
+      <g>
+        <path d="M14,27c-7.2,0-13-5.8-13-13S6.8,1,14,1h17c7.2,0,13,5.8,13,13s-5.8,13-13,13H14Z" style="fill: #899aae;"/>
+        <path d="M31,2c6.6,0,12,5.4,12,12s-5.4,12-12,12H14c-6.6,0-12-5.4-12-12S7.4,2,14,2h17M31,0H14C6.3,0,0,6.3,0,14s6.3,14,14,14h17c7.7,0,14-6.3,14-14S38.7,0,31,0h0Z" style="fill: #bcc8d8;"/>
+      </g>
+      <rect x="5.9" y="5.6" width="33.2" height="16.8" rx="8.4" ry="8.4" style="fill: #62ef66;"/>
+      <ellipse cx="30.5" cy="14" rx="10.7" ry="10.5" style="fill: #c9d6e1;"/>
+    </g>
+  </g>
+</svg>

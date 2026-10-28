@@ -1,0 +1,175 @@
+{
+  "frames": {
+    "tiles_grass_art.png": {
+      "frame": {
+        "h": 46,
+        "w": 40,
+        "x": 326,
+        "y": 115
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 56,
+        "w": 44
+      },
+      "spriteSourceSize": {
+        "h": 46,
+        "w": 40,
+        "x": 4,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_grass_art_b.png": {
+      "frame": {
+        "h": 42,
+        "w": 39,
+        "x": 469,
+        "y": 2
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 52,
+        "w": 44
+      },
+      "spriteSourceSize": {
+        "h": 42,
+        "w": 39,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_hex_tile_blue.png": {
+      "frame": {
+        "h": 111,
+        "w": 128,
+        "x": 339,
+        "y": 2
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 111,
+        "w": 128
+      },
+      "spriteSourceSize": {
+        "h": 111,
+        "w": 128,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "tiles_hex_tile_green.png": {
+      "frame": {
+        "h": 111,
+        "w": 128,
+        "x": 2,
+        "y": 55
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 111,
+        "w": 128
+      },
+      "spriteSourceSize": {
+        "h": 111,
+        "w": 128,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "tiles_hex_tile_red.png": {
+      "frame": {
+        "h": 111,
+        "w": 128,
+        "x": 132,
+        "y": 55
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 111,
+        "w": 128
+      },
+      "spriteSourceSize": {
+        "h": 111,
+        "w": 128,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "tiles_logo_art.png": {
+      "frame": {
+        "h": 51,
+        "w": 335,
+        "x": 2,
+        "y": 2
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 51,
+        "w": 335
+      },
+      "spriteSourceSize": {
+        "h": 51,
+        "w": 335,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
+    "tiles_rock_art.png": {
+      "frame": {
+        "h": 58,
+        "w": 59,
+        "x": 262,
+        "y": 55
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 63,
+        "w": 60
+      },
+      "spriteSourceSize": {
+        "h": 58,
+        "w": 59,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_snake_face_art.png": {
+      "frame": {
+        "h": 44,
+        "w": 62,
+        "x": 262,
+        "y": 115
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 44,
+        "w": 88
+      },
+      "spriteSourceSize": {
+        "h": 44,
+        "w": 62,
+        "x": 26,
+        "y": 0
+      },
+      "trimmed": true
+    }
+  },
+  "meta": {
+    "app": "Anima",
+    "format": "RGBA8888",
+    "image": "tiles.png",
+    "scale": "1",
+    "size": {
+      "h": 512,
+      "w": 512
+    },
+    "version": "1.0"
+  }
+}

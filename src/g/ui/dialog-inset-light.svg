@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-fcec70e9-9bf2-4f8e-be65-6cd2c50ae879" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="uuid-4effbb9c-d95e-44b7-872d-75261771bfe4" data-name="Layer_6">
+    <g id="uuid-a0bdd241-4509-4a14-8aa8-47aae9d80869" data-name="dialog-inset-light">
+      <polygon points="11.7 20.7 20.5 11.8 179.5 11.8 181.7 5.1 18.3 5.1 5.1 18.5 5.1 182.5 11.7 179.3 11.7 20.7" style="fill: #232428;"/>
+      <polygon points="181.7 5.1 179.5 11.8 188.3 20.7 188.3 179.3 179.5 188.2 20.5 188.2 11.7 179.3 5.1 182.5 17.3 194.9 182.7 194.9 195 182.5 195 18.5 181.7 5.1" style="fill: #404449;"/>
+      <g style="opacity: .3;">
+        <polygon points="11.7 20.7 11.7 179.3 20.5 188.2 179.5 188.2 188.3 179.3 188.3 20.7 179.5 11.8 20.5 11.8 11.7 20.7" style="fill: #fff;"/>
+      </g>
+      <g id="uuid-8c51c053-238d-460a-b8b3-9c05fc49f482" data-name="light_outline" style="opacity: .2;">
+        <path d="M18,5h164s13,13.1,13,13.1v163.7l-13,13.1H18l-13-13.1V18.1l13-13.1M15.9,0L0,16.1v167.8l15.9,16.1h168.2l15.9-16.1V16.1L184.1,0H15.9Z" style="fill: #fff;"/>
+      </g>
+      <g id="uuid-cc982e26-2633-40d6-83c9-84d071a73688" data-name="dark_inline" style="opacity: .4;">
+        <path d="M22.6,16.8h154.7s5.9,6,5.9,6v154.5s-5.9,6-5.9,6H22.6s-5.9-6-5.9-6V22.8l5.9-6M20.5,11.8l-8.9,8.9v158.6l8.9,8.9h158.9s8.9-8.9,8.9-8.9V20.7s-8.9-8.9-8.9-8.9H20.5Z" style="fill: #fff;"/>
+      </g>
+    </g>
+  </g>
+</svg>

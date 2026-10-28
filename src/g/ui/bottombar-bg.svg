@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-79d6a66b-31d4-4151-9898-11764247c381" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="uuid-bcd89402-a315-4729-8d29-ac0647557ccf" x1="100" y1="200" x2="100" y2="10.7" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1f3a6e"/>
+      <stop offset="1" stop-color="#2e76ff"/>
+    </linearGradient>
+  </defs>
+  <g id="uuid-ab7e3a96-8d24-4dd7-b43d-22ceb82b59b9" data-name="Layer_6">
+    <g id="uuid-705b1b34-756a-440e-a08c-61ea1d612b94" data-name="bottombar-bg">
+      <rect y="10.7" width="200" height="189.3" style="fill: url(#uuid-bcd89402-a315-4729-8d29-ac0647557ccf);"/>
+      <g style="opacity: .3;">
+        <rect width="200" height="10.6"/>
+      </g>
+      <g style="opacity: .3;">
+        <rect y="31.3" width="200" height="6"/>
+      </g>
+      <rect y="37.3" width="200" height="6" style="fill: #699dff;"/>
+      <rect y="21.7" width="200" height="10" style="fill: #e69a00;"/>
+      <rect y="10.3" width="200" height="10" style="fill: #ffeb8c;"/>
+      <rect y="15.3" width="200" height="10" style="fill: #ffba0d;"/>
+    </g>
+  </g>
+</svg>

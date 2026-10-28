@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application xmlns="http://ns.adobe.com/air/application/33.1"> <!-- Use the latest namespace -->
+    <id>FlashTube</id>
+    <versionNumber>1.0</versionNumber>
+    <filename>FlashTube</filename>
+
+    <initialWindow>
+        <content>FlashTube.swf</content>
+        <systemChrome>standard</systemChrome>
+        <visible>true</visible>
+        <width>800</width>
+        <height>600</height>
+        <renderMode>direct</renderMode> <!-- Optional, can help with graphics in newer AIR versions -->
+    </initialWindow>
+
+    <supportedProfiles>desktop</supportedProfiles>
+
+  
+</application>

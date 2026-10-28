@@ -1,0 +1,9 @@
+Version 0.95 - January 2026
+
+- Our first release. Everything is brand new
+- This is an early build. We hope you like it.
+- This specific message wont be seen by anyone but devs. 
+  Only people with the game already installed will get the newversion notice.
+  If the game is fresh installed, it wont show this.
+  Next time we update the game for live distribution, we must put something meaningfull here.
+

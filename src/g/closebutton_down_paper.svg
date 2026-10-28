@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-d774aa0d-f43f-48c7-9e16-0696f2a8e918" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="uuid-3c1889c3-0e3b-43b9-b7b8-cc8089d6525f" data-name="Layer_1">
+    <g id="uuid-50d8172e-d16e-4344-9711-52d0abe17e4e" data-name="closebutton_x5F_down_x5F_paper">
+      <polygon points="45.1 18.8 46.7 16.2 25 18.4 3.3 16.2 4.8 18.8 16.8 27.5 3.3 33.7 4.8 36.2 16.3 47.7 25 35.7 33.7 47.7 45.1 36.2 46.5 33.7 33.1 27.5 45.1 18.8" style="fill: #b9baab;"/>
+      <polygon points="45.1 16.3 33.7 4.9 25 16.9 16.3 4.9 4.8 16.3 16.8 25 4.8 33.7 16.3 45.1 25 33.2 33.7 45.1 45.1 33.7 33.1 25 45.1 16.3" style="fill: #ffe; stroke: #d4d6c4; stroke-miterlimit: 10; stroke-width: 2px;"/>
+      <rect width="50" height="50" style="fill: none;"/>
+    </g>
+  </g>
+</svg>

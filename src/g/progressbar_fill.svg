@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-8e8d579a-f4e6-40af-94d1-95814965b3cb" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <g id="uuid-1e13ca22-fe7d-4715-a12c-c9e676c35391" data-name="Layer_1">
+    <g id="uuid-15824f7c-15f3-4543-b9b5-bc3d078fa5ea" data-name="progressbar_x5F_fill">
+      <rect width="100" height="100" rx="23.5" ry="23.5" style="fill: none;"/>
+      <path d="M76.5,4H23.5C12.7,4,4,12.7,4,23.5v53c0,10.8,8.7,19.5,19.5,19.5h53c10.8,0,19.5-8.7,19.5-19.5V23.5c0-10.8-8.7-19.5-19.5-19.5h0Z" style="fill: #eaafad; opacity: .5;"/>
+      <rect x="8" y="8" width="84.1" height="84.1" rx="15.6" ry="15.6" style="fill: #cc352e; stroke: #efd5d5; stroke-miterlimit: 10;"/>
+      <rect x="13.7" y="13.7" width="72.7" height="72.7" rx="11" ry="11" style="fill: #d34e40;"/>
+      <rect x="19.1" y="15.3" width="61.5" height="8.6" rx="4.3" ry="4.3" style="fill: #fff; opacity: .7;"/>
+    </g>
+  </g>
+</svg>

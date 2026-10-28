@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-f1859afe-5b70-4893-a864-c6f2dcf0e7ef" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <g id="uuid-970560f1-3041-400d-a4fe-20e6a3610abf" data-name="Layer_1">
+    <g id="uuid-42be0e29-9955-4e7d-9095-09815daaaa8c" data-name="dialog_x5F_bg_x5F_paper2">
+      <polygon points="100 100 80.9 98.5 69.7 100 0 100 1.3 69.5 0 1.2 16.9 0 78.1 0 83.6 1.9 100 .8 100 12.9 99.2 19.8 100 26.8 100 100" style="fill: #f4f4e1;"/>
+      <polygon points="99.2 19.8 59.7 16.4 100 26.8 99.2 19.8" style="fill: #ffe;"/>
+      <polygon points="1.3 69.5 43.5 71.4 79.8 62.4 100 65.4 100 100 80.9 98.5 90 71 69.7 100 0 100 1.3 69.5" style="fill: #ffe;"/>
+      <path d="M77.6,3l5,1.8.6.2h.6s13.2-1,13.2-1v8.7l-.8,6.8v.3s0,.3,0,.3l.8,6.8v69.8l-15.8-1.2h-.3s-.3,0-.3,0l-11.1,1.5H3.1l1.2-27.4h0c0,0,0-.2,0-.2L3.1,4l14-1h60.6M78.1,0H16.9L0,1.2l1.3,68.3-1.3,30.5h69.7l11.3-1.5,19.1,1.5V26.8l-.8-7,.8-7V.8l-16.4,1.1L78.1,0h0Z" style="fill: #d4d6c4;"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-323389ba-7352-446b-85ee-5e9e2d633e4d" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="uuid-9d773fde-e2eb-4f14-a35b-56e8c996aebd" data-name="finished_assets">
+    <g id="uuid-653da9a9-908a-48a2-b1ce-be896ea66af5" data-name="button-main-off">
+      <rect width="200" height="200" style="fill: none;"/>
+      <g style="opacity: .3;">
+        <rect x="-18" y="93.7" width="236" height="26.2" transform="translate(-46.2 102) rotate(-45)"/>
+      </g>
+      <rect x="-18" y="86.7" width="236" height="26.2" transform="translate(-41.3 99.9) rotate(-45)" style="fill: #ed0c0c; stroke: #b30a0a; stroke-miterlimit: 10;"/>
+      <rect x="-22.3" y="89.4" width="234.1" height="9.5" transform="translate(-38.8 94.6) rotate(-45)" style="fill: #ff613d;"/>
+    </g>
+  </g>
+</svg>

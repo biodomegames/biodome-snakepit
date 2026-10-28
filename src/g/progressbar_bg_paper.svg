@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-f311431e-0dfb-42b3-9935-4ebdaddc5fd1" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <g id="uuid-ab4f4fcd-791f-4d38-8191-fdf0916e21a5" data-name="Layer_1">
+    <g id="uuid-38e937dc-9c79-45ed-b993-e70da1ba1e25" data-name="progressbar_x5F_bg_x5F_paper">
+      <g>
+        <polygon points="30.5 98.5 21.9 96.1 12.4 98.5 1.5 98.5 1.5 8.3 2.3 2.4 18.3 1.5 98.5 1.5 98.5 69.2 97.4 87.5 98.4 98.5 30.5 98.5" style="fill: #ffe;"/>
+        <path d="M97,3v66.1l-1.1,18.1v.2s0,.2,0,.2l.8,9.3H30.7l-8.1-2.3-.8-.2-.8.2-8.9,2.3H3V8.4l.6-4.6,14.7-.9h78.7M100,0H18.2L1,1l-1,7.2v91.8h12.6l9.3-2.4,8.5,2.4h69.7l-1.1-12.5,1.1-18.2V0h0Z" style="fill: #d4d6c4;"/>
+      </g>
+      <g>
+        <polygon points="21.5 83.5 16.5 78.5 16.5 21.5 21.5 16.5 78.5 16.5 83.5 21.5 83.5 78.5 78.5 83.5 21.5 83.5" style="fill: #e5e5d8;"/>
+        <path d="M77.9,18l4.1,4.1v55.7l-4.1,4.1H22.1l-4.1-4.1V22.1l4.1-4.1h55.7M79.1,15H20.9l-5.9,5.9v58.2l5.9,5.9h58.2l5.9-5.9V20.9l-5.9-5.9h0Z" style="fill: #d4d6c4;"/>
+      </g>
+    </g>
+  </g>
+</svg>

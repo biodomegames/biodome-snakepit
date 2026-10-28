@@ -1,0 +1,31 @@
+{
+  "displayName": "Snakepit",
+  "shortProjectName": "Snakepit",
+  "tagline": "A blank game to start an experiment",
+  "slug": "snakepit",
+  "cordovaWidgetId": "games.biodome.snakepit",
+  "npmPackageName": "snakepit",
+  "frvrGameId": "snakepit",
+  "cordovaPackageName": "com.biodome.snakepit",
+  "cordovaDisplayName": "Snakepit",
+  "deploy": {
+    "host": "web12.gigahost.dk",
+    "user": "biodome",
+    "remoteRoot": "www/biodomegames.com/snakepit",
+    "publicBaseUrl": "https://biodomegames.com",
+    "publicUrl": "https://biodomegames.com/snakepit"
+  },
+  "deployDev": {
+    "remoteRoot": "www.biodomegames.com/snakepit-dev",
+    "publicUrl": "https://biodomegames.com/snakepit-dev"
+  },
+  "termsInfo": {
+    "localFolder": "snakepit-onlinefiles",
+    "remoteRoot": "/www/sporkle.net/snakepit-onlinefiles"
+  },
+  "urls": {
+    "sporkleGame": "https://www.sporkle.net/snakepit",
+    "biodomeSubdomain": "https://snakepit.biodomegames.com",
+    "moreinfoPage": "https://biodomegames.com/snakepit/index2.html"
+  }
+}

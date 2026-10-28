@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-8a6af7db-5721-4a9f-931a-56cbdfdbb052" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="uuid-f9516dc6-e2d8-4bec-a2b1-dd0dd2c47d57" data-name="Layer_6">
+    <g id="uuid-12ff41ce-951d-4a8c-bc37-18f9ca3af15c" data-name="button-main-green">
+      <rect width="200" height="200" style="fill: none;"/>
+      <polygon points="15.3 36.2 15.3 163.8 36.2 184.7 163.8 184.7 184.7 163.8 184.7 36.2 163.8 15.3 36.2 15.3 15.3 36.2" style="fill: #46cc3b;"/>
+      <polygon points="15.3 163.8 36.2 184.7 163.8 184.7 184.7 163.8 184.7 36.2 163.8 15.3 156.6 28.4 28.4 156.6 15.3 163.8" style="fill: #33a12d;"/>
+      <polygon points="28.4 43.4 28.4 156.6 43.4 171.6 156.6 171.6 171.6 156.6 171.6 43.4 156.6 28.4 43.4 28.4 28.4 43.4" style="fill: #43e017;"/>
+      <polygon points="36.2 47.6 36.2 95.8 163.8 95.8 163.8 47.6 152.4 36.2 47.6 36.2 36.2 47.6" style="fill: #67f737;"/>
+    </g>
+  </g>
+</svg>

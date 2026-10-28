@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-9fdf736a-d583-4b53-bb4d-0303f4f957ee" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <g id="uuid-c0d622ea-aece-4c20-9a4c-a3823bde6f06" data-name="Layer_1">
+    <g>
+      <g>
+        <rect x="1" y="1" width="98" height="98" rx="13" ry="13" style="fill: #899aae;"/>
+        <path d="M86,2c6.6,0,12,5.4,12,12v72c0,6.6-5.4,12-12,12H14c-6.6,0-12-5.4-12-12V14C2,7.4,7.4,2,14,2h72M86,0H14C6.3,0,0,6.3,0,14v72c0,7.7,6.3,14,14,14h72c7.7,0,14-6.3,14-14V14c0-7.7-6.3-14-14-14h0Z" style="fill: #bcc8d8;"/>
+      </g>
+      <rect x="6.5" y="6.5" width="86.9" height="86.9" rx="9" ry="9" style="fill: #c9d6e1;"/>
+      <path d="M10.1,8.3h79.8c1.1,0,2,.9,2,2v19.6c0,5-4,9-9,9H17.1c-5,0-9-4-9-9V10.3c0-1.1.9-2,2-2Z" transform="translate(100.1 47.3) rotate(180)" style="fill: #b6cad8;"/>
+      <path d="M17.1,79.1h65.8c5,0,9,4,9,9v1.6c0,1.1-.9,2-2,2H10.1c-1.1,0-2-.9-2-2v-1.6c0-5,4-9,9-9Z" transform="translate(100.1 170.9) rotate(-180)" style="fill: #d8e6ef;"/>
+    </g>
+  </g>
+</svg>
