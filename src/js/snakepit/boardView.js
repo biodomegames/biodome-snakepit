@@ -560,6 +560,109 @@ export class BoardView extends Container {
 		if (snake && !this.isAnimating(snake.id)) this.hooks.onSnakeClick?.(snake.id)
 	}
 
+	_delay(sec) {
+		return new Promise((resolve) => {
+			const proxy = { t: 0 }
+			newTween(proxy, { t: 1 }, Math.max(0.001, sec)).onDone(resolve)
+		})
+	}
+
+	/** Face blink frames — numeric indices survive Anima re-exports that drop labels. */
+	static FACE_FRAMES = {
+		idle: 0,
+		blinkBoth: 1,
+		blinkTop: 2,
+		blinkBot: 3,
+		blinkHalf: 4,
+	}
+
+	_setFaceFrame(face, name) {
+		if (!face) return
+		if (face.framelabels?.[name] != null) face.setFrame(name)
+		else face.setFrame(BoardView.FACE_FRAMES[name] ?? 0)
+	}
+
+	/**
+	 * Blink face frames + rising Anima stars at the snake head (bonk reaction).
+	 * @param {number} snakeId
+	 */
+	async playBonkFx(snakeId) {
+		const entry = this.snakeGfx.get(snakeId)
+		if (!entry?.face) return
+		const { face } = entry
+		const hx = face.x
+		const hy = face.y
+		const blinkSeq = [
+			{ name: "blinkBoth", hold: 0.12 },
+			{ name: "idle", hold: 0.05 },
+			{ name: "blinkTop", hold: 0.1 },
+			{ name: "idle", hold: 0.04 },
+			{ name: "blinkHalf", hold: 0.1 },
+			{ name: "idle", hold: 0.04 },
+			{ name: "blinkBot", hold: 0.1 },
+			{ name: "idle", hold: 0.05 },
+			{ name: "blinkBoth", hold: 0.14 },
+			{ name: "idle", hold: 0.05 },
+		]
+		const blinkTask = (async () => {
+			for (const step of blinkSeq) {
+				this._setFaceFrame(face, step.name)
+				await this._delay(step.hold)
+			}
+			this._setFaceFrame(face, "idle")
+		})()
+
+		const tube = this.hooks.getTube?.()
+		const starTasks = []
+		if (tube?.getMovieClip) {
+			const offsets = [
+				{ x: 10, y: -8 },
+				{ x: -8, y: -14 },
+				{ x: 16, y: 0 },
+				{ x: -4, y: -20 },
+			]
+			for (const off of offsets) {
+				let star
+				try {
+					star = tube.getMovieClip("bonkStar")
+				} catch {
+					star = null
+				}
+				if (!star) continue
+				star.eventMode = "none"
+				star.interpolate = true
+				// ~13 frames @ 26fps ≈ 0.5s — readable float, not a flash.
+				star.framerate = 26
+				const s0 = 0.65 + Math.random() * 0.3
+				star.scale.set(s0)
+				star.alpha = 1
+				star.position.set(hx + off.x, hy + off.y)
+				star.rotation = (Math.random() - 0.5) * 0.8
+				this.fxLayer.addChild(star)
+				const driftX = off.x * 1.6 + (Math.random() - 0.5) * 18
+				const driftY = -70 - Math.random() * 30
+				starTasks.push(
+					new Promise((done) => {
+						let finished = false
+						const finish = () => {
+							if (finished) return
+							finished = true
+							star.parent?.removeChild(star)
+							done()
+						}
+						const last = Math.max(0, (star.data?.length ?? 1) - 1)
+						if (star.framelabels?.rise != null) star.playLabel("rise", finish)
+						else star.playRange(0, last, finish)
+						newTween(star, { x: star.x + driftX, y: star.y + driftY, alpha: 0 }, 0.55)
+							.ease(Easing.outQuad)
+							.onDone(finish)
+					}),
+				)
+			}
+		}
+		await Promise.all([blinkTask, ...starTasks])
+	}
+
 	/**
 	 * Animate discrete hex steps by sliding along the tile/edge path (not lerping joints).
 	 * @param {import('./snake.js').Snake} snake
@@ -634,7 +737,10 @@ export class BoardView extends Container {
 						const into = [hit, ...tip.slice(0, -1)]
 						const peak = 0.42
 						await tweenSlide(tip, into, stepDur * 0.75, 0, peak)
+						// Bonk reaction at impact peak.
+						const bonkFx = this.playBonkFx(snake.id)
 						await tweenSlide(tip, into, stepDur * 0.75, peak, 0)
+						await bonkFx
 					}
 					for (let i = steps.length - 1; i > 0; i--) {
 						await tweenSlide(steps[i], steps[i - 1], stepDur * 0.9)

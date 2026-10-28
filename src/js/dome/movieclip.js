@@ -101,6 +101,19 @@ export class MovieClip extends Container {
 	}
 
 	/**
+	 * Same instance name can swap atlas frames (e.g. snakeFace blinks). Keep the Sprite,
+	 * but refresh its texture when the tube sprite type name changes.
+	 * @param {import('pixi.js').Sprite} spr
+	 * @param {{ type?: string, name?: string }} sprite
+	 */
+	_syncSpriteTexture(spr, sprite) {
+		if (sprite?.type !== "sprite" || !sprite.name || !spr?.texture) return
+		if (spr._tubeSpriteName === sprite.name) return
+		spr.texture = Texture.from(sprite.name)
+		spr._tubeSpriteName = sprite.name
+	}
+
+	/**
 	 * Builds {@link MovieClip#framelabels} from non-`sound_*` labels only.
 	 * `sound_*` labels (including comma-separated pairs like `sound_grabtokena,grabtoken`)
 	 * are stored in {@link MovieClip#soundLabelsByFrame} and do not split playable ranges.
@@ -373,6 +386,7 @@ export class MovieClip extends Container {
 				{
 					spr = new Sprite(Texture.from(sprite.name))
 					spr.anchor.set(.5,.5)
+					spr._tubeSpriteName = sprite.name
 				}
 				else if (sprite.type == "refpoint")
 				{
@@ -394,6 +408,10 @@ export class MovieClip extends Container {
 				}
 				this.spritecache[sprite.instancename] = spr
 				this.addChild(spr)
+			}
+			else
+			{
+				this._syncSpriteTexture(spr, sprite)
 			}
 
 			this.addChild(spr)
@@ -467,6 +485,9 @@ export class MovieClip extends Container {
 
 			if (spriteB)
 			{
+				// Prefer destination frame art when instance swaps texture mid-tween.
+				if (fraction >= 0.5) this._syncSpriteTexture(spr, spriteB)
+				else this._syncSpriteTexture(spr, sprite)
 				//var spriteB = frameB.sprites[sprite.instancename]
 				// we must interpolate the position, scale, skew, rotation, alpha and zIndex
 				var posx = sprite.x + (spriteB.x - sprite.x) * fraction
@@ -568,6 +589,7 @@ export class MovieClip extends Container {
 				{
 					spr = new Sprite(Texture.from(sprite.name))
 					spr.anchor.set(.5,.5)
+					spr._tubeSpriteName = sprite.name
 				}
 				else if (sprite.type == "refpoint")
 				{
@@ -589,6 +611,10 @@ export class MovieClip extends Container {
 				}
 				this.spritecache[sprite.instancename] = spr
 				this.addChild(spr)
+			}
+			else
+			{
+				this._syncSpriteTexture(spr, sprite)
 			}
 
 			this.addChild(spr)

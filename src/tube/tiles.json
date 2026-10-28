@@ -1,11 +1,31 @@
 {
   "frames": {
+    "tiles_gameover_art.png": {
+      "frame": {
+        "h": 158,
+        "w": 196,
+        "x": 2,
+        "y": 2
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 202,
+        "w": 196
+      },
+      "spriteSourceSize": {
+        "h": 158,
+        "w": 196,
+        "x": 0,
+        "y": 44
+      },
+      "trimmed": true
+    },
     "tiles_grass_art.png": {
       "frame": {
         "h": 46,
         "w": 40,
-        "x": 326,
-        "y": 115
+        "x": 2,
+        "y": 363
       },
       "rotated": false,
       "sourceSize": {
@@ -23,9 +43,9 @@
     "tiles_grass_art_b.png": {
       "frame": {
         "h": 42,
-        "w": 39,
-        "x": 469,
-        "y": 2
+        "w": 40,
+        "x": 2,
+        "y": 411
       },
       "rotated": false,
       "sourceSize": {
@@ -34,7 +54,7 @@
       },
       "spriteSourceSize": {
         "h": 42,
-        "w": 39,
+        "w": 40,
         "x": 0,
         "y": 0
       },
@@ -64,8 +84,8 @@
       "frame": {
         "h": 111,
         "w": 128,
-        "x": 2,
-        "y": 55
+        "x": 200,
+        "y": 2
       },
       "rotated": false,
       "sourceSize": {
@@ -84,8 +104,8 @@
       "frame": {
         "h": 111,
         "w": 128,
-        "x": 132,
-        "y": 55
+        "x": 339,
+        "y": 115
       },
       "rotated": false,
       "sourceSize": {
@@ -105,7 +125,7 @@
         "h": 51,
         "w": 335,
         "x": 2,
-        "y": 2
+        "y": 162
       },
       "rotated": false,
       "sourceSize": {
@@ -122,10 +142,10 @@
     },
     "tiles_rock_art.png": {
       "frame": {
-        "h": 58,
-        "w": 59,
-        "x": 262,
-        "y": 55
+        "h": 59,
+        "w": 60,
+        "x": 2,
+        "y": 228
       },
       "rotated": false,
       "sourceSize": {
@@ -133,8 +153,8 @@
         "w": 60
       },
       "spriteSourceSize": {
-        "h": 58,
-        "w": 59,
+        "h": 59,
+        "w": 60,
         "x": 0,
         "y": 0
       },
@@ -144,7 +164,7 @@
       "frame": {
         "h": 44,
         "w": 62,
-        "x": 262,
+        "x": 200,
         "y": 115
       },
       "rotated": false,
@@ -159,6 +179,106 @@
         "y": 0
       },
       "trimmed": true
+    },
+    "tiles_snake_face_blink_bot.png": {
+      "frame": {
+        "h": 38,
+        "w": 62,
+        "x": 264,
+        "y": 115
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 44,
+        "w": 88
+      },
+      "spriteSourceSize": {
+        "h": 38,
+        "w": 62,
+        "x": 26,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_snake_face_blink_both.png": {
+      "frame": {
+        "h": 32,
+        "w": 60,
+        "x": 2,
+        "y": 329
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 32,
+        "w": 88
+      },
+      "spriteSourceSize": {
+        "h": 32,
+        "w": 60,
+        "x": 28,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_snake_face_blink_half.png": {
+      "frame": {
+        "h": 36,
+        "w": 62,
+        "x": 64,
+        "y": 228
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 36,
+        "w": 88
+      },
+      "spriteSourceSize": {
+        "h": 36,
+        "w": 62,
+        "x": 26,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_snake_face_blink_top.png": {
+      "frame": {
+        "h": 38,
+        "w": 62,
+        "x": 2,
+        "y": 289
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 44,
+        "w": 88
+      },
+      "spriteSourceSize": {
+        "h": 38,
+        "w": 62,
+        "x": 26,
+        "y": 6
+      },
+      "trimmed": true
+    },
+    "tiles_star_art.png": {
+      "frame": {
+        "h": 36,
+        "w": 36,
+        "x": 469,
+        "y": 2
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 36,
+        "w": 36
+      },
+      "spriteSourceSize": {
+        "h": 36,
+        "w": 36,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
     }
   },
   "meta": {

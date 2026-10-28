@@ -1,4 +1,4 @@
-import { Container, Text, TextStyle } from "pixi.js"
+import { Container, Graphics, Text, TextStyle } from "pixi.js"
 import { BoardView } from "./snakepit/boardView.js"
 import { LevelSession } from "./snakepit/level.js"
 import {
@@ -8,6 +8,10 @@ import {
 	saveProgress,
 } from "./snakepit/progress.js"
 import { Easing, newTween } from "./dome/Tween.js"
+
+const MAX_BONKS = 3
+/** After game over, resume around this pit (or level 1 if not there yet). */
+const RESTART_LEVEL = 3
 
 /**
  * Snakepit play session: hex snake-escape board + HUD + pit progression.
@@ -74,6 +78,12 @@ export class Game extends Container {
 		/** @type {{ view: BoardView, session: LevelSession, level: number }[]} */
 		this.pitStack = []
 		this.transitioning = false
+		this.gameOver = false
+		this.bonkCount = 0
+		/** @type {import('./dome/movieclip.js').MovieClip | null} */
+		this.gameOverSign = null
+		/** @type {Container | null} */
+		this.restartBtn = null
 		this.cam = { x: 0, y: 0, scale: 1 }
 		this.levelIndex = 1
 	}
@@ -89,6 +99,9 @@ export class Game extends Container {
 	start() {
 		const prog = loadProgress()
 		this.levelIndex = prog.level
+		this.bonkCount = 0
+		this.gameOver = false
+		this._clearGameOverUi()
 		this._clearWorld()
 		this._spawnPit(this.levelIndex, prog.seed || undefined, 0)
 		this._focusActivePit(false)
@@ -100,6 +113,9 @@ export class Game extends Container {
 	resetProgressAndRestart() {
 		const prog = resetProgress()
 		this.levelIndex = prog.level
+		this.bonkCount = 0
+		this.gameOver = false
+		this._clearGameOverUi()
 		this._clearWorld()
 		this._spawnPit(this.levelIndex, prog.seed, 0)
 		this._focusActivePit(false)
@@ -286,7 +302,7 @@ export class Game extends Container {
 	}
 
 	async _onSnakeClick(snakeId) {
-		if (!this.activePit || this.transitioning) return
+		if (!this.activePit || this.transitioning || this.gameOver) return
 		const pit = this.activePit
 		const { session, view } = pit
 		if (session.isMoving(snakeId) || view.isAnimating(snakeId)) return
@@ -311,9 +327,117 @@ export class Game extends Container {
 		}
 
 		session.beginMove(snakeId)
+		this.bonkCount++
+		this._refreshHud()
 		await view.playSteps(result.snake, result.steps, { bump: true })
 		session.endMove(snakeId)
 		this._refreshHud()
+		if (this.bonkCount >= MAX_BONKS && !this.gameOver) {
+			await this._triggerGameOver(pit)
+		}
+	}
+
+	_clearGameOverUi() {
+		if (this.gameOverSign) {
+			this.gameOverSign.parent?.removeChild(this.gameOverSign)
+			this.gameOverSign = null
+		}
+		if (this.restartBtn) {
+			this.restartBtn.parent?.removeChild(this.restartBtn)
+			this.restartBtn = null
+		}
+	}
+
+	async _triggerGameOver(pit) {
+		if (this.gameOver) return
+		this.gameOver = true
+		this.transitioning = true
+		pit.view.eventMode = "none"
+		pit.view.interactiveChildren = false
+		this.hintText.text = "Too many bonks — game over!"
+
+		const tube = window.alltubes?.tiles
+		const sign = tube?.getMovieClip?.("gameOver")
+		if (sign) {
+			const b = pit.view.boardPixelSize()
+			sign.eventMode = "none"
+			sign.scale.set(1.15)
+			sign.alpha = 1
+			sign.position.set(b.cx, b.cy - b.h * 0.85)
+			pit.view.fxLayer.addChild(sign)
+			this.gameOverSign = sign
+			await new Promise((resolve) => {
+				const fromY = sign.y
+				const toY = b.cy
+				const proxy = { t: 0 }
+				newTween(proxy, { t: 1 }, 0.7)
+					.ease(Easing.outBounce)
+					.onUpdate(() => {
+						sign.y = fromY + (toY - fromY) * proxy.t
+					})
+					.onDone(() => {
+						sign.y = toY
+						resolve()
+					})
+			})
+		}
+
+		this._showRestartButton()
+		this.transitioning = false
+		this._refreshHud()
+	}
+
+	_showRestartButton() {
+		if (this.restartBtn) return
+		const btn = new Container()
+		btn.eventMode = "static"
+		btn.cursor = "pointer"
+		const bg = new Graphics()
+		bg.roundRect(-90, -28, 180, 56, 14)
+		bg.fill({ color: 0x3d8f55 })
+		bg.stroke({ width: 3, color: 0x1e4a2c })
+		btn.addChild(bg)
+		const label = new Text({
+			text: "Restart",
+			style: new TextStyle({
+				fontFamily: "Arial",
+				fontSize: 28,
+				fontWeight: "bold",
+				fill: 0xffffff,
+			}),
+		})
+		label.anchor.set(0.5)
+		btn.addChild(label)
+		btn.on("pointertap", (e) => {
+			e.stopPropagation()
+			this._restartAfterGameOver()
+		})
+		this.hud.addChild(btn)
+		this.restartBtn = btn
+		this._layoutRestartButton()
+	}
+
+	_layoutRestartButton() {
+		if (!this.restartBtn) return
+		const { w, h } = this._layoutMetrics()
+		this.restartBtn.position.set(w / 2, h - 52)
+	}
+
+	_restartAfterGameOver() {
+		const restartLevel = this.levelIndex >= RESTART_LEVEL ? RESTART_LEVEL : 1
+		const seed = (Math.floor(Math.random() * 0xffffffff) >>> 0)
+		this.levelIndex = restartLevel
+		this.bonkCount = 0
+		this.gameOver = false
+		this.transitioning = false
+		this._clearGameOverUi()
+		this._clearWorld()
+		saveProgress(restartLevel, seed)
+		this._spawnPit(restartLevel, seed, 0)
+		this._focusActivePit(false)
+		this.hintText.text = "Tap a snake to send it forward. Clear the path to escape."
+		this._refreshHud()
+		this.resize()
 	}
 
 	async _maybeAdvanceAfterClear(pit) {
@@ -328,9 +452,10 @@ export class Game extends Container {
 
 	async _onLevelCleared(clearedPit) {
 		const prev = clearedPit || this.activePit
-		if (this.transitioning || !prev) return
+		if (this.transitioning || this.gameOver || !prev) return
 		if (this.activePit !== prev) return
 		this.transitioning = true
+		this.bonkCount = 0
 		prev.view.eventMode = "none"
 		prev.view.interactiveChildren = false
 		this.hintText.text = "Pit cleared — climbing to the next one…"
@@ -365,18 +490,20 @@ export class Game extends Container {
 		if (!session) return
 		const left = session.remaining()
 		const total = session.total()
-		const tiles = session.boardCells?.length ?? 0
-		if (session.isWon()) {
+		const bonksLeft = Math.max(0, MAX_BONKS - this.bonkCount)
+		if (this.gameOver) {
+			this.statusText.text = `Game over  ·  Level ${this.levelIndex}`
+		} else if (session.isWon()) {
 			this.statusText.text = `Level ${this.levelIndex} cleared!`
 		} else {
-			this.statusText.text = `Level ${this.levelIndex}  ·  ${total - left}/${total} escaped  ·  ${tiles} tiles`
+			this.statusText.text = `Level ${this.levelIndex}  ·  ${total - left}/${total} escaped  ·  ${bonksLeft} bonk${bonksLeft === 1 ? "" : "s"} left`
 		}
 	}
 
 	tick() {}
 
 	resize() {
-		if (this.activePit && !this.transitioning) this._focusActivePit(false)
+		if (this.activePit && !this.transitioning && !this.gameOver) this._focusActivePit(false)
 		if (this.logo && !this.logoIntroPlaying) {
 			this._applyLogoLayout(this.logoSettled)
 			const layout = this._logoLayout(this.logoSettled)
@@ -384,5 +511,6 @@ export class Game extends Container {
 		} else if (!this.logo) {
 			this._layoutHudText(18)
 		}
+		this._layoutRestartButton()
 	}
 }
