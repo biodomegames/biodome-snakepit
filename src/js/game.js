@@ -1,4 +1,5 @@
 import { Container, Graphics, Text, TextStyle } from "pixi.js"
+import { boardHas } from "./snakepit/board.js"
 import { BoardView } from "./snakepit/boardView.js"
 import { LevelSession } from "./snakepit/level.js"
 import {
@@ -78,6 +79,7 @@ export class Game extends Container {
 		/** @type {{ view: BoardView, session: LevelSession, level: number }[]} */
 		this.pitStack = []
 		this.transitioning = false
+		this._awaitingDockClear = false
 		this.gameOver = false
 		this.bonkCount = 0
 		/** @type {import('./dome/movieclip.js').MovieClip | null} */
@@ -220,6 +222,21 @@ export class Game extends Container {
 		this.world.removeChildren()
 	}
 
+	/**
+	 * Stop the hex slide when the head first leaves the pit.
+	 * The around-pit path continues from that rim pose in world space.
+	 * @param {import('./snakepit/hex.js').Hex[][]} steps
+	 * @param {import('./snakepit/board.js').Board} board
+	 */
+	_escapeStepsToRim(steps, board) {
+		if (!steps?.length) return steps || []
+		for (let i = 1; i < steps.length; i++) {
+			const head = steps[i]?.[0]
+			if (head && !boardHas(board, head)) return steps.slice(0, i + 1)
+		}
+		return steps.slice(0, Math.min(steps.length, 2))
+	}
+
 	_spawnPit(level, seed, worldY) {
 		const session = new LevelSession({ level, seed })
 		session.onChange = () => this._refreshHud()
@@ -234,6 +251,7 @@ export class Game extends Container {
 		const pit = { view, session, level, worldY }
 		this.pitStack.push(pit)
 		this.activePit = pit
+		this.resize()
 		saveProgress(level, session.seed)
 		return pit
 	}
@@ -241,7 +259,6 @@ export class Game extends Container {
 	_layoutMetrics() {
 		const w = window.getRenderWidth?.() ?? this.app?.screen?.width ?? 800
 		const h = window.getRenderHeight?.() ?? this.app?.screen?.height ?? 600
-		// Room for settled logo + status/hint strip above the pit.
 		const topHud = 112
 		const botHud = 36
 		const padX = Math.max(8, Math.min(18, w * 0.03))
@@ -253,14 +270,16 @@ export class Game extends Container {
 
 	_cameraForPit(pit) {
 		const { availW, availH, w, topHud, padY } = this._layoutMetrics()
-		const bounds = pit.view.boardPixelSize()
-		const fit = Math.min(availW / Math.max(bounds.w, 1), availH / Math.max(bounds.h, 1))
+		const field = pit.view.playfieldPixelSize()
+		const pitBox = pit.view.boardPixelSize()
+		const fit = Math.min(availW / Math.max(field.w, 1), availH / Math.max(field.h, 1))
 		// Don't zoom in past this: keeps small pits from filling the phone with huge tiles.
 		const maxTileScreen = 72 // max center→vertex size in screen px
 		const maxScale = maxTileScreen / Math.max(pit.view.hexSize || 36, 1)
 		const scale = Math.min(fit, maxScale)
-		const focusX = 0
-		const focusY = pit.worldY
+		// View is placed so the pit center sits at world (0, worldY). Frame the lanes too.
+		const focusX = field.cx - pitBox.cx
+		const focusY = pit.worldY + (field.cy - pitBox.cy)
 		return {
 			scale,
 			x: w / 2 - focusX * scale,
@@ -313,10 +332,26 @@ export class Game extends Container {
 		if (!result) return
 
 		if (result.kind === "escaped") {
+			const lane = view.dock.reserveLane()
+			if (!lane) return
+			const capacity = Math.max(1, result.steps?.[0]?.length ?? result.snake.cells?.length ?? 1)
+			const color = result.snake.color
+			const dir = result.snake.dir
+			// Stop once the body has cleared the pit — dock path continues from the rim.
+			const rimSteps = this._escapeStepsToRim(result.steps, session.board)
 			session.beginMove(snakeId)
 			session.commitEscape(snakeId)
 			this._refreshHud()
-			await view.playSteps(result.snake, result.steps, { bump: false })
+			await view.playSteps(result.snake, rimSteps, { bump: false, handoff: true })
+			const from = view.escapeHandoffLocal(rimSteps, dir)
+			const bodyPts = view.escapeBodyPoints(rimSteps, dir)
+			view.dock.enqueueEscapedSnake({
+				color,
+				capacity,
+				from,
+				bodyPts,
+				lane,
+			})
 			view.removeSnakeGfx(snakeId)
 			session.endMove(snakeId)
 			this._refreshHud()
@@ -444,10 +479,23 @@ export class Game extends Container {
 		const { session } = pit
 		if (!session.isWon()) return
 		if (session.anyMoving()) return
-		if (this.transitioning) return
+		if (this.transitioning || this._awaitingDockClear) return
 		// Stale callback from an already-left pit.
 		if (this.activePit !== pit) return
-		await this._onLevelCleared(pit)
+		this._awaitingDockClear = true
+		this.hintText.text = "Pit cleared — ants boarding…"
+		try {
+			await pit.view.dock.waitUntilIdle()
+			if (this.activePit !== pit || this.transitioning || this.gameOver) return
+			if (pit.view.dock.hasLeftoverAnts()) {
+				this.hintText.text = "An anteater arrives…"
+				await pit.view.dock.playAnteater(this.hud)
+				if (this.activePit !== pit || this.transitioning || this.gameOver) return
+			}
+			await this._onLevelCleared(pit)
+		} finally {
+			this._awaitingDockClear = false
+		}
 	}
 
 	async _onLevelCleared(clearedPit) {
@@ -460,18 +508,22 @@ export class Game extends Container {
 		prev.view.interactiveChildren = false
 		this.hintText.text = "Pit cleared — climbing to the next one…"
 		const nextLevel = nextLevelIndex(this.levelIndex)
-		const prevBounds = prev.view.boardPixelSize()
 		const gap = 80
-		const approxNextH = prevBounds.h * 1.15
-		const nextY = prev.worldY - (prevBounds.h / 2 + gap + approxNextH / 2)
+		const prevField = prev.view.playfieldPixelSize()
+		const prevPit = prev.view.boardPixelSize()
+		const prevTop = prev.worldY + (prevField.minY - prevPit.cy)
+		const approxNextH = prevField.h
+		const nextY = prevTop - gap - approxNextH / 2
 		this.levelIndex = nextLevel
 		const next = this._spawnPit(nextLevel, undefined, nextY)
 		next.view.eventMode = "none"
 		next.view.interactiveChildren = false
-		const nb = next.view.boardPixelSize()
-		const preciseY = prev.worldY - (prevBounds.h / 2 + gap + nb.h / 2)
+		const nextField = next.view.playfieldPixelSize()
+		const nextPit = next.view.boardPixelSize()
+		const nextBottomExtent = nextField.maxY - nextPit.cy
+		const preciseY = prevTop - gap - nextBottomExtent
 		next.worldY = preciseY
-		next.view.position.set(-nb.cx, preciseY - nb.cy)
+		next.view.position.set(-nextPit.cx, preciseY - nextPit.cy)
 
 		await this._focusActivePit(true)
 		if (this.pitStack.length > 2) {

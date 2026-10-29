@@ -1,4 +1,5 @@
 import { Container, Graphics, Sprite, Texture } from "pixi.js"
+import { AntDock } from "./antDock.js"
 import {
 	HEX_DIR_ANGLE,
 	hexEq,
@@ -36,11 +37,15 @@ export class BoardView extends Container {
 		this.rockLayer = new Container()
 		this.snakeLayer = new Container()
 		this.fxLayer = new Container()
+		this.dock = new AntDock({
+			getTube: () => this.hooks.getTube?.(),
+		})
 		this.addChild(this.boardLayer)
 		this.addChild(this.decorLayer)
 		this.addChild(this.rockLayer)
 		this.addChild(this.snakeLayer)
 		this.addChild(this.fxLayer)
+		this.addChild(this.dock)
 
 		/** @type {Map<number, { root: Container, g: Graphics, face: any, snake: any }>} */
 		this.snakeGfx = new Map()
@@ -70,6 +75,40 @@ export class BoardView extends Container {
 		this.snakeGfx.delete(snakeId)
 	}
 
+	/**
+	 * Head tip in BoardView-local px after an escape pose list (last step).
+	 * @param {import('./hex.js').Hex[][]} steps
+	 * @param {number} dir
+	 */
+	escapeHandoffLocal(steps, dir) {
+		const cells = steps?.[steps.length - 1]
+		if (!cells?.length) {
+			const b = this.boardPixelSize()
+			return { x: b.cx + b.w * 0.55, y: b.cy, ang: 0 }
+		}
+		return this._headPos(hexToPixel(cells[0], this.hexSize), dir)
+	}
+
+	/** Tail→head polyline of the escape pose, in BoardView-local px. */
+	escapeBodyPoints(steps, dir) {
+		const cells = steps?.[steps.length - 1]
+		const head = this.escapeHandoffLocal(steps, dir)
+		if (!cells?.length) {
+			return [
+				{
+					x: head.x - Math.cos(head.ang || 0) * this.hexSize,
+					y: head.y - Math.sin(head.ang || 0) * this.hexSize,
+				},
+				{ x: head.x, y: head.y },
+			]
+		}
+		const anchors = this._anchorsForCells(cells, dir)
+		return anchors
+			.slice()
+			.reverse()
+			.map((p) => ({ x: p.x, y: p.y }))
+	}
+
 	/** AABB of playable pit cells only (rim decor ignored for zoom). */
 	boardPixelSize() {
 		const cells = this.boardCells.length
@@ -95,6 +134,31 @@ export class BoardView extends Container {
 		}
 	}
 
+	/** Pit plus the lane stack above it, in BoardView-local px. */
+	playfieldPixelSize() {
+		const pit = this.boardPixelSize()
+		const box = this.dock?.layoutBox
+		const minX0 = pit.cx - pit.w / 2
+		const maxX0 = pit.cx + pit.w / 2
+		const minY0 = pit.cy - pit.h / 2
+		const maxY0 = pit.cy + pit.h / 2
+		const pathPad = this.hexSize * 1.6
+		const minX = Math.min(minX0, box?.minX ?? minX0) - pathPad
+		const maxX = Math.max(maxX0, box?.maxX ?? maxX0) + pathPad
+		const minY = Math.min(minY0, box?.minY ?? minY0)
+		const maxY = Math.max(maxY0, box?.maxY ?? maxY0)
+		return {
+			minX,
+			maxX,
+			minY,
+			maxY,
+			w: maxX - minX,
+			h: maxY - minY,
+			cx: (minX + maxX) / 2,
+			cy: (minY + maxY) / 2,
+		}
+	}
+
 	/**
 	 * @param {import('./level.js').LevelSession} session
 	 */
@@ -107,6 +171,7 @@ export class BoardView extends Container {
 		this._rebuildDecor()
 		this._rebuildRocks()
 		this.redrawSnakes()
+		this.dock.setup(session, this.boardPixelSize(), this.hexSize)
 	}
 
 	_rebuildBoard() {
@@ -139,7 +204,7 @@ export class BoardView extends Container {
 		}
 
 		this.hitArea = {
-			contains: (x, y) => this.pixelToHex({ x, y }) != null,
+			contains: (x, y) => this.pixelToHex({ x, y }) != null || this.dock.coversLocal(x, y),
 		}
 	}
 
@@ -758,7 +823,8 @@ export class BoardView extends Container {
 					const cruiseDur = stepDur * (endU - 1)
 					await tweenProgress(1, endU, cruiseDur, Easing.linear)
 				}
-				root.visible = false
+				// Handoff to ant dock keeps the last pose visible until the dock takes over.
+				if (!opts.handoff) root.visible = false
 				finish()
 			}
 

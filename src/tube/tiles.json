@@ -1,10 +1,250 @@
 {
   "frames": {
+    "tiles_ant_idle_art.png": {
+      "frame": {
+        "h": 24,
+        "w": 32,
+        "x": 304,
+        "y": 353
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 24,
+        "w": 36
+      },
+      "spriteSourceSize": {
+        "h": 24,
+        "w": 32,
+        "x": 4,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_ant_walk_a_art.png": {
+      "frame": {
+        "h": 24,
+        "w": 32,
+        "x": 304,
+        "y": 379
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 24,
+        "w": 36
+      },
+      "spriteSourceSize": {
+        "h": 24,
+        "w": 32,
+        "x": 4,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_ant_walk_b_art.png": {
+      "frame": {
+        "h": 24,
+        "w": 32,
+        "x": 414,
+        "y": 449
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 24,
+        "w": 36
+      },
+      "spriteSourceSize": {
+        "h": 24,
+        "w": 32,
+        "x": 4,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_ant_walk_c_art.png": {
+      "frame": {
+        "h": 24,
+        "w": 32,
+        "x": 414,
+        "y": 475
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 24,
+        "w": 36
+      },
+      "spriteSourceSize": {
+        "h": 24,
+        "w": 32,
+        "x": 4,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_anteater_eat_a.png": {
+      "frame": {
+        "h": 109,
+        "w": 150,
+        "x": 339,
+        "y": 300
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 109,
+        "w": 156
+      },
+      "spriteSourceSize": {
+        "h": 109,
+        "w": 150,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_anteater_eat_b.png": {
+      "frame": {
+        "h": 160,
+        "w": 221,
+        "x": 2,
+        "y": 2
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 164,
+        "w": 298
+      },
+      "spriteSourceSize": {
+        "h": 160,
+        "w": 221,
+        "x": 0,
+        "y": 4
+      },
+      "trimmed": true
+    },
+    "tiles_anteater_eat_c.png": {
+      "frame": {
+        "h": 136,
+        "w": 209,
+        "x": 225,
+        "y": 162
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 140,
+        "w": 273
+      },
+      "spriteSourceSize": {
+        "h": 136,
+        "w": 209,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_anteater_eat_d.png": {
+      "frame": {
+        "h": 92,
+        "w": 150,
+        "x": 262,
+        "y": 411
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 92,
+        "w": 156
+      },
+      "spriteSourceSize": {
+        "h": 92,
+        "w": 150,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_anteater_walk_a.png": {
+      "frame": {
+        "h": 74,
+        "w": 150,
+        "x": 2,
+        "y": 466
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 74,
+        "w": 156
+      },
+      "spriteSourceSize": {
+        "h": 74,
+        "w": 150,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_anteater_walk_b.png": {
+      "frame": {
+        "h": 74,
+        "w": 150,
+        "x": 154,
+        "y": 505
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 90,
+        "w": 156
+      },
+      "spriteSourceSize": {
+        "h": 74,
+        "w": 150,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_anteater_walk_c.png": {
+      "frame": {
+        "h": 74,
+        "w": 150,
+        "x": 2,
+        "y": 542
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 74,
+        "w": 156
+      },
+      "spriteSourceSize": {
+        "h": 74,
+        "w": 150,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_anteater_walk_d.png": {
+      "frame": {
+        "h": 74,
+        "w": 150,
+        "x": 306,
+        "y": 505
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 90,
+        "w": 156
+      },
+      "spriteSourceSize": {
+        "h": 74,
+        "w": 150,
+        "x": 0,
+        "y": 16
+      },
+      "trimmed": true
+    },
     "tiles_gameover_art.png": {
       "frame": {
         "h": 158,
         "w": 196,
-        "x": 2,
+        "x": 225,
         "y": 2
       },
       "rotated": false,
@@ -24,8 +264,8 @@
       "frame": {
         "h": 46,
         "w": 40,
-        "x": 2,
-        "y": 363
+        "x": 262,
+        "y": 353
       },
       "rotated": false,
       "sourceSize": {
@@ -43,8 +283,8 @@
     "tiles_grass_art_b.png": {
       "frame": {
         "h": 42,
-        "w": 40,
-        "x": 2,
+        "w": 39,
+        "x": 458,
         "y": 411
       },
       "rotated": false,
@@ -54,7 +294,7 @@
       },
       "spriteSourceSize": {
         "h": 42,
-        "w": 40,
+        "w": 39,
         "x": 0,
         "y": 0
       },
@@ -64,8 +304,8 @@
       "frame": {
         "h": 111,
         "w": 128,
-        "x": 339,
-        "y": 2
+        "x": 2,
+        "y": 164
       },
       "rotated": false,
       "sourceSize": {
@@ -84,8 +324,8 @@
       "frame": {
         "h": 111,
         "w": 128,
-        "x": 200,
-        "y": 2
+        "x": 2,
+        "y": 353
       },
       "rotated": false,
       "sourceSize": {
@@ -104,8 +344,8 @@
       "frame": {
         "h": 111,
         "w": 128,
-        "x": 339,
-        "y": 115
+        "x": 132,
+        "y": 353
       },
       "rotated": false,
       "sourceSize": {
@@ -125,7 +365,7 @@
         "h": 51,
         "w": 335,
         "x": 2,
-        "y": 162
+        "y": 300
       },
       "rotated": false,
       "sourceSize": {
@@ -142,10 +382,10 @@
     },
     "tiles_rock_art.png": {
       "frame": {
-        "h": 59,
-        "w": 60,
-        "x": 2,
-        "y": 228
+        "h": 58,
+        "w": 59,
+        "x": 436,
+        "y": 2
       },
       "rotated": false,
       "sourceSize": {
@@ -153,19 +393,39 @@
         "w": 60
       },
       "spriteSourceSize": {
-        "h": 59,
-        "w": 60,
+        "h": 58,
+        "w": 59,
         "x": 0,
         "y": 0
       },
       "trimmed": true
     },
+    "tiles_slot_tile_art.png": {
+      "frame": {
+        "h": 36,
+        "w": 36,
+        "x": 218,
+        "y": 466
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 36,
+        "w": 36
+      },
+      "spriteSourceSize": {
+        "h": 36,
+        "w": 36,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": false
+    },
     "tiles_snake_face_art.png": {
       "frame": {
         "h": 44,
         "w": 62,
-        "x": 200,
-        "y": 115
+        "x": 436,
+        "y": 62
       },
       "rotated": false,
       "sourceSize": {
@@ -184,8 +444,8 @@
       "frame": {
         "h": 38,
         "w": 62,
-        "x": 264,
-        "y": 115
+        "x": 436,
+        "y": 108
       },
       "rotated": false,
       "sourceSize": {
@@ -204,8 +464,8 @@
       "frame": {
         "h": 32,
         "w": 60,
-        "x": 2,
-        "y": 329
+        "x": 436,
+        "y": 188
       },
       "rotated": false,
       "sourceSize": {
@@ -224,8 +484,8 @@
       "frame": {
         "h": 36,
         "w": 62,
-        "x": 64,
-        "y": 228
+        "x": 154,
+        "y": 466
       },
       "rotated": false,
       "sourceSize": {
@@ -244,8 +504,8 @@
       "frame": {
         "h": 38,
         "w": 62,
-        "x": 2,
-        "y": 289
+        "x": 436,
+        "y": 148
       },
       "rotated": false,
       "sourceSize": {
@@ -264,8 +524,8 @@
       "frame": {
         "h": 36,
         "w": 36,
-        "x": 469,
-        "y": 2
+        "x": 414,
+        "y": 411
       },
       "rotated": false,
       "sourceSize": {
@@ -287,7 +547,7 @@
     "image": "tiles.png",
     "scale": "1",
     "size": {
-      "h": 512,
+      "h": 1024,
       "w": 512
     },
     "version": "1.0"

@@ -1,4 +1,16 @@
 <stuff>
+<frameReference name="ant_idle_art" file="tiles_ant_idle_art.png"></frameReference>
+<frameReference name="ant_walk_a_art" file="tiles_ant_walk_a_art.png"></frameReference>
+<frameReference name="ant_walk_b_art" file="tiles_ant_walk_b_art.png"></frameReference>
+<frameReference name="ant_walk_c_art" file="tiles_ant_walk_c_art.png"></frameReference>
+<frameReference name="anteater_eat_a" file="tiles_anteater_eat_a.png"></frameReference>
+<frameReference name="anteater_eat_b" file="tiles_anteater_eat_b.png"></frameReference>
+<frameReference name="anteater_eat_c" file="tiles_anteater_eat_c.png"></frameReference>
+<frameReference name="anteater_eat_d" file="tiles_anteater_eat_d.png"></frameReference>
+<frameReference name="anteater_walk_a" file="tiles_anteater_walk_a.png"></frameReference>
+<frameReference name="anteater_walk_b" file="tiles_anteater_walk_b.png"></frameReference>
+<frameReference name="anteater_walk_c" file="tiles_anteater_walk_c.png"></frameReference>
+<frameReference name="anteater_walk_d" file="tiles_anteater_walk_d.png"></frameReference>
 <frameReference name="gameover_art" file="tiles_gameover_art.png"></frameReference>
 <frameReference name="grass_art" file="tiles_grass_art.png"></frameReference>
 <frameReference name="grass_art_b" file="tiles_grass_art_b.png"></frameReference>
@@ -7,6 +19,7 @@
 <frameReference name="hex_tile_red" file="tiles_hex_tile_red.png"></frameReference>
 <frameReference name="logo_art" file="tiles_logo_art.png"></frameReference>
 <frameReference name="rock_art" file="tiles_rock_art.png"></frameReference>
+<frameReference name="slot_tile_art" file="tiles_slot_tile_art.png"></frameReference>
 <frameReference name="snake_face_art" file="tiles_snake_face_art.png"></frameReference>
 <frameReference name="snake_face_blink_bot" file="tiles_snake_face_blink_bot.png"></frameReference>
 <frameReference name="snake_face_blink_both" file="tiles_snake_face_blink_both.png"></frameReference>
@@ -23,6 +36,49 @@
 			<subsequence name="logo" posx="275" posy="60" angle="0" skewx="0" skewy="0" z="5" scalex="0.55" scaley="0.55" alpha="1" framespan="1"></subsequence>
 			<subsequence name="gameOver" posx="440" posy="90" angle="0" skewx="0" skewy="0" z="6" scalex="0.7" scaley="0.7" alpha="1" framespan="1"></subsequence>
 			<subsequence name="bonkStar" posx="60" posy="80" angle="0" skewx="0" skewy="0" z="7" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="ant" posx="173.17593" posy="126.76784" angle="0" skewx="0" skewy="0" z="8" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="slotTile" posx="290.99762" posy="110.13098" angle="0" skewx="0" skewy="0" z="9" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="anteater" posx="500" posy="48" angle="0" skewx="0" skewy="0" z="10" scalex="0.35" scaley="0.35" alpha="1" framespan="1"></subsequence>
+		</frame>
+	</sequence>
+	<sequence name="ant">
+		<frame num="1" label="idle">
+			<sprite type="ant_idle_art" spritename="tiles_ant_idle_art.png" instancename="body" posx="-1.7696428" posy="0" angle="0" scalex="1.8848214" scaley="1.6909928" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="2" label="walk">
+			<sprite type="ant_walk_a_art" spritename="tiles_ant_walk_a_art.png" instancename="body" posx="-2.3744922" posy="0" angle="0" scalex="2.187246" scaley="1.9408929" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="ant_walk_b_art" spritename="tiles_ant_walk_b_art.png" instancename="body" posx="-2.3483553" posy="0" angle="0" scalex="2.1741776" scaley="2.0138185" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="ant_walk_c_art" spritename="tiles_ant_walk_c_art.png" instancename="body" posx="-2.3020883" posy="0" angle="0" scalex="2.1510441" scaley="1.8739719" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="anteater">
+		<frame num="1" label="walk">
+			<sprite type="anteater_walk_a" spritename="tiles_anteater_walk_a.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="2">
+			<sprite type="anteater_walk_b" spritename="tiles_anteater_walk_b.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="anteater_walk_c" spritename="tiles_anteater_walk_c.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="anteater_walk_d" spritename="tiles_anteater_walk_d.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="5" label="eat">
+			<sprite type="anteater_eat_a" spritename="tiles_anteater_eat_a.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="6">
+			<sprite type="anteater_eat_b" spritename="tiles_anteater_eat_b.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="7">
+			<sprite type="anteater_eat_c" spritename="tiles_anteater_eat_c.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="8">
+			<sprite type="anteater_eat_d" spritename="tiles_anteater_eat_d.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="bonkStar">
@@ -67,39 +123,44 @@
 		</frame>
 	</sequence>
 	<sequence name="gameOver">
-		<frame num="1">
+		<frame num="1" label="idle">
 			<sprite type="gameover_art" spritename="tiles_gameover_art.png" instancename="art" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="grass">
-		<frame num="1">
+		<frame num="1" label="idle">
 			<sprite type="grass_art" spritename="tiles_grass_art.png" instancename="tuft" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="grassB">
-		<frame num="1">
+		<frame num="1" label="idle">
 			<sprite type="grass_art_b" spritename="tiles_grass_art_b.png" instancename="tuft" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="hexTile">
-		<frame num="1">
+		<frame num="1" label="green">
 			<sprite type="hex_tile_green" spritename="tiles_hex_tile_green.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
-		<frame num="2">
+		<frame num="2" label="red">
 			<sprite type="hex_tile_red" spritename="tiles_hex_tile_red.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
-		<frame num="3">
+		<frame num="3" label="blue">
 			<sprite type="hex_tile_blue" spritename="tiles_hex_tile_blue.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="logo">
-		<frame num="1">
+		<frame num="1" label="idle">
 			<sprite type="logo_art" spritename="tiles_logo_art.png" instancename="art" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="rock">
-		<frame num="1">
+		<frame num="1" label="idle">
 			<sprite type="rock_art" spritename="tiles_rock_art.png" instancename="rock" posx="0.4727478" posy="-0.017791748" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="slotTile">
+		<frame num="1" label="idle">
+			<sprite type="slot_tile_art" spritename="tiles_slot_tile_art.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="snakeFace">

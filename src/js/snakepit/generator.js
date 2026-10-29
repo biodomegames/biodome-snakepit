@@ -16,7 +16,7 @@ import {
 	simulateEscape,
 } from "./snake.js"
 
-const SNAKE_COLORS = [0x3ea860, 0xdc4646, 0x4678dc, 0xd4a017, 0x9b59b6, 0x1abc9c]
+export const SNAKE_COLORS = [0x3ea860, 0xdc4646, 0x4678dc, 0xd4a017, 0x9b59b6]
 
 /** Mulberry32 */
 export function makeRng(seed) {

@@ -27,5 +27,23 @@ xml = xml.replace(/<sequence name="bonkStar">([\s\S]*?)<\/sequence>/, (block) =>
 		return `<frame num="${num}">`
 	})
 })
+xml = xml.replace(/<sequence name="ant">([\s\S]*?)<\/sequence>/, (block) => {
+	let i = 0
+	const labels = ["idle", "walk", null, null]
+	return block.replace(/<frame num="(\d+)"(?: label="[^"]*")?>/g, (_, num) => {
+		const label = labels[i++]
+		if (label) return `<frame num="${num}" label="${label}">`
+		return `<frame num="${num}">`
+	})
+})
+xml = xml.replace(/<sequence name="anteater">([\s\S]*?)<\/sequence>/, (block) => {
+	let i = 0
+	const labels = ["walk", null, null, null, "eat", null, null, null]
+	return block.replace(/<frame num="(\d+)"(?: label="[^"]*")?>/g, (_, num) => {
+		const label = labels[i++]
+		if (label) return `<frame num="${num}" label="${label}">`
+		return `<frame num="${num}">`
+	})
+})
 fs.writeFileSync(xmlPath, xml)
 console.log("patched", xmlPath)
