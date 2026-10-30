@@ -10,8 +10,19 @@ import {
 	neighbor,
 } from "./hex.js"
 import { Easing, newTween } from "../dome/Tween.js"
+import { SLITHER_AMP, SLITHER_WAVE, wiggleTrail } from "./slitherWave.js"
 
 const TILE_SIZE = 36 // center → vertex in px
+
+/** Stable 0..1 values so neighboring hexes don't shift the same way. */
+function grassScatter(q, r) {
+	let n = Math.imul(q | 0, 0x9e3779b1) ^ Math.imul(r | 0, 0x85ebca6b)
+	n = Math.imul(n ^ (n >>> 16), 0x7feb352d)
+	n = Math.imul(n ^ (n >>> 15), 0x846ca68b)
+	n = (n ^ (n >>> 16)) >>> 0
+	const unit = (k) => ((Math.imul(n, k) >>> 0) % 10007) / 10007
+	return { u: unit(0x27d4eb2d), v: unit(0x165667b1), w: unit(0x9e3779b1), t: unit(0x85ebca6b) }
+}
 
 /**
  * Pixi view: hex board chrome + continuous snake strokes.
@@ -39,6 +50,8 @@ export class BoardView extends Container {
 		this.fxLayer = new Container()
 		this.dock = new AntDock({
 			getTube: () => this.hooks.getTube?.(),
+			onAntDied: () => this.hooks.onAntDied?.() === true,
+			onAntGameOver: () => this.hooks.onAntGameOver?.(),
 		})
 		this.addChild(this.boardLayer)
 		this.addChild(this.decorLayer)
@@ -246,34 +259,24 @@ export class BoardView extends Container {
 		return g
 	}
 
-	_makeGrassSprite(variant = 0, scale = 1) {
-		const clipName = variant === 1 ? "grassB" : "grass"
-		const texName = variant === 1 ? "tiles_grass_art_b.png" : "tiles_grass_art.png"
+	_makeGrassSprite(q = 0, r = 0, scale = 1) {
 		const tube = this.hooks.getTube?.()
 		if (tube?.getMovieClip) {
 			try {
-				const mc = tube.getMovieClip(clipName)
+				const mc = tube.getMovieClip("grass")
 				if (mc) {
 					mc.eventMode = "none"
 					mc.interactiveChildren = false
+					const frames = Math.max(1, mc.data?.length || 1)
+					const frame = Math.abs((q * 17 + r * 31) | 0) % frames
+					mc.setFrame(frame)
+					mc.stop?.()
 					mc.scale.set((this.hexSize * 0.85 * scale) / 40)
 					return mc
 				}
 			} catch {
 				/* fall through */
 			}
-		}
-		try {
-			const tex = Texture.from(texName)
-			if (tex?.width > 1) {
-				const spr = new Sprite(tex)
-				spr.anchor.set(0.5, 0.85)
-				spr.scale.set((this.hexSize * 1.05 * scale) / tex.width)
-				spr.eventMode = "none"
-				return spr
-			}
-		} catch {
-			/* fall through */
 		}
 		const g = new Graphics()
 		const h = this.hexSize * 0.45 * scale
@@ -288,17 +291,35 @@ export class BoardView extends Container {
 		return g
 	}
 
+	/**
+	 * Drop tufts that would sit on the screen the camera is showing right now.
+	 * Keeps grass at or above the top edge so the next pit doesn't blink tufts
+	 * into the current view before the pan.
+	 * @param {{ x: number, y: number, scale: number }} cam
+	 */
+	cullDecorOnScreen(cam) {
+		const scale = cam?.scale || 1
+		const topWorld = (0 - (cam?.y ?? 0)) / scale
+		const reach = this.hexSize * 0.75
+		for (const child of [...this.decorLayer.children]) {
+			const bottom = this.y + child.y + reach
+			if (bottom > topWorld) this.decorLayer.removeChild(child)
+		}
+	}
+
 	_rebuildDecor() {
 		this.decorLayer.removeChildren()
 		if (!this.session) return
+		const reach = this.hexSize * 1.05
 		for (const c of this.session.rimGrass || []) {
-			const scale = 0.75 + ((c.q * 11 + c.r * 19) & 7) * 0.04
-			const grass = this._makeGrassSprite(c.variant ?? 0, scale)
+			const scatter = grassScatter(c.q, c.r)
+			const scale = 0.7 + scatter.w * 0.55
+			const grass = this._makeGrassSprite(c.q, c.r, scale)
 			const p = hexToPixel(c, this.hexSize)
-			const jitter = ((c.q * 3 + c.r * 5) % 5) - 2
-			grass.position.set(p.x + jitter, p.y + 4)
-			grass.rotation = ((((c.q + c.r) % 5) - 2) * Math.PI) / 36
-			grass.alpha = 0.9
+			grass.position.set(p.x + (scatter.u * 2 - 1) * reach, p.y + (scatter.v * 2 - 1) * reach)
+			grass.rotation = (scatter.t * 2 - 1) * 0.85
+			if (scatter.u < 0.5) grass.scale.x *= -1
+			grass.alpha = 0.82 + scatter.w * 0.18
 			this.decorLayer.addChild(grass)
 		}
 	}
@@ -586,7 +607,7 @@ export class BoardView extends Container {
 	 * Draw snake as a fixed-length window sliding along the from→to track.
 	 * t=0 at `from` pose, t=1 at `to` pose (works forward and backward).
 	 */
-	_paintSlide(g, face, fromCells, toCells, dir, color, t, alpha = 1) {
+	_paintSlide(g, face, fromCells, toCells, dir, color, t, alpha = 1, slither = null) {
 		const cornerR = this._cornerRadius()
 		const forward = this._isForwardStep(fromCells, toCells, dir)
 		const rear = forward ? fromCells : toCells
@@ -604,7 +625,16 @@ export class BoardView extends Container {
 		// Tip of track = front head. Rear pose sits at startDist=travel.
 		const startDist = forward ? (1 - t) * travel : t * travel
 		const slice = this._sliceArc(trackDense, trackCum, startDist, bodyLen || trackLen)
-		this._paintPolyline(g, face, slice.pts, slice.headAng, color, alpha)
+		let pts = slice.pts
+		let headAng = slice.headAng
+		if (slither && slither.amp > 0.5) {
+			const waved = wiggleTrail(pts, slither.amp, slither.phase, this.hexSize)
+			if (waved) {
+				pts = waved.pts
+				headAng = waved.headAng
+			}
+		}
+		this._paintPolyline(g, face, pts, headAng, color, alpha)
 	}
 
 	pixelToHex(local) {
@@ -745,6 +775,20 @@ export class BoardView extends Container {
 			this.animatingIds.add(snake.id)
 			const { root, g, face } = entry
 			const stepDur = opts.bump ? 0.09 : 0.1
+			const stepPx = this.hexSize * Math.sqrt(3)
+			const wave = this.hexSize * SLITHER_WAVE
+			const ampFull = this.hexSize * SLITHER_AMP
+			const phase0 = snake.id * 1.7
+			const endU = Math.max(0, steps.length - 1)
+			const slitherAt = (u) => {
+				const fade = Math.min(0.45, Math.max(0.28, endU * 0.34))
+				const inn = Math.min(1, Math.max(0, u) / fade)
+				const out = Math.min(1, Math.max(0, endU - u) / fade)
+				return {
+					amp: ampFull * inn * out,
+					phase: phase0 + ((u * stepPx) / wave) * Math.PI * 2,
+				}
+			}
 
 			const showCells = (cells) => {
 				this._paintSnake(g, face, cells, snake.dir, snake.color, 1)
@@ -756,19 +800,34 @@ export class BoardView extends Container {
 				const clamped = Math.max(0, Math.min(u, maxU))
 				const i = Math.min(Math.floor(clamped), steps.length - 2)
 				const f = clamped - i
-				this._paintSlide(g, face, steps[i], steps[i + 1], snake.dir, snake.color, f)
+				this._paintSlide(
+					g,
+					face,
+					steps[i],
+					steps[i + 1],
+					snake.dir,
+					snake.color,
+					f,
+					1,
+					slitherAt(clamped),
+				)
 			}
 
 			const tweenSlide = (from, to, dur, t0 = 0, t1 = 1, ease = Easing.inOutQuad) =>
 				new Promise((done) => {
 					const proxy = { t: t0 }
+					const paintT = (t) => {
+						const span = Math.abs(t1 - t0) || 1
+						const k = Math.abs(t - t0) / span
+						const amp = ampFull * Math.sin(Math.PI * Math.min(1, Math.max(0, k))) * 0.7
+						const phase = phase0 + ((t * stepPx) / wave) * Math.PI * 2
+						this._paintSlide(g, face, from, to, snake.dir, snake.color, t, 1, { amp, phase })
+					}
 					newTween(proxy, { t: t1 }, dur)
 						.ease(ease)
-						.onUpdate(() =>
-							this._paintSlide(g, face, from, to, snake.dir, snake.color, proxy.t),
-						)
+						.onUpdate(() => paintT(proxy.t))
 						.onDone(() => {
-							this._paintSlide(g, face, from, to, snake.dir, snake.color, t1)
+							paintT(t1)
 							done()
 						})
 				})
@@ -815,7 +874,6 @@ export class BoardView extends Container {
 					return
 				}
 
-				const endU = steps.length - 1
 				// First hex: ease out into motion.
 				await tweenProgress(0, Math.min(1, endU), stepDur * 1.15, Easing.outQuad)
 				// Remainder: constant speed (no per-step ease), feels continuous.

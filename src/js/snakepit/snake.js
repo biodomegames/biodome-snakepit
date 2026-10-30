@@ -179,3 +179,75 @@ export function findSnakeAt(snakes, hex) {
 	}
 	return null
 }
+
+/** Parked snakes at once. Half the pit, never more than this. */
+export const MAX_LANES = 7
+
+export function laneCountForSnakes(snakeCount) {
+	const n = Math.max(0, snakeCount | 0)
+	return Math.min(MAX_LANES, Math.max(1, Math.floor(n / 2)))
+}
+
+/**
+ * Ant colors for a clear that does not leave ants behind.
+ * Snakes exit in simulated solution order, at most {@link MAX_LANES} parked at once.
+ * Each parked snake is filled from the front of the queue before the next one,
+ * so index 0 is the first ant that should board.
+ * @param {BoardRef} board
+ * @param {Hex[]} [rocks]
+ * @returns {number[]}
+ */
+export function solutionAntColors(snakes, board, rocks = []) {
+	/** @type {Map<number, number>} */
+	const caps = new Map()
+	const test = snakes.map((s) => {
+		const cap = Math.max(1, s.cells?.length ?? 1)
+		caps.set(s.id, cap)
+		return {
+			id: s.id,
+			color: s.color,
+			dir: s.dir,
+			cells: (s.cells || []).map((c) => ({ q: c.q, r: c.r })),
+			escaped: false,
+		}
+	})
+	const laneCount = laneCountForSnakes(test.length)
+	/** @type {{ id: number, color: number, need: number }[]} */
+	const parked = []
+	/** @type {number[]} */
+	const colors = []
+
+	const escapable = () =>
+		test.filter((s) => !s.escaped && s.cells.length && simulateEscape(s, test, board, rocks).ok)
+
+	let guard = test.length * 8 + 4
+	while (guard-- > 0 && (test.some((s) => !s.escaped) || parked.length)) {
+		if (parked.length < laneCount) {
+			const ready = escapable()
+			if (ready.length) {
+				// Highest id is the snake the generator placed last, which is the intended next exit.
+				ready.sort((a, b) => b.id - a.id)
+				const next = ready[0]
+				next.escaped = true
+				next.cells = []
+				parked.push({ id: next.id, color: next.color, need: caps.get(next.id) ?? 1 })
+				continue
+			}
+		}
+		if (!parked.length) break
+		const snake = parked[0]
+		colors.push(snake.color)
+		snake.need--
+		if (snake.need <= 0) parked.shift()
+	}
+
+	for (const s of test) {
+		if (s.escaped) continue
+		const need = caps.get(s.id) ?? 1
+		for (let i = 0; i < need; i++) colors.push(s.color)
+	}
+	for (const s of parked) {
+		for (let i = 0; i < s.need; i++) colors.push(s.color)
+	}
+	return colors
+}

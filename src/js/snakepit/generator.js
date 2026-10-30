@@ -283,7 +283,7 @@ function pickRimGrass(board, rimRocks, rng) {
 	const rad = board.radius
 	/** @type {{ q: number, r: number }[]} */
 	const pool = []
-	for (let r = rad + 1; r <= rad + 10; r++) {
+	for (let r = rad + 1; r <= rad + 14; r++) {
 		for (const c of hexRing(r)) {
 			if (used.has(hexKey(c)) || board.has(c)) continue
 			pool.push(c)
@@ -292,7 +292,7 @@ function pickRimGrass(board, rimRocks, rng) {
 	return shuffle(rng, pool)
 		.filter((c) => {
 			const d = hexDistance(c, { q: 0, r: 0 }) - rad
-			const density = d <= 2 ? 0.55 : d <= 4 ? 0.35 : d <= 7 ? 0.2 : 0.1
+			const density = d <= 2 ? 0.92 : d <= 5 ? 0.72 : d <= 9 ? 0.48 : 0.28
 			return rng() < density
 		})
 		.map((c) => ({

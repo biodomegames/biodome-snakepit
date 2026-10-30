@@ -8,10 +8,10 @@ export const MAX_PIT_TILES = 55
 
 export function tileCountForLevel(levelIndex) {
 	const level = Math.max(1, levelIndex | 0)
-	// 7, 10, 13, 16, 19, 23, 27, 32, 37, 42, 48, 55...
-	const base = 7 + (level - 1) * 3
-	const bump = level >= 6 ? Math.floor((level - 5) * 0.6) : 0
-	return Math.min(MAX_PIT_TILES, base + bump)
+	// 7, 13, 20, 28, 37, 47, 55… — grows faster than a flat +3 per level.
+	const step = (level - 1) * 6
+	const curve = Math.floor((level - 1) * (level - 2) * 0.5)
+	return Math.min(MAX_PIT_TILES, 7 + step + curve)
 }
 
 /**

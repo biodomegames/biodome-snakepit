@@ -1,5 +1,25 @@
 {
   "frames": {
+    "tiles_ant_dead_art.png": {
+      "frame": {
+        "h": 11,
+        "w": 49,
+        "x": 458,
+        "y": 455
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 11,
+        "w": 54
+      },
+      "spriteSourceSize": {
+        "h": 11,
+        "w": 49,
+        "x": 5,
+        "y": 0
+      },
+      "trimmed": true
+    },
     "tiles_ant_idle_art.png": {
       "frame": {
         "h": 24,

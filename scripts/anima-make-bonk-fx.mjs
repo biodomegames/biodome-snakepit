@@ -30,7 +30,6 @@ const STAGE_KEEP = [
 	["snakeFace", 120, 320, 1],
 	["rock", 420, 320, 1],
 	["grass", 60, 200, 1],
-	["grassB", 160, 200, 1],
 	["logo", 275, 60, 0.55],
 	["gameOver", 440, 90, 0.7],
 	["bonkStar", 60, 80, 1],

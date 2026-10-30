@@ -6,6 +6,9 @@ import { shouldUseIOSViewportFixes } from './cordovahelpers.js';
 // managing the main loop
 export var mainApp = undefined
 
+/** Ground behind the pit. Edit this hex to change the field color. */
+const GROUND_COLOR = "#2f7d45"
+
 var scaleConfiguration = {
 	gameWidth: 1024,// * 2 / window.devicePixelRatio,
 	gameHeight: 768// * 2 / window.devicePixelRatio,  
@@ -44,7 +47,7 @@ export const mainPixi = {
 		let initHeight = window.innerHeight || 667;
 
 		app.init({ 
-            background: '#165672', 
+            background: GROUND_COLOR, 
 			
 			// Let our own refreshGameSize control sizing to avoid iOS timing issues
             autoDensity: true, 

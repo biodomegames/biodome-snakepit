@@ -22,7 +22,6 @@ const STAGE_KEEP = [
 	["snakeFace", 120, 320, 1],
 	["rock", 420, 320, 1],
 	["grass", 60, 200, 1],
-	["grassB", 160, 200, 1],
 	["logo", 275, 60, 0.55],
 	["gameOver", 440, 90, 0.7],
 	["bonkStar", 60, 80, 1],
@@ -109,6 +108,18 @@ async function drawAnt(phase = 0) {
 	}
 }
 
+/** Flat splat. Same drawing space as drawAnt, already squashed. */
+async function drawDeadAnt() {
+	await oval({ x: -22, y: -3.2 }, { x: 16, y: 3.2 }, WHITE)
+	await oval({ x: 14, y: -2.6 }, { x: 24, y: 2.6 }, WHITE)
+	await rect({ x: 18, y: -5.5 }, { x: 27, y: -4 }, WHITE_DIM)
+	await rect({ x: 18, y: 4 }, { x: 27, y: 5.5 }, WHITE_DIM)
+	await rect({ x: -18, y: 2.4 }, { x: -6, y: 4.2 }, WHITE)
+	await rect({ x: -10, y: -4.2 }, { x: 2, y: -2.4 }, WHITE)
+	await rect({ x: 0, y: 2.4 }, { x: 12, y: 4.2 }, WHITE)
+	await rect({ x: 6, y: -4.2 }, { x: 16, y: -2.4 }, WHITE)
+}
+
 async function drawSlotTile() {
 	await rect({ x: -18, y: -18 }, { x: 18, y: 18 }, SLOT_EDGE)
 	await rect({ x: -15, y: -15 }, { x: 15, y: 15 }, SLOT_FILL)
@@ -152,7 +163,7 @@ async function rebuildSlotTile() {
 async function rebuildAnt() {
 	let library = await call({ op: "list_library" })
 	let byName = libByName(library)
-	const names = ["ant", "ant_idle_art", "ant_walk_a_art", "ant_walk_b_art", "ant_walk_c_art"]
+	const names = ["ant", "ant_idle_art", "ant_walk_a_art", "ant_walk_b_art", "ant_walk_c_art", "ant_dead_art"]
 	for (const name of names) {
 		if (byName[name]) {
 			await call({ op: "delete_library_symbol", symbol_id: byName[name].id })
@@ -161,16 +172,18 @@ async function rebuildAnt() {
 	}
 
 	const phases = [
-		{ sprite: "ant_idle_art", phase: 0.5, label: "idle" },
-		{ sprite: "ant_walk_a_art", phase: 0.15, label: "walk" },
-		{ sprite: "ant_walk_b_art", phase: 0.5, label: null },
-		{ sprite: "ant_walk_c_art", phase: 0.85, label: null },
+		{ sprite: "ant_idle_art", phase: 0.5, label: "idle", dead: false },
+		{ sprite: "ant_walk_a_art", phase: 0.15, label: "walk", dead: false },
+		{ sprite: "ant_walk_b_art", phase: 0.5, label: null, dead: false },
+		{ sprite: "ant_walk_c_art", phase: 0.85, label: null, dead: false },
+		{ sprite: "ant_dead_art", phase: 0, label: "dead", dead: true },
 	]
 	const sprIds = []
 	for (const p of phases) {
 		const spr = await call({ op: "create_symbol", name: p.sprite, kind: "sprite" })
 		await call({ op: "enter_symbol_edit", symbol_id: spr.symbol_id })
-		await drawAnt(p.phase)
+		if (p.dead) await drawDeadAnt()
+		else await drawAnt(p.phase)
 		await call({ op: "exit_symbol_edit" })
 		sprIds.push({ ...p, id: spr.symbol_id })
 		console.log("sprite", p.sprite, spr.symbol_id)
@@ -252,10 +265,14 @@ function patchTubeLabels() {
 		})
 	})
 	xml = xml.replace(/<sequence name="ant">([\s\S]*?)<\/sequence>/, (block) => {
+		const frameCount = [...block.matchAll(/<frame num="(\d+)"/g)].length
 		let i = 0
-		const labels = ["idle", "walk", null, null]
 		return block.replace(/<frame num="(\d+)"(?: label="[^"]*")?>/g, (_, num) => {
-			const label = labels[i++]
+			const idx = i++
+			let label = null
+			if (idx === 0) label = "idle"
+			else if (idx === 1) label = "walk"
+			else if (idx === frameCount - 1 && frameCount >= 5) label = "dead"
 			if (label) return `<frame num="${num}" label="${label}">`
 			return `<frame num="${num}">`
 		})

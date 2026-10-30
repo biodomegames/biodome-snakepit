@@ -1,4 +1,5 @@
 <stuff>
+<frameReference name="ant_dead_art" file="tiles_ant_dead_art.png"></frameReference>
 <frameReference name="ant_idle_art" file="tiles_ant_idle_art.png"></frameReference>
 <frameReference name="ant_walk_a_art" file="tiles_ant_walk_a_art.png"></frameReference>
 <frameReference name="ant_walk_b_art" file="tiles_ant_walk_b_art.png"></frameReference>
@@ -32,13 +33,12 @@
 			<subsequence name="snakeFace" posx="120" posy="320" angle="0" skewx="0" skewy="0" z="1" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
 			<subsequence name="rock" posx="420" posy="320" angle="0" skewx="0" skewy="0" z="2" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
 			<subsequence name="grass" posx="60" posy="200" angle="0" skewx="0" skewy="0" z="3" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="grassB" posx="160" posy="200" angle="0" skewx="0" skewy="0" z="4" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="logo" posx="275" posy="60" angle="0" skewx="0" skewy="0" z="5" scalex="0.55" scaley="0.55" alpha="1" framespan="1"></subsequence>
-			<subsequence name="gameOver" posx="440" posy="90" angle="0" skewx="0" skewy="0" z="6" scalex="0.7" scaley="0.7" alpha="1" framespan="1"></subsequence>
-			<subsequence name="bonkStar" posx="60" posy="80" angle="0" skewx="0" skewy="0" z="7" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="ant" posx="173.17593" posy="126.76784" angle="0" skewx="0" skewy="0" z="8" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="slotTile" posx="290.99762" posy="110.13098" angle="0" skewx="0" skewy="0" z="9" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="anteater" posx="500" posy="48" angle="0" skewx="0" skewy="0" z="10" scalex="0.35" scaley="0.35" alpha="1" framespan="1"></subsequence>
+			<subsequence name="logo" posx="275" posy="60" angle="0" skewx="0" skewy="0" z="4" scalex="0.55" scaley="0.55" alpha="1" framespan="1"></subsequence>
+			<subsequence name="gameOver" posx="440" posy="90" angle="0" skewx="0" skewy="0" z="5" scalex="0.7" scaley="0.7" alpha="1" framespan="1"></subsequence>
+			<subsequence name="bonkStar" posx="60" posy="80" angle="0" skewx="0" skewy="0" z="6" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="ant" posx="173.17593" posy="126.76784" angle="0" skewx="0" skewy="0" z="7" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="slotTile" posx="290.99762" posy="110.13098" angle="0" skewx="0" skewy="0" z="8" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="anteater" posx="485.23227" posy="212.8841" angle="0" skewx="0" skewy="0" z="9" scalex="0.35" scaley="0.35" alpha="1" framespan="1"></subsequence>
 		</frame>
 	</sequence>
 	<sequence name="ant">
@@ -53,6 +53,9 @@
 		</frame>
 		<frame num="4">
 			<sprite type="ant_walk_c_art" spritename="tiles_ant_walk_c_art.png" instancename="body" posx="-2.3020883" posy="0" angle="0" scalex="2.1510441" scaley="1.8739719" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="5" label="dead">
+			<sprite type="ant_dead_art" spritename="tiles_ant_dead_art.png" instancename="body" posx="-1.7696428" posy="0" angle="0" scalex="1.75" scaley="1.15" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="anteater">
@@ -128,12 +131,10 @@
 		</frame>
 	</sequence>
 	<sequence name="grass">
-		<frame num="1" label="idle">
+		<frame num="1">
 			<sprite type="grass_art" spritename="tiles_grass_art.png" instancename="tuft" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
-	</sequence>
-	<sequence name="grassB">
-		<frame num="1" label="idle">
+		<frame num="2">
 			<sprite type="grass_art_b" spritename="tiles_grass_art_b.png" instancename="tuft" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>

@@ -28,10 +28,14 @@ xml = xml.replace(/<sequence name="bonkStar">([\s\S]*?)<\/sequence>/, (block) =>
 	})
 })
 xml = xml.replace(/<sequence name="ant">([\s\S]*?)<\/sequence>/, (block) => {
+	const frameCount = [...block.matchAll(/<frame num="(\d+)"/g)].length
 	let i = 0
-	const labels = ["idle", "walk", null, null]
 	return block.replace(/<frame num="(\d+)"(?: label="[^"]*")?>/g, (_, num) => {
-		const label = labels[i++]
+		const idx = i++
+		let label = null
+		if (idx === 0) label = "idle"
+		else if (idx === 1) label = "walk"
+		else if (idx === frameCount - 1 && frameCount >= 5) label = "dead"
 		if (label) return `<frame num="${num}" label="${label}">`
 		return `<frame num="${num}">`
 	})

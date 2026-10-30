@@ -10,9 +10,14 @@ import {
 } from "./snakepit/progress.js"
 import { Easing, newTween } from "./dome/Tween.js"
 
-const MAX_BONKS = 3
 /** After game over, resume around this pit (or level 1 if not there yet). */
 const RESTART_LEVEL = 3
+
+/** Deaths that end the level: 10% of that level's ants, rounded up. */
+function antDeathLimit(total) {
+	if (total <= 0) return Infinity
+	return Math.ceil(total / 10)
+}
 
 /**
  * Snakepit play session: hex snake-escape board + HUD + pit progression.
@@ -81,7 +86,8 @@ export class Game extends Container {
 		this.transitioning = false
 		this._awaitingDockClear = false
 		this.gameOver = false
-		this.bonkCount = 0
+		this.deadAnts = 0
+		this.antTotal = 0
 		/** @type {import('./dome/movieclip.js').MovieClip | null} */
 		this.gameOverSign = null
 		/** @type {Container | null} */
@@ -101,7 +107,6 @@ export class Game extends Container {
 	start() {
 		const prog = loadProgress()
 		this.levelIndex = prog.level
-		this.bonkCount = 0
 		this.gameOver = false
 		this._clearGameOverUi()
 		this._clearWorld()
@@ -115,7 +120,6 @@ export class Game extends Container {
 	resetProgressAndRestart() {
 		const prog = resetProgress()
 		this.levelIndex = prog.level
-		this.bonkCount = 0
 		this.gameOver = false
 		this._clearGameOverUi()
 		this._clearWorld()
@@ -243,8 +247,12 @@ export class Game extends Container {
 		const view = new BoardView({
 			getTube: () => window.alltubes?.tiles,
 			onSnakeClick: (id) => this._onSnakeClick(id),
+			onAntDied: () => this._onAntDied(),
+			onAntGameOver: () => this._triggerGameOver(this.activePit),
 		})
 		view.setSession(session)
+		this.deadAnts = 0
+		this.antTotal = view.dock.ants.length
 		const bounds = view.boardPixelSize()
 		view.position.set(-bounds.cx, worldY - bounds.cy)
 		this.world.addChild(view)
@@ -362,14 +370,17 @@ export class Game extends Container {
 		}
 
 		session.beginMove(snakeId)
-		this.bonkCount++
-		this._refreshHud()
 		await view.playSteps(result.snake, result.steps, { bump: true })
 		session.endMove(snakeId)
 		this._refreshHud()
-		if (this.bonkCount >= MAX_BONKS && !this.gameOver) {
-			await this._triggerGameOver(pit)
-		}
+	}
+
+	/** @returns {boolean} true when this death reaches 10% of the level's ants */
+	_onAntDied() {
+		if (this.gameOver) return false
+		this.deadAnts++
+		this._refreshHud()
+		return this.deadAnts >= antDeathLimit(this.antTotal)
 	}
 
 	_clearGameOverUi() {
@@ -389,7 +400,7 @@ export class Game extends Container {
 		this.transitioning = true
 		pit.view.eventMode = "none"
 		pit.view.interactiveChildren = false
-		this.hintText.text = "Too many bonks — game over!"
+		this.hintText.text = "Too many ants died — game over!"
 
 		const tube = window.alltubes?.tiles
 		const sign = tube?.getMovieClip?.("gameOver")
@@ -462,7 +473,6 @@ export class Game extends Container {
 		const restartLevel = this.levelIndex >= RESTART_LEVEL ? RESTART_LEVEL : 1
 		const seed = (Math.floor(Math.random() * 0xffffffff) >>> 0)
 		this.levelIndex = restartLevel
-		this.bonkCount = 0
 		this.gameOver = false
 		this.transitioning = false
 		this._clearGameOverUi()
@@ -503,7 +513,6 @@ export class Game extends Container {
 		if (this.transitioning || this.gameOver || !prev) return
 		if (this.activePit !== prev) return
 		this.transitioning = true
-		this.bonkCount = 0
 		prev.view.eventMode = "none"
 		prev.view.interactiveChildren = false
 		this.hintText.text = "Pit cleared — climbing to the next one…"
@@ -524,6 +533,7 @@ export class Game extends Container {
 		const preciseY = prevTop - gap - nextBottomExtent
 		next.worldY = preciseY
 		next.view.position.set(-nextPit.cx, preciseY - nextPit.cy)
+		next.view.cullDecorOnScreen(this.cam)
 
 		await this._focusActivePit(true)
 		if (this.pitStack.length > 2) {
@@ -542,13 +552,14 @@ export class Game extends Container {
 		if (!session) return
 		const left = session.remaining()
 		const total = session.total()
-		const bonksLeft = Math.max(0, MAX_BONKS - this.bonkCount)
+		const limit = antDeathLimit(this.antTotal)
+		const deadNote = Number.isFinite(limit) ? `${this.deadAnts}/${limit} ants dead` : ""
 		if (this.gameOver) {
 			this.statusText.text = `Game over  ·  Level ${this.levelIndex}`
 		} else if (session.isWon()) {
 			this.statusText.text = `Level ${this.levelIndex} cleared!`
 		} else {
-			this.statusText.text = `Level ${this.levelIndex}  ·  ${total - left}/${total} escaped  ·  ${bonksLeft} bonk${bonksLeft === 1 ? "" : "s"} left`
+			this.statusText.text = `Level ${this.levelIndex}  ·  ${total - left}/${total} escaped  ·  ${deadNote}`
 		}
 	}
 
