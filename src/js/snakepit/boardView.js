@@ -11,6 +11,8 @@ import {
 } from "./hex.js"
 import { Easing, newTween } from "../dome/Tween.js"
 import { SLITHER_AMP, SLITHER_WAVE, wiggleTrail } from "./slitherWave.js"
+import { paintSnakeBody } from "./snakeDraw.js"
+import * as sfx from "./sfx.js"
 
 const TILE_SIZE = 36 // center → vertex in px
 
@@ -45,7 +47,7 @@ export class BoardView extends Container {
 		this._boardKeys = new Set()
 		this.boardLayer = new Container()
 		this.decorLayer = new Container()
-		this.rockLayer = new Container()
+		this.decorLayer.sortableChildren = true
 		this.snakeLayer = new Container()
 		this.fxLayer = new Container()
 		this.dock = new AntDock({
@@ -55,7 +57,6 @@ export class BoardView extends Container {
 		})
 		this.addChild(this.boardLayer)
 		this.addChild(this.decorLayer)
-		this.addChild(this.rockLayer)
 		this.addChild(this.snakeLayer)
 		this.addChild(this.fxLayer)
 		this.addChild(this.dock)
@@ -181,6 +182,7 @@ export class BoardView extends Container {
 		this.boardCells = session.boardCells || session.board?.cells || []
 		this._boardKeys = new Set(this.boardCells.map(hexKey))
 		this._rebuildBoard()
+		this.dock.setup(session, this.boardPixelSize(), this.hexSize)
 		this._rebuildDecor()
 		this._rebuildRocks()
 		this.redrawSnakes()
@@ -212,7 +214,7 @@ export class BoardView extends Container {
 				cell = this._drawHexCell(0x2a4a3a, 0x1a2e24)
 			}
 			cell.position.set(p.x, p.y)
-			cell.alpha = 0.5
+			cell.alpha = 1
 			this.boardLayer.addChild(cell)
 		}
 
@@ -221,7 +223,7 @@ export class BoardView extends Container {
 		}
 	}
 
-	_makeRockSprite(scale = 1) {
+	_makeRockSprite(scale = 1, q = 0, r = 0) {
 		const tube = this.hooks.getTube?.()
 		if (tube?.getMovieClip) {
 			try {
@@ -229,7 +231,11 @@ export class BoardView extends Container {
 				if (mc) {
 					mc.eventMode = "none"
 					mc.interactiveChildren = false
-					mc.scale.set((this.hexSize * 0.95 * scale) / 56)
+					const frames = Math.max(1, mc.data?.length || 1)
+					mc.setFrame(Math.abs((q * 13 + r * 29) | 0) % frames)
+					mc.stop?.()
+					const s = (this.hexSize * 0.95 * scale) / 56
+					mc.scale.set(((q * 7 + r * 11) & 1) === 0 ? -s : s, s)
 					return mc
 				}
 			} catch {
@@ -271,7 +277,7 @@ export class BoardView extends Container {
 					const frame = Math.abs((q * 17 + r * 31) | 0) % frames
 					mc.setFrame(frame)
 					mc.stop?.()
-					mc.scale.set((this.hexSize * 0.85 * scale) / 40)
+					mc.scale.set((this.hexSize * 1.7 * scale) / 40)
 					return mc
 				}
 			} catch {
@@ -302,6 +308,7 @@ export class BoardView extends Container {
 		const topWorld = (0 - (cam?.y ?? 0)) / scale
 		const reach = this.hexSize * 0.75
 		for (const child of [...this.decorLayer.children]) {
+			if (child.isRock) continue
 			const bottom = this.y + child.y + reach
 			if (bottom > topWorld) this.decorLayer.removeChild(child)
 		}
@@ -311,13 +318,26 @@ export class BoardView extends Container {
 		this.decorLayer.removeChildren()
 		if (!this.session) return
 		const reach = this.hexSize * 1.05
+		const lanes = this.dock?.layoutBox
+		const lanePad = this.hexSize * 0.85
 		for (const c of this.session.rimGrass || []) {
 			const scatter = grassScatter(c.q, c.r)
+			const p = hexToPixel(c, this.hexSize)
+			const x = p.x + (scatter.u * 2 - 1) * reach
+			const y = p.y + (scatter.v * 2 - 1) * reach
+			if (
+				lanes &&
+				x >= lanes.minX - lanePad &&
+				x <= lanes.maxX + lanePad &&
+				y >= lanes.minY - lanePad &&
+				y <= lanes.maxY + lanePad
+			) {
+				continue
+			}
 			const scale = 0.7 + scatter.w * 0.55
 			const grass = this._makeGrassSprite(c.q, c.r, scale)
-			const p = hexToPixel(c, this.hexSize)
-			grass.position.set(p.x + (scatter.u * 2 - 1) * reach, p.y + (scatter.v * 2 - 1) * reach)
-			grass.rotation = (scatter.t * 2 - 1) * 0.85
+			grass.position.set(x, y)
+			grass.zIndex = y
 			if (scatter.u < 0.5) grass.scale.x *= -1
 			grass.alpha = 0.82 + scatter.w * 0.18
 			this.decorLayer.addChild(grass)
@@ -325,22 +345,28 @@ export class BoardView extends Container {
 	}
 
 	_rebuildRocks() {
-		this.rockLayer.removeChildren()
+		for (const child of [...this.decorLayer.children]) {
+			if (child.isRock) this.decorLayer.removeChild(child)
+		}
 		if (!this.session) return
 		const interior = this.session.rocks || []
 		const rim = this.session.rimRocks || []
 		for (const c of interior) {
-			const rock = this._makeRockSprite(1)
+			const rock = this._makeRockSprite(1, c.q, c.r)
 			const p = hexToPixel(c, this.hexSize)
 			rock.position.set(p.x, p.y)
-			this.rockLayer.addChild(rock)
+			rock.zIndex = p.y
+			rock.isRock = true
+			this.decorLayer.addChild(rock)
 		}
 		for (const c of rim) {
-			const rock = this._makeRockSprite(0.85 + ((c.q * 17 + c.r * 13) & 7) * 0.03)
+			const rock = this._makeRockSprite(0.85 + ((c.q * 17 + c.r * 13) & 7) * 0.03, c.q, c.r)
 			const p = hexToPixel(c, this.hexSize)
 			rock.position.set(p.x, p.y)
+			rock.zIndex = p.y
+			rock.isRock = true
 			rock.alpha = 0.92
-			this.rockLayer.addChild(rock)
+			this.decorLayer.addChild(rock)
 		}
 	}
 
@@ -563,29 +589,11 @@ export class BoardView extends Container {
 			if (face) face.visible = false
 			return
 		}
-		const thickness = this.hexSize * 0.72
-		const head = pathPts[0]
-
-		if (pathPts.length === 1) {
-			g.circle(head.x, head.y, thickness * 0.48)
-			g.fill({ color, alpha })
-		} else {
-			g.moveTo(pathPts[0].x, pathPts[0].y)
-			for (let i = 1; i < pathPts.length; i++) g.lineTo(pathPts[i].x, pathPts[i].y)
-			g.stroke({
-				width: thickness,
-				color,
-				alpha,
-				cap: "round",
-				join: "round",
-			})
-			g.circle(head.x, head.y, thickness * 0.48)
-			g.fill({ color, alpha })
-		}
-
+		paintSnakeBody(g, pathPts, { color, thickness: this.hexSize * 0.72, alpha })
 		if (face) {
 			face.visible = true
 			face.alpha = alpha
+			const head = pathPts[0]
 			face.position.set(head.x, head.y)
 			face.rotation = headAng
 		}
@@ -862,10 +870,12 @@ export class BoardView extends Container {
 						const peak = 0.42
 						await tweenSlide(tip, into, stepDur * 0.75, 0, peak)
 						// Bonk reaction at impact peak.
+						sfx.play("bonk")
 						const bonkFx = this.playBonkFx(snake.id)
 						await tweenSlide(tip, into, stepDur * 0.75, peak, 0)
 						await bonkFx
 					}
+					sfx.play("slideBack")
 					for (let i = steps.length - 1; i > 0; i--) {
 						await tweenSlide(steps[i], steps[i - 1], stepDur * 0.9)
 					}

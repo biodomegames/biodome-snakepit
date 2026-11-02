@@ -5,6 +5,7 @@ import { ComponentTypes } from './ui_componenttypes.js';
 import { Button } from '@pixi/ui';
 import { Graphics } from 'pixi.js';
 import { Howl } from 'howler';
+import { soundSrcList } from './ui_sounds.js';
 import { Sprite } from 'pixi.js';
 import { Texture } from 'pixi.js';
 import { Assets } from 'pixi.js';
@@ -310,33 +311,15 @@ export class UIButton extends Container
 
 		if (compDef.sound)
 		{
-			this.sounds = []
-			for (var s in compDef.sound)
-			{
-				this.sounds.push(new Howl({
-					src: compDef.sound[s]
-				  }));
-			}
+			this.sounds = soundSrcList(compDef.sound).map((src) => new Howl({ src }))
 		}
 		if (compDef.sounddown)
 		{
-			this.soundsdown = []
-			for (var s in compDef.sounddown)
-			{
-				this.soundsdown.push(new Howl({
-					src: compDef.sounddown[s]
-				  }));
-			}
+			this.soundsdown = soundSrcList(compDef.sounddown).map((src) => new Howl({ src }))
 		}
 		if (compDef.soundup)
 		{
-			this.soundsup = []
-			for (var s in compDef.soundup)
-			{
-				this.soundsup.push(new Howl({
-					src: compDef.soundup[s]
-				  }));
-			}
+			this.soundsup = soundSrcList(compDef.soundup).map((src) => new Howl({ src }))
 		}	
 		//text.anchor.set(0.5);
 		//text.x = buttonView.width / 2;

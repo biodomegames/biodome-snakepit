@@ -1,9 +1,7 @@
 <stuff>
-<frameReference name="ant_dead_art" file="tiles_ant_dead_art.png"></frameReference>
-<frameReference name="ant_idle_art" file="tiles_ant_idle_art.png"></frameReference>
-<frameReference name="ant_walk_a_art" file="tiles_ant_walk_a_art.png"></frameReference>
-<frameReference name="ant_walk_b_art" file="tiles_ant_walk_b_art.png"></frameReference>
-<frameReference name="ant_walk_c_art" file="tiles_ant_walk_c_art.png"></frameReference>
+<frameReference name="antbody" file="tiles_antbody.png"></frameReference>
+<frameReference name="antbodyhilite" file="tiles_antbodyhilite.png"></frameReference>
+<frameReference name="antbodyshadow" file="tiles_antbodyshadow.png"></frameReference>
 <frameReference name="anteater_eat_a" file="tiles_anteater_eat_a.png"></frameReference>
 <frameReference name="anteater_eat_b" file="tiles_anteater_eat_b.png"></frameReference>
 <frameReference name="anteater_eat_c" file="tiles_anteater_eat_c.png"></frameReference>
@@ -12,76 +10,133 @@
 <frameReference name="anteater_walk_b" file="tiles_anteater_walk_b.png"></frameReference>
 <frameReference name="anteater_walk_c" file="tiles_anteater_walk_c.png"></frameReference>
 <frameReference name="anteater_walk_d" file="tiles_anteater_walk_d.png"></frameReference>
-<frameReference name="gameover_art" file="tiles_gameover_art.png"></frameReference>
+<frameReference name="antleg1" file="tiles_antleg1.png"></frameReference>
+<frameReference name="antleg2" file="tiles_antleg2.png"></frameReference>
+<frameReference name="antleg3" file="tiles_antleg3.png"></frameReference>
+<frameReference name="antleg4" file="tiles_antleg4.png"></frameReference>
+<frameReference name="antleg5" file="tiles_antleg5.png"></frameReference>
+<frameReference name="antleg6" file="tiles_antleg6.png"></frameReference>
+<frameReference name="antshadow" file="tiles_antshadow.png"></frameReference>
+<frameReference name="bgtint" file="tiles_bgtint.png"></frameReference>
+<frameReference name="cross" file="tiles_cross.png"></frameReference>
+<frameReference name="flower1" file="tiles_flower1.png"></frameReference>
+<frameReference name="flower2" file="tiles_flower2.png"></frameReference>
+<frameReference name="fountainflower_1" file="tiles_fountainflower_1.png"></frameReference>
+<frameReference name="fountainflower_2" file="tiles_fountainflower_2.png"></frameReference>
+<frameReference name="fountainflower_3" file="tiles_fountainflower_3.png"></frameReference>
+<frameReference name="fountainflower_4" file="tiles_fountainflower_4.png"></frameReference>
+<frameReference name="gameOver" file="tiles_gameOver.png"></frameReference>
 <frameReference name="grass_art" file="tiles_grass_art.png"></frameReference>
-<frameReference name="grass_art_b" file="tiles_grass_art_b.png"></frameReference>
+<frameReference name="grasses_1" file="tiles_grasses_1.png"></frameReference>
+<frameReference name="grasses_2" file="tiles_grasses_2.png"></frameReference>
+<frameReference name="grasses_3" file="tiles_grasses_3.png"></frameReference>
+<frameReference name="grasses_4" file="tiles_grasses_4.png"></frameReference>
+<frameReference name="grasstuft2" file="tiles_grasstuft2.png"></frameReference>
 <frameReference name="hex_tile_blue" file="tiles_hex_tile_blue.png"></frameReference>
 <frameReference name="hex_tile_green" file="tiles_hex_tile_green.png"></frameReference>
 <frameReference name="hex_tile_red" file="tiles_hex_tile_red.png"></frameReference>
 <frameReference name="logo_art" file="tiles_logo_art.png"></frameReference>
-<frameReference name="rock_art" file="tiles_rock_art.png"></frameReference>
+<frameReference name="musicSymb" file="tiles_musicSymb.png"></frameReference>
+<frameReference name="rock_art_1" file="tiles_rock_art_1.png"></frameReference>
+<frameReference name="rock_art_2" file="tiles_rock_art_2.png"></frameReference>
+<frameReference name="rock_art_3" file="tiles_rock_art_3.png"></frameReference>
+<frameReference name="rock_art_4" file="tiles_rock_art_4.png"></frameReference>
 <frameReference name="slot_tile_art" file="tiles_slot_tile_art.png"></frameReference>
-<frameReference name="snake_face_art" file="tiles_snake_face_art.png"></frameReference>
-<frameReference name="snake_face_blink_bot" file="tiles_snake_face_blink_bot.png"></frameReference>
-<frameReference name="snake_face_blink_both" file="tiles_snake_face_blink_both.png"></frameReference>
-<frameReference name="snake_face_blink_half" file="tiles_snake_face_blink_half.png"></frameReference>
-<frameReference name="snake_face_blink_top" file="tiles_snake_face_blink_top.png"></frameReference>
+<frameReference name="snake_face_art_1" file="tiles_snake_face_art_1.png"></frameReference>
+<frameReference name="snake_face_art_2" file="tiles_snake_face_art_2.png"></frameReference>
+<frameReference name="snake_face_art_3" file="tiles_snake_face_art_3.png"></frameReference>
+<frameReference name="snake_face_art_4" file="tiles_snake_face_art_4.png"></frameReference>
+<frameReference name="snake_face_art_5" file="tiles_snake_face_art_5.png"></frameReference>
+<frameReference name="snakemouth" file="tiles_snakemouth.png"></frameReference>
+<frameReference name="speakersymbol" file="tiles_speakersymbol.png"></frameReference>
 <frameReference name="star_art" file="tiles_star_art.png"></frameReference>
 	<sequence name="anim">
-		<frame num="1">
-			<subsequence name="hexTile" posx="275" posy="200" angle="0" skewx="0" skewy="0" z="0" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="snakeFace" posx="120" posy="320" angle="0" skewx="0" skewy="0" z="1" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="rock" posx="420" posy="320" angle="0" skewx="0" skewy="0" z="2" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="grass" posx="60" posy="200" angle="0" skewx="0" skewy="0" z="3" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+		<frame num="1" label="idle">
+			<subsequence name="antshadow" posx="150.48047" posy="223.56174" angle="0" skewx="0" skewy="0" z="0" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="hexTile" posx="39.0955" posy="299.76376" angle="-0.17580284" skewx="-0.1758034" skewy="0" z="1" scalex="1.0000046" scaley="0.9999953" alpha="1" framespan="1"></subsequence>
+			<subsequence name="snakeFace" posx="120" posy="320" angle="0" skewx="0" skewy="0" z="2" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="grass" posx="34.576176" posy="136.79376" angle="0" skewx="0" skewy="0" z="3" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
 			<subsequence name="logo" posx="275" posy="60" angle="0" skewx="0" skewy="0" z="4" scalex="0.55" scaley="0.55" alpha="1" framespan="1"></subsequence>
-			<subsequence name="gameOver" posx="440" posy="90" angle="0" skewx="0" skewy="0" z="5" scalex="0.7" scaley="0.7" alpha="1" framespan="1"></subsequence>
-			<subsequence name="bonkStar" posx="60" posy="80" angle="0" skewx="0" skewy="0" z="6" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="ant" posx="173.17593" posy="126.76784" angle="0" skewx="0" skewy="0" z="7" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="slotTile" posx="290.99762" posy="110.13098" angle="0" skewx="0" skewy="0" z="8" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="anteater" posx="485.23227" posy="212.8841" angle="0" skewx="0" skewy="0" z="9" scalex="0.35" scaley="0.35" alpha="1" framespan="1"></subsequence>
+			<subsequence name="bonkStar" posx="60" posy="80" angle="0" skewx="0" skewy="0" z="5" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="ant" posx="140" posy="199.9" angle="0.14904839" skewx="0" skewy="0" z="6" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="slotTile" posx="290.99762" posy="110.13098" angle="0" skewx="0" skewy="0" z="7" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="anteater" posx="485.23227" posy="212.8841" angle="0" skewx="0" skewy="0" z="8" scalex="0.35" scaley="0.35" alpha="1" framespan="1"></subsequence>
+			<subsequence name="floorgrass" posx="187.60194" posy="357.98242" angle="0" skewx="0" skewy="0" z="9" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<sprite type="bgtint" spritename="tiles_bgtint.png" instancename="instance0" posx="464.7151" posy="529.84485" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
+			<subsequence name="gameOver" posx="437.27026" posy="18.467216" angle="0" skewx="0" skewy="0" z="11" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="flowers" posx="93.62218" posy="135.08261" angle="0" skewx="0" skewy="0" z="12" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="rock" posx="307.91766" posy="319.52045" angle="0" skewx="0" skewy="0" z="13" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="soundOnOff" posx="-66.50075" posy="46.698242" angle="0" skewx="0" skewy="0" z="14" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="musicOnOff" posx="-67.70334" posy="166.41339" angle="0" skewx="0" skewy="0" z="15" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
 		</frame>
 	</sequence>
 	<sequence name="ant">
 		<frame num="1" label="idle">
-			<sprite type="ant_idle_art" spritename="tiles_ant_idle_art.png" instancename="body" posx="-1.7696428" posy="0" angle="0" scalex="1.8848214" scaley="1.6909928" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg1" spritename="tiles_antleg1.png" instancename="leg2" posx="6.2425556" posy="7.45002" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg2" spritename="tiles_antleg2.png" instancename="leg1" posx="2.5086658" posy="5.585148" angle="23.66039" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg3" spritename="tiles_antleg3.png" instancename="leg3" posx="12.843895" posy="6.47797" angle="-28.291296" scalex="1" scaley="1" skewx="0" skewy="0" z="2" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg4" spritename="tiles_antleg4.png" instancename="leg4" posx="12.271532" posy="-3.8170242" angle="31.043467" scalex="1" scaley="1" skewx="0" skewy="0" z="3" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg5" spritename="tiles_antleg5.png" instancename="leg5" posx="5.9553013" posy="-4.055214" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="4" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg6" spritename="tiles_antleg6.png" instancename="leg6" posx="1.3257425" posy="-3.5580063" angle="-22.418095" scalex="1" scaley="1" skewx="0" skewy="0" z="5" alpha="1" framespan="1"></sprite>
+			<sprite type="antbody" spritename="tiles_antbody.png" instancename="antbody" posx="6.9419403" posy="0.327384" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="6" alpha="1" framespan="1"></sprite>
+			<sprite type="antbodyhilite" spritename="tiles_antbodyhilite.png" instancename="light" posx="2.265379" posy="-4.697778" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="7" alpha="1" framespan="1"></sprite>
+			<sprite type="antbodyshadow" spritename="tiles_antbodyshadow.png" instancename="dark" posx="2.0135918" posy="6.4323277" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="8" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="2" label="walk">
-			<sprite type="ant_walk_a_art" spritename="tiles_ant_walk_a_art.png" instancename="body" posx="-2.3744922" posy="0" angle="0" scalex="2.187246" scaley="1.9408929" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg1" spritename="tiles_antleg1.png" instancename="leg2" posx="6.2425556" posy="7.45002" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="3"></sprite>
+			<sprite type="antleg2" spritename="tiles_antleg2.png" instancename="leg1" posx="2.5086658" posy="5.585148" angle="23.66039" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="3"></sprite>
+			<sprite type="antleg3" spritename="tiles_antleg3.png" instancename="leg3" posx="12.843895" posy="6.47797" angle="-28.291296" scalex="1" scaley="1" skewx="0" skewy="0" z="2" alpha="1" framespan="3"></sprite>
+			<sprite type="antleg4" spritename="tiles_antleg4.png" instancename="leg4" posx="12.271532" posy="-3.8170242" angle="31.043467" scalex="1" scaley="1" skewx="0" skewy="0" z="3" alpha="1" framespan="3"></sprite>
+			<sprite type="antleg5" spritename="tiles_antleg5.png" instancename="leg5" posx="5.9553013" posy="-4.055214" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="4" alpha="1" framespan="3"></sprite>
+			<sprite type="antleg6" spritename="tiles_antleg6.png" instancename="leg6" posx="1.3257425" posy="-3.5580063" angle="-22.418095" scalex="1" scaley="1" skewx="0" skewy="0" z="5" alpha="1" framespan="3"></sprite>
+			<sprite type="antbody" spritename="tiles_antbody.png" instancename="antbody" posx="6.9419403" posy="0.327384" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="6" alpha="1" framespan="3"></sprite>
+			<sprite type="antbodyhilite" spritename="tiles_antbodyhilite.png" instancename="light" posx="2.265379" posy="-4.697778" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="7" alpha="1" framespan="3"></sprite>
+			<sprite type="antbodyshadow" spritename="tiles_antbodyshadow.png" instancename="dark" posx="2.0135918" posy="6.4323277" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="8" alpha="1" framespan="3"></sprite>
 		</frame>
-		<frame num="3">
-			<sprite type="ant_walk_b_art" spritename="tiles_ant_walk_b_art.png" instancename="body" posx="-2.3483553" posy="0" angle="0" scalex="2.1741776" scaley="2.0138185" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
-		</frame>
-		<frame num="4">
-			<sprite type="ant_walk_c_art" spritename="tiles_ant_walk_c_art.png" instancename="body" posx="-2.3020883" posy="0" angle="0" scalex="2.1510441" scaley="1.8739719" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
-		</frame>
+		<frame num="3"></frame>
+		<frame num="4"></frame>
 		<frame num="5" label="dead">
-			<sprite type="ant_dead_art" spritename="tiles_ant_dead_art.png" instancename="body" posx="-1.7696428" posy="0" angle="0" scalex="1.75" scaley="1.15" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg1" spritename="tiles_antleg1.png" instancename="leg2" posx="6.2425556" posy="7.45002" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg2" spritename="tiles_antleg2.png" instancename="leg1" posx="2.5086658" posy="5.585148" angle="23.66039" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg3" spritename="tiles_antleg3.png" instancename="leg3" posx="12.843895" posy="6.47797" angle="-28.291296" scalex="1" scaley="1" skewx="0" skewy="0" z="2" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg4" spritename="tiles_antleg4.png" instancename="leg4" posx="12.271532" posy="-3.8170242" angle="31.043467" scalex="1" scaley="1" skewx="0" skewy="0" z="3" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg5" spritename="tiles_antleg5.png" instancename="leg5" posx="5.9553013" posy="-4.055214" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="4" alpha="1" framespan="1"></sprite>
+			<sprite type="antleg6" spritename="tiles_antleg6.png" instancename="leg6" posx="1.3257425" posy="-3.5580063" angle="-22.418095" scalex="1" scaley="1" skewx="0" skewy="0" z="5" alpha="1" framespan="1"></sprite>
+			<sprite type="antbody" spritename="tiles_antbody.png" instancename="antbody" posx="6.9419403" posy="0.327384" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="6" alpha="1" framespan="1"></sprite>
+			<sprite type="antbodyhilite" spritename="tiles_antbodyhilite.png" instancename="light" posx="2.265379" posy="-4.697778" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="7" alpha="1" framespan="1"></sprite>
+			<sprite type="antbodyshadow" spritename="tiles_antbodyshadow.png" instancename="dark" posx="2.0135918" posy="6.4323277" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="8" alpha="1" framespan="1"></sprite>
 		</frame>
+		<frame num="6"></frame>
 	</sequence>
 	<sequence name="anteater">
 		<frame num="1" label="walk">
 			<sprite type="anteater_walk_a" spritename="tiles_anteater_walk_a.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="2">
-			<sprite type="anteater_walk_b" spritename="tiles_anteater_walk_b.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="anteater_walk_b" spritename="tiles_anteater_walk_b.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="3">
-			<sprite type="anteater_walk_c" spritename="tiles_anteater_walk_c.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="anteater_walk_c" spritename="tiles_anteater_walk_c.png" instancename="instance1" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="4">
-			<sprite type="anteater_walk_d" spritename="tiles_anteater_walk_d.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="anteater_walk_d" spritename="tiles_anteater_walk_d.png" instancename="instance2" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="5" label="eat">
-			<sprite type="anteater_eat_a" spritename="tiles_anteater_eat_a.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="anteater_eat_a" spritename="tiles_anteater_eat_a.png" instancename="instance3" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="6">
-			<sprite type="anteater_eat_b" spritename="tiles_anteater_eat_b.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="anteater_eat_b" spritename="tiles_anteater_eat_b.png" instancename="instance4" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="7">
-			<sprite type="anteater_eat_c" spritename="tiles_anteater_eat_c.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="anteater_eat_c" spritename="tiles_anteater_eat_c.png" instancename="instance5" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="8">
-			<sprite type="anteater_eat_d" spritename="tiles_anteater_eat_d.png" instancename="body" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="anteater_eat_d" spritename="tiles_anteater_eat_d.png" instancename="instance6" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="antshadow">
+		<frame num="1">
+			<sprite type="antshadow" spritename="tiles_antshadow.png" instancename="instance0" posx="-0.0000076293945" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="bonkStar">
@@ -89,28 +144,28 @@
 			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="-1" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="2">
-			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="0" posy="-4.6666665" angle="3.8197188" scalex="1.0142639" scaley="1.0142639" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="0" posy="-4.6666665" angle="3.8197184" scalex="1.014264" scaley="1.014264" skewx="-0.00000042088337" skewy="0.00000042088337" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="3">
-			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="1" posy="-9.333333" angle="7.6394377" scalex="1.025" scaley="1.025" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="1" posy="-9.333333" angle="7.6394367" scalex="1.025" scaley="1.025" skewx="-0.0000008329499" skewy="0.0000008329499" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="4">
 			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="-1" posy="-14" angle="11.459156" scalex="1.0289214" scaley="1.0289214" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="5">
-			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="0" posy="-18.666666" angle="15.278875" scalex="1.023205" scaley="1.023205" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="0" posy="-18.666666" angle="15.278875" scalex="1.023205" scaley="1.023205" skewx="-0.0000016688222" skewy="0.0000016688222" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="6">
 			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="1" posy="-23.333334" angle="19.098595" scalex="1.0056852" scaley="1.0056852" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="7">
-			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="-1" posy="-28" angle="22.918312" scalex="0.975" scaley="0.975" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="-1" posy="-28" angle="22.918312" scalex="0.97499996" scaley="0.97499996" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="8">
-			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="0" posy="-32.666668" angle="26.738031" scalex="0.93068516" scaley="0.93068516" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="0" posy="-32.666668" angle="26.738031" scalex="0.9306852" scaley="0.9306852" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="9">
-			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="1" posy="-37.333332" angle="30.55775" scalex="0.87320507" scaley="0.87320507" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="1" posy="-37.333332" angle="30.55775" scalex="0.8732051" scaley="0.8732051" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="10">
 			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="-1" posy="-42" angle="34.37747" scalex="0.80392134" scaley="0.80392134" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -122,20 +177,58 @@
 			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="1" posy="-51.333332" angle="42.016907" scalex="0.6392638" scaley="0.6392638" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="13" label="end">
-			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="-1" posy="-56" angle="45.836624" scalex="0.55" scaley="0.55" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="star_art" spritename="tiles_star_art.png" instancename="star" posx="-1" posy="-56" angle="45.836624" scalex="0.54999995" scaley="0.54999995" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="floorgrass">
+		<frame num="1">
+			<sprite type="grasses_1" spritename="tiles_grasses_1.png" instancename="instance0" posx="15.362114" posy="-26.08899" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="2">
+			<sprite type="grasses_2" spritename="tiles_grasses_2.png" instancename="instance0" posx="15.362114" posy="-26.08899" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="grasses_3" spritename="tiles_grasses_3.png" instancename="instance0" posx="15.362114" posy="-26.08899" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="grasses_4" spritename="tiles_grasses_4.png" instancename="instance0" posx="15.362114" posy="-26.08899" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="flowers">
+		<frame num="1">
+			<sprite type="fountainflower_1" spritename="tiles_fountainflower_1.png" instancename="instance0" posx="-3.3664334" posy="1.39433" angle="0" scalex="0.6034081" scaley="0.6034081" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="2">
+			<sprite type="fountainflower_2" spritename="tiles_fountainflower_2.png" instancename="instance0" posx="-3.3664334" posy="1.39433" angle="0" scalex="0.6034081" scaley="0.6034081" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="fountainflower_3" spritename="tiles_fountainflower_3.png" instancename="instance0" posx="-3.3664334" posy="1.39433" angle="0" scalex="0.6034081" scaley="0.6034081" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="fountainflower_4" spritename="tiles_fountainflower_4.png" instancename="instance0" posx="-3.3664334" posy="1.39433" angle="0" scalex="0.6034081" scaley="0.6034081" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="gameOver">
-		<frame num="1" label="idle">
-			<sprite type="gameover_art" spritename="tiles_gameover_art.png" instancename="art" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		<frame num="1">
+			<sprite type="gameOver" spritename="tiles_gameOver.png" instancename="gameOver" posx="2.7297363" posy="71.53278" angle="0" scalex="0.7" scaley="0.7" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="grass">
 		<frame num="1">
-			<sprite type="grass_art" spritename="tiles_grass_art.png" instancename="tuft" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="grass_art" spritename="tiles_grass_art.png" instancename="tuft" posx="-0.29848742" posy="-0.67414093" angle="-0.5897868" scalex="0.31588078" scaley="0.25675935" skewx="0.020973781" skewy="0.00000004422178" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="2">
-			<sprite type="grass_art_b" spritename="tiles_grass_art_b.png" instancename="tuft" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="grasstuft2" spritename="tiles_grasstuft2.png" instancename="instance0" posx="0.112196445" posy="-3.3844357" angle="0" scalex="0.34940177" scaley="0.31348568" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="grasstuft2" spritename="tiles_grasstuft2.png" instancename="instance0" posx="0.29539502" posy="-1.1471767" angle="0" scalex="0.2757476" scaley="0.21796782" skewx="17.395018" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="grasstuft2" spritename="tiles_grasstuft2.png" instancename="instance0" posx="0.112196445" posy="-3.3844357" angle="0" scalex="0.34940177" scaley="0.31348568" skewx="10.777073" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="flower1" spritename="tiles_flower1.png" instancename="instance1" posx="-2.889856" posy="-5.1518183" angle="0" scalex="0.54549414" scaley="0.4512094" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="5">
+			<sprite type="flower2" spritename="tiles_flower2.png" instancename="instance2" posx="2.2342813" posy="-4.59641" angle="0" scalex="0.222923" scaley="0.2266355" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="hexTile">
@@ -143,20 +236,81 @@
 			<sprite type="hex_tile_green" spritename="tiles_hex_tile_green.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="2" label="red">
-			<sprite type="hex_tile_red" spritename="tiles_hex_tile_red.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="hex_tile_red" spritename="tiles_hex_tile_red.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="3" label="blue">
-			<sprite type="hex_tile_blue" spritename="tiles_hex_tile_blue.png" instancename="tile" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="hex_tile_blue" spritename="tiles_hex_tile_blue.png" instancename="instance1" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="logo">
 		<frame num="1" label="idle">
-			<sprite type="logo_art" spritename="tiles_logo_art.png" instancename="art" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="logo_art" spritename="tiles_logo_art.png" instancename="art" posx="-33.437256" posy="-163.31726" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="musicOnOff">
+		<frame num="1" label="on">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="2" label="turnoff">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="0.37968445" scaley="0.37968445" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="0.53476334" scaley="0.53476334" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="0.6898422" scaley="0.6898422" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="5">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="0.8449211" scaley="0.8449211" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="6">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="7" label="off">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="8" label="turnon">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="9">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="11.250001" scalex="0.8244643" scaley="0.8244643" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="10">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="22.5" scalex="0.64892876" scaley="0.64892876" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="11">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="33.75" scalex="0.47339314" scaley="0.47339314" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="12">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="45" scalex="0.2978575" scaley="0.2978575" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="13">
+			<sprite type="musicSymb" spritename="tiles_musicSymb.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="rock">
-		<frame num="1" label="idle">
-			<sprite type="rock_art" spritename="tiles_rock_art.png" instancename="rock" posx="0.4727478" posy="-0.017791748" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		<frame num="1">
+			<sprite type="rock_art_1" spritename="tiles_rock_art_1.png" instancename="rock" posx="0.39971924" posy="-17.786499" angle="0" scalex="1" scaley="1" skewx="-0.4125361" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="2">
+			<sprite type="rock_art_2" spritename="tiles_rock_art_2.png" instancename="rock" posx="0.39971924" posy="-17.786499" angle="0" scalex="1" scaley="1" skewx="-0.4125361" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="rock_art_3" spritename="tiles_rock_art_3.png" instancename="rock" posx="0.39971924" posy="-17.786499" angle="0" scalex="1" scaley="1" skewx="-0.4125361" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="rock_art_4" spritename="tiles_rock_art_4.png" instancename="rock" posx="0.39971924" posy="-17.786499" angle="0" scalex="1" scaley="1" skewx="-0.4125361" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="slotTile">
@@ -166,19 +320,77 @@
 	</sequence>
 	<sequence name="snakeFace">
 		<frame num="1" label="idle">
-			<sprite type="snake_face_art" spritename="tiles_snake_face_art.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snake_face_art_1" spritename="tiles_snake_face_art_1.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snakemouth" spritename="tiles_snakemouth.png" instancename="instance0" posx="17.73943" posy="-0.16954327" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="2" label="blinkBoth">
-			<sprite type="snake_face_blink_both" spritename="tiles_snake_face_blink_both.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snake_face_art_2" spritename="tiles_snake_face_art_2.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snakemouth" spritename="tiles_snakemouth.png" instancename="instance0" posx="17.73943" posy="-0.16954327" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="3" label="blinkTop">
-			<sprite type="snake_face_blink_top" spritename="tiles_snake_face_blink_top.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snake_face_art_3" spritename="tiles_snake_face_art_3.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snakemouth" spritename="tiles_snakemouth.png" instancename="instance0" posx="17.73943" posy="-0.16954327" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="4" label="blinkBot">
-			<sprite type="snake_face_blink_bot" spritename="tiles_snake_face_blink_bot.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snake_face_art_4" spritename="tiles_snake_face_art_4.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snakemouth" spritename="tiles_snakemouth.png" instancename="instance0" posx="17.73943" posy="-0.16954327" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="5" label="blinkHalf">
-			<sprite type="snake_face_blink_half" spritename="tiles_snake_face_blink_half.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snake_face_art_5" spritename="tiles_snake_face_art_5.png" instancename="face" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="snakemouth" spritename="tiles_snakemouth.png" instancename="instance0" posx="17.73943" posy="-0.16954327" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="6"></frame>
+	</sequence>
+	<sequence name="soundOnOff">
+		<frame num="1" label="on">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="2" label="turnoff">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="0.37968445" scaley="0.37968445" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="0.53476334" scaley="0.53476334" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="0.6898422" scaley="0.6898422" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="5">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="0.8449211" scaley="0.8449211" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="6">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="7" label="off">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="8" label="turnon">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="9">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="11.250001" scalex="0.8244643" scaley="0.8244643" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="10">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="22.5" scalex="0.64892876" scaley="0.64892876" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="11">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="33.75" scalex="0.47339314" scaley="0.47339314" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="12">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="cross" spritename="tiles_cross.png" instancename="instance1" posx="-7.2" posy="-1.45" angle="45" scalex="0.2978575" scaley="0.2978575" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="13">
+			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 </stuff>

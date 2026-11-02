@@ -9,6 +9,7 @@ import { shouldIgnorePreloadAsset, shouldSkipBareFilenamePreload } from "../svg_
 
 import { FlashTube } from "./flashtube.js"
 import { ComponentTypes } from "./ui_componenttypes.js"
+import { SVG_UI_ATLAS_URL } from "./svg_atlas_preload_helper.js"
 import progress_bg from '../../g/progressbar_bg.svg'; // rasterize: ignore
 import progress_fill from '../../g/progressbar_fill.svg'; // rasterize: ignore
 import logo from '../../g/biodome_logo.svg'; // rasterize: ignore
@@ -30,6 +31,8 @@ export class Preloader extends Container
 	onProgress = undefined
 	/** Number of loads currently in flight. */
 	_inFlight = 0
+	/** Production builds pack UI svgs into the atlas. Debug keeps the raw files. */
+	_svgAtlasQueued = false
 	constructor(app)
 	{
 		super()
@@ -79,6 +82,10 @@ export class Preloader extends Container
 			if (typeof item === 'string' && shouldIgnorePreloadAsset(item)) continue
 			if (typeof item === 'string' && shouldSkipBareFilenamePreload(item)) continue
 			newAssetlist.push(item)
+		}
+		if (import.meta.env.PROD && !this._svgAtlasQueued) {
+			this._svgAtlasQueued = true
+			newAssetlist.unshift(SVG_UI_ATLAS_URL)
 		}
 		assetlist = newAssetlist
 

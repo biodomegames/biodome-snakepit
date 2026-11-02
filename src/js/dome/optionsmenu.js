@@ -22,7 +22,7 @@ export const OptionsDialogDefinitions =
 		togglebut: 	{type: "sidemenuButton", res: "but1", text: "", closeDialog: true, usePos: 1, trans: {sx: 1.2, sy: 1.2}, pos1add: {x:0, y:0}},
 	},
 	sideMenu:{
-		_setup: 		{hackyFirstFrameInvisible: true, halign: "left", valign: "top", appear: TransDef.FROMTOLEFT, disappear: TransDef.FROMTOLEFT, alignOffset: {x:0, y:0}, pos1: {x:0, y:0},  aspectScaleFactor: {minAspect: 0.5, minScale: 1.5, maxAspect: 1.3, maxScale:.6}},
+		_setup: 		{hackyFirstFrameInvisible: true, halign: "left", valign: "top", appear: TransDef.FROMTOLEFT, disappear: TransDef.FROMTOLEFT, appearSound: true, disappearSound: true, alignOffset: {x:0, y:0}, pos1: {x:0, y:0},  aspectScaleFactor: {minAspect: 0.5, minScale: 1.5, maxAspect: 1.3, maxScale:.6}},
 		box: 			{type: "sidemenubox", alpha: 1, usePos: 1, scale:{x:3, y:"150%"}, pos1add: {x:0, y:0}, sizeRef: true, anchor: {x:0.5, y:0}},
 		boxclickcover: 	{type: "sidemenubox", alpha: 0, usePos: 1, scale:{x:15, y:26}, pos1add: {x:0, y:48}, useAsButton: true, closeDialog: true, res: "clickcatch"},
 		logo: 			{type: "image", source: logo, scale: 0.4, offx:40, usePos:1, pos1add: {x:0, y:80}},
@@ -30,7 +30,7 @@ export const OptionsDialogDefinitions =
 		//but2: 		{type: "sideMenuItem", text: "but2", usePos: 1, pos1add: {x:0, y:45}},
 	},
 	extendedMenu:{
-		_setup: {halign: "left", valign: "top", appear: TransDef.FROMTOLEFT, disappear: TransDef.FROMTOLEFT, alignOffset: {x:0, y:0}, pos1: {x:40, y:40},  aspectScaleFactor: {minAspect: 0.5, minScale: 1.5, maxAspect: 1, maxScale:1}},
+		_setup: {halign: "left", valign: "top", appear: TransDef.FROMTOLEFT, disappear: TransDef.FROMTOLEFT, appearSound: true, disappearSound: true, alignOffset: {x:0, y:0}, pos1: {x:40, y:40},  aspectScaleFactor: {minAspect: 0.5, minScale: 1.5, maxAspect: 1, maxScale:1}},
 		
 		box: 			{type: "sidemenubox", alpha: 1, usePos: 1, scale:{x:3, y:9}, pos1add: {x:0, y:0}, sizeRef: true, anchor: {x:0.5, y:0}},
 		boxclickcover: 	{type: "sidemenubox", alpha: 0, usePos: 1, scale:{x:15, y:26}, pos1add: {x:0, y:48}, useAsButton: true, closeDialog: true, res: "clickcatch"},
@@ -65,7 +65,7 @@ export const OptionsDialogDefinitions =
 	},
 
 	resetandtest:{
-		_setup: {halign: "left", valign: "top", appear: TransDef.FROMTOLEFT, disappear: TransDef.FROMTOLEFT, alignOffset: {x:0, y:0}, pos1: {x:40, y:40},  aspectScaleFactor: {minAspect: 0.5, minScale: 1.5, maxAspect: 1, maxScale:1}},
+		_setup: {halign: "left", valign: "top", appear: TransDef.FROMTOLEFT, disappear: TransDef.FROMTOLEFT, appearSound: true, disappearSound: true, alignOffset: {x:0, y:0}, pos1: {x:40, y:40},  aspectScaleFactor: {minAspect: 0.5, minScale: 1.5, maxAspect: 1, maxScale:1}},
 		box: 			{type: "sidemenubox", alpha: 1, usePos: 1, scale:{x:3, y:5}, pos1add: {x:0, y:0}, sizeRef: true, anchor: {x:0.5, y:0}},
 		boxclickcover: 	{type: "sidemenubox", alpha: 0, usePos: 1, scale:{x:15, y:26}, pos1add: {x:0, y:48}, useAsButton: true, closeDialog: true, res: "clickcatch"},
 		res1: 		{type: "sideMenuItem", text: "AD interstitial", res: "adinterstitial", usePos: 1, pos1add: {x:0, y:60},  closeDialog: true, trans: {x:0, y:0}},
@@ -277,7 +277,6 @@ export class OptionsMenu extends Container
 	getAssetsForPreload()
 	{
 		return this.ui.getAssetsForPreload()
-		
 	}
 
 	

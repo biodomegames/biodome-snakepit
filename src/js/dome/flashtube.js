@@ -5,6 +5,24 @@ import { Assets } from 'pixi.js';
 //import { Sprite } from 'pixi.js';
 export var alltubes = {}
 
+/**
+ * Flash writes a rotation as `angle` plus a matching skew. Anima writes `angle` alone
+ * with skew 0. Keep that angle. Only drop it when the skew is a real shear.
+ */
+function resolveFlashRotation(sprite) {
+	const eps = 0.0001
+	const negMatch =
+		Math.abs(-sprite.rotation - sprite.skewX) < eps && Math.abs(-sprite.rotation - sprite.skewY) < eps
+	const posMatch =
+		Math.abs(sprite.rotation - sprite.skewX) < eps && Math.abs(sprite.rotation - sprite.skewY) < eps
+	if (negMatch || posMatch) {
+		sprite.skewX = 0
+		sprite.skewY = 0
+		return
+	}
+	if (Math.abs(sprite.skewX) >= eps || Math.abs(sprite.skewY) >= eps) sprite.rotation = 0
+}
+
 export class FlashTube {
     constructor(xmlPath, jsonPath, app) {
         // Store the paths to XML and JSON files
@@ -151,23 +169,7 @@ export class FlashTube {
 					sprite.scaleX = Number(tparts[n++])
 					sprite.scaleY = Number(tparts[n++])
 					
-					if (Math.abs(-sprite.rotation - sprite.skewX) < 0.0001 && Math.abs(-sprite.rotation - sprite.skewY) < 0.0001)
-					{
-						sprite.skewX = 0
-						sprite.skewY = 0
-						//console.log("Setting skew to 0 frame ", framenum, " sprite ",sprite.instancename)
-
-					}
-					else if (Math.abs(sprite.rotation - sprite.skewX) < 0.0001 && Math.abs(sprite.rotation - sprite.skewY) < 0.0001)
-					{
-						sprite.skewX = 0
-						sprite.skewY = 0
-						//console.log("Setting skew to 0 frame ", framenum, " sprite ",sprite.instancename)
-					}
-					else{
-						sprite.rotation = 0
-						//console.log("Rotation to 0 frame ", framenum, " sprite ",sprite.instancename)
-					}
+					resolveFlashRotation(sprite)
 					sprite.skewY = -sprite.skewY
 					
 					sprite.framespan = Number(frames[j].children[s].getAttribute('fs'))
@@ -293,24 +295,7 @@ export class FlashTube {
 					//{
 					//	console.log("Slowrot skewX: ", sprite.skewX, " skewY: ", sprite.skewY, " rotation: ", sprite.rotation)
 					//}
-					// here all sorts of skew/rotation combinations are sorted out.. Skew and rotation are exported from flash in an interprative way
-					if (Math.abs(-sprite.rotation - sprite.skewX) < 0.0001 && Math.abs(-sprite.rotation - sprite.skewY < 0.0001))
-					{
-						sprite.skewX = 0
-						sprite.skewY = 0
-						//console.log("Setting skew to 0 frame ", framenum, " sprite ",sprite.instancename)
-
-					}
-					else if (Math.abs(sprite.rotation - sprite.skewX) < 0.0001 && Math.abs(sprite.rotation - sprite.skewY < 0.0001))
-					{
-						sprite.skewX = 0
-						sprite.skewY = 0
-						//console.log("Setting skew to 0 frame ", framenum, " sprite ",sprite.instancename)
-					}
-					else{
-						sprite.rotation = 0
-						//console.log("Rotation to 0 frame ", framenum, " sprite ",sprite.instancename)
-					}
+					resolveFlashRotation(sprite)
 					sprite.skewY = -sprite.skewY
 					// Alpha: uncompressed `<sprite … alpha="…">` uses `alpha`; compressed `<s … a="…">` uses `a`.
 					{

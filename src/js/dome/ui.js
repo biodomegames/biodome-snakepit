@@ -1,4 +1,5 @@
 
+import { Howl } from 'howler';
 import {Dialog} from './ui_dialog.js';
 
 
@@ -23,8 +24,14 @@ export const TransDef =
 	FROMTOBOTTOM: 128,
 }
 
-export const UITransitionSounds = 
-{
+const dialogTransition = {
+	insrc: UISounds.dialogOpen,
+	outsrc: UISounds.dialogClose,
+}
+
+export const UITransitionSounds = {
+	[TransDef.FADE]: dialogTransition,
+	[TransDef.FROMTOLEFT]: dialogTransition,
 }
 
 export const UILayer = 

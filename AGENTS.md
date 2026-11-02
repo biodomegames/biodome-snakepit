@@ -1,27 +1,27 @@
 # FlashTube
 
-FlashTube is the animation runtime this project plays. Clips are authored in Adobe Animate, exported to `src/tube/`, and drawn with Pixi. The starter dialog’s sound and music toggles are the `checkbox` clip in the `main` tube.
+FlashTube is the animation runtime this project plays. Clips are authored in Adobe Animate, exported to `src/tube/`, and drawn with Pixi. The game art is the `tiles` tube. Sound and music toggles are the `soundOnOff` and `musicOnOff` clips in that tube.
 
 ## Files
 
 A tube is three files that share a name:
 
-- `src/tube/main.xml` — sequences, frames, labels, and sprite placement
-- `src/tube/main.json` — texture atlas (Pixi)
-- `src/tube/main.png` — the atlas image
+- `src/tube/tiles.xml` — sequences, frames, labels, and sprite placement
+- `src/tube/tiles.json` — texture atlas (Pixi)
+- `src/tube/tiles.png` — the atlas image
 
 Register the tube in `src/js/data_tubelist.js`:
 
 ```js
 export const TubesList = {
-  main: {
-    xml: "tube/main.xml",
-    json: "tube/main.json",
+  tiles: {
+    xml: "tube/tiles.xml",
+    json: "tube/tiles.json",
   },
 }
 ```
 
-`DialogDefinitions.TubeDefinitions` is that same object. The preloader sees `{ xml, json }`, builds a `FlashTube`, and stores it on `.tube`. Dialog code looks the tube up by the key (`"main"`), so the object you preload must be the one in `TubeDefinitions`.
+`DialogDefinitions.TubeDefinitions` is that same object. The preloader sees `{ xml, json }`, builds a `FlashTube`, and stores it on `.tube`. Dialog code looks the tube up by the key (`"tiles"`), so the object you preload must be the one in `TubeDefinitions`.
 
 `FlashTube.init()` parses the XML into `tube.data[sequenceName]`. The tube is also stored on `window.alltubes` under the XML filename (without `.xml`, and cut at the first `-`).
 
@@ -32,9 +32,9 @@ Add an item whose component type is `movieclip` (`ComponentTypes.MOVIECLIP`):
 ```js
 logo: {
   type: "movieclip",
-  tube: "main",
+  tube: "tiles",
   movieclip: "logo",
-  play: "appear",
+  play: "idle",
   loop: false,
   framerate: 30,
   interpolate: true,
@@ -46,13 +46,13 @@ logo: {
 - `play` is a frame label. Playback starts at that label and runs until the next label
 - `loop` repeats that range
 
-Buttons can be clips too. `settingsCheckbox` in `src/js/data_ui_components.js` is a `BUTTONMOVIECLIP` on the `checkbox` sequence, with labels `off`, `turnon`, `on`, and `turnoff`.
+Buttons can be clips too. `mechanicSoundToggle` in `src/js/data_ui_components.js` is a `BUTTONMOVIECLIP` on the `soundOnOff` sequence, with labels `off`, `turnon`, `on`, and `turnoff`.
 
 From code, once the tube is loaded:
 
 ```js
-const clip = window.alltubes.main.getMovieClip("logo")
-clip.playLabel("appear")
+const clip = window.alltubes.tiles.getMovieClip("logo")
+clip.playLabel("idle")
 parent.addChild(clip)
 ```
 
@@ -79,8 +79,8 @@ Listen in `src/js/gameevents.js` consumers and play a Howl from `src/js/soundlib
 
 ## Where a new experiment starts
 
-- `src/js/game.js` — shown after load. It opens the `home` dialog.
-- `src/js/data_ui_dialogs.js` — dialog pages. `home` is the sound and music page (`DialogSettings` handles `soundon` / `soundoff` / `musicon` / `musicoff`).
+- `src/js/game.js` — shown after load. The cog opens `digSettings`.
+- `src/js/data_ui_dialogs.js` — dialog pages. `digSettings` is the sound and music page (`DialogSettings` handles `soundon` / `soundoff` / `musicon` / `musicoff`).
 - `src/js/gameShell.js` — preload, music, options menu. It preloads every entry in `TubeDefinitions`.
 
 UI click sounds are `src/s/ui-button-down.mp3` and `src/s/ui-button-up.mp3`. Toggle sounds are `ui-toggle-on.mp3` and `ui-toggle-off.mp3`. Music is `src/s/music.mp3`, played by `MusicManager` in `src/js/music.js`. Sound and music are stored on biodata as `Sound` and `Music`. `setSfxMuted` mutes effects and leaves music playing.

@@ -1,3 +1,19 @@
+------- Version 0.5.0 (Build 53) -------
+
+## 2026-10-30 (friday)
+-  Snakes slither fully offscreen with ants riding the curve, and squishing too many ants ends the level. (Tobias)
+-  Pits grow faster, grass scatters off the grid, and parked lanes cap at seven.
+-  Co-authored-by: Cursor <cursoragent@cursor.com>
+
+## 2026-10-29 (thursday)
+-  Park escaped snakes in lanes for ants to board, and send an anteater when ants are left over. (Tobias)
+-  Co-authored-by: Cursor <cursoragent@cursor.com>
+
+## 2026-10-28 (wednesday)
+-  Add bonk blink/stars, game over flow, and Anima art updates. (Tobias)
+-  Restore tube labels after Anima publish, fix MovieClip texture swaps for face blinks, and drop unused legacy icon sources.
+
+
 ------- Version 0.5.0 (Build 50) -------
 
 ## 2026-10-01 (thursday)

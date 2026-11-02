@@ -18,6 +18,19 @@ import {
 
 export const SNAKE_COLORS = [0x3ea860, 0xdc4646, 0x4678dc, 0xd4a017, 0x9b59b6]
 
+/** Side colors for each body color. The body color itself stays SNAKE_COLORS. */
+export const SNAKE_SHADES = {
+	0x3ea860: { light: 0x8ed99a, dark: 0x1e6a38 },
+	0xdc4646: { light: 0xff9a8a, dark: 0x8c2424 },
+	0x4678dc: { light: 0x9ec0ff, dark: 0x243e96 },
+	0xd4a017: { light: 0xffe08a, dark: 0x8a6808 },
+	0x9b59b6: { light: 0xdfa0ea, dark: 0x5c2874 },
+}
+
+export function shadesFor(color) {
+	return SNAKE_SHADES[color] ?? { light: color, dark: color }
+}
+
 /** Mulberry32 */
 export function makeRng(seed) {
 	let t = seed >>> 0

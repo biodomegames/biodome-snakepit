@@ -371,32 +371,15 @@ export const UIComponentDefinitions = {
 
 	},
 
-	configuratorButton: {
+	/** tiles `soundOnOff`: speaker icon, labels off / turnon / on / turnoff. */
+	mechanicSoundToggle: {
 		type: ComponentTypes.BUTTONMOVIECLIP,
-		tube: "main",
-		movieclip: "smallArrowButton",
-		frame: 0,
-		//defaultwidth: 60,
-		//defaultheight: 86,
-		framerate: 30,
-		labels: {
-			hover: "hover",
-			press: "press",
-			unhover: "~hover",
-		},
-		sounddown: [UISounds.clickdown1],
-		soundup: [UISounds.clickup1],
-	},
-
-	/** Tube `checkbox` clip: labels off / turnon / on / turnoff. */
-	settingsCheckbox: {
-		type: ComponentTypes.BUTTONMOVIECLIP,
-		tube: "main",
-		movieclip: "checkbox",
+		tube: "tiles",
+		movieclip: "soundOnOff",
 		toggle: true,
 		framerate: 30,
-		defaultwidth: 72,
-		defaultheight: 72,
+		defaultwidth: 123,
+		defaultheight: 114,
 		checkboxLabels: {
 			off: "off",
 			on: "on",
@@ -409,92 +392,27 @@ export const UIComponentDefinitions = {
 		soundup: [UISounds.clickup1],
 	},
 
-	arrowButton: {
+	/** tiles `musicOnOff`: note icon, labels off / turnon / on / turnoff. */
+	mechanicMusicToggle: {
 		type: ComponentTypes.BUTTONMOVIECLIP,
-		tube: "main",
-		movieclip: "arrowButton",
-		frame: 0,
-		//defaultwidth: 60,
-		//defaultheight: 86,
+		tube: "tiles",
+		movieclip: "musicOnOff",
+		toggle: true,
 		framerate: 30,
-		labels: {
-			hover: "hover",
-			press: "press",
-			unhover: "~hover",
+		defaultwidth: 117,
+		defaultheight: 112,
+		checkboxLabels: {
+			off: "off",
+			on: "on",
+			turnOn: "turnon",
+			turnOff: "turnoff",
 		},
+		soundtoggleon: [UISounds.toggleon1],
+		soundtoggleoff: [UISounds.toggleoff1],
 		sounddown: [UISounds.clickdown1],
 		soundup: [UISounds.clickup1],
 	},
-	jungleButton: {
-		//type: "button",
-		type: ComponentTypes.BUTTON9SLICE,
-		text: "jungleButtonText",
-		textoffset: { up: {x:0, y:-4},
-					  hover: {x:0, y:-2},
-					  down: {x:0, y:5, scale: 0.9}},
 
-		defaultwidth: 500,
-		defaultheight: 200,
-
-		// the sources is names of sprites in the tube.
-		up: [
-			//{source: button_cavity, left: 90, right: 90, top: 90, bottom: 90, offx:0, offy:0},
-			{source: "main_btn9slice.png", left: 90, right: 90, top: 90, bottom: 90, alpha: 1, offx:0, offy:0},			
-		],
-		hover: [
-		//	{source: button_cavity, left: 90, right: 90, top: 90, bottom: 90, offx:0, offy:0},
-			{source: "main_btn9slicehover.png", left: 90, right: 90, top: 90, bottom: 90, alpha: 1, offx:0, offy:0, scale: 1.02 },
-		],
-		down: [
-		//	{source: button_cavity, left: 90, right: 90, top: 90, bottom: 90, offx:0, offy:0},
-			{source: "main_btn9slicehover.png", left: 90, right: 90, top: 90, bottom: 90, alpha: 1, offx:0, offy:0, scale: .96},
-		],
-		//sound: [clicksound1, clicksound2, clicksound3],
-		sounddown: [UISounds.clickdown1],
-		soundup: [UISounds.clickup1],
-
-	},
-	jungleButtonText: {
-		//type: "text",
-		type: ComponentTypes.TEXT,
-		style: new TextStyle({ align: 'center', fontFamily: 'Chewy, Helvetica, Arial, sans', fontSize: 48, fontWeight: 800, fill: 0xEAFFE0, stroke: { color: '#336633', width: 6, join: 'round' }, wordWrap: true, wordWrapWidth: 600, dropShadow: { //fill: 0x57992C
-				color: '#000000',
-				blur: 4,
-				angle: Math.PI / 3,
-				distance: 4,
-				alpha: .2
-			},
-		}),
-	},
-
-	mine_button_g: {
-		//type: "button",
-		type: ComponentTypes.BUTTON9SLICE,
-		text: "h1_button_mine_g",
-		textoffset: { up: {x:0, y:-4},
-					  hover: {x:0, y:-2},
-					  down: {x:0, y:5, scale: 0.9}},
-
-		defaultwidth: 500,
-		defaultheight: 200,
-
-		up: [
-			{source: "main_buttonGreenCavity.png", left: 30, right: 30, top: 30, bottom: 30, offx:0, offy:0},
-			{source: "main_buttonGreen.png", left: 30, right: 30, top: 30, bottom: 30, alpha: 1, offx:0, offy:0},			
-		],
-		hover: [
-			{source: "main_buttonGreenCavity.png", left: 30, right: 30, top: 30, bottom: 30, offx:0, offy:0,  scale: 1.06},
-			{source: "main_buttonGreen.png", left: 30, right: 30, top: 30, bottom: 30, alpha: 1, offx:0, offy:0, scale: 1.02 },
-		],
-		down: [
-			{source: "main_buttonGreenCavity.png", left: 30, right: 30, top: 30, bottom: 30, offx:0, offy:0},
-			{source: "main_buttonGreen.png", left: 30, right: 30, top: 30, bottom: 30, alpha: 1, offx:0, offy:0, scale: .96},
-		],
-		//sound: [clicksound1, clicksound2, clicksound3],
-		sounddown: [UISounds.clickdown1],
-		soundup: [UISounds.clickup1],
-
-	},
 	mine_button_o: {
 		//type: "button",
 		type: ComponentTypes.BUTTON9SLICE,

@@ -1,6 +1,7 @@
 import { Container, Rectangle } from "pixi.js"
 import { Button } from "@pixi/ui"
 import { Howl } from "howler"
+import { soundSrcList } from "./ui_sounds.js"
 
 /**
  * Label action for {@link ComponentTypes.BUTTONMOVIECLIP}.
@@ -108,34 +109,19 @@ export class UIButtonMovieClip extends Container {
 	/** @param {Record<string, unknown>} compDef */
 	_loadSounds(compDef) {
 		if (compDef.sound) {
-			this.sounds = []
-			for (const s of /** @type {string[]} */ (compDef.sound)) {
-				this.sounds.push(new Howl({ src: s }))
-			}
+			this.sounds = soundSrcList(compDef.sound).map((src) => new Howl({ src }))
 		}
 		if (compDef.sounddown) {
-			this.soundsdown = []
-			for (const s of /** @type {string[]} */ (compDef.sounddown)) {
-				this.soundsdown.push(new Howl({ src: s }))
-			}
+			this.soundsdown = soundSrcList(compDef.sounddown).map((src) => new Howl({ src }))
 		}
 		if (compDef.soundup) {
-			this.soundsup = []
-			for (const s of /** @type {string[]} */ (compDef.soundup)) {
-				this.soundsup.push(new Howl({ src: s }))
-			}
+			this.soundsup = soundSrcList(compDef.soundup).map((src) => new Howl({ src }))
 		}
 		if (compDef.soundtoggleon) {
-			this.soundstoggleon = []
-			for (const s of /** @type {string[]} */ (compDef.soundtoggleon)) {
-				this.soundstoggleon.push(new Howl({ src: s }))
-			}
+			this.soundstoggleon = soundSrcList(compDef.soundtoggleon).map((src) => new Howl({ src }))
 		}
 		if (compDef.soundtoggleoff) {
-			this.soundstoggleoff = []
-			for (const s of /** @type {string[]} */ (compDef.soundtoggleoff)) {
-				this.soundstoggleoff.push(new Howl({ src: s }))
-			}
+			this.soundstoggleoff = soundSrcList(compDef.soundtoggleoff).map((src) => new Howl({ src }))
 		}
 	}
 
@@ -306,11 +292,14 @@ export class UIButtonMovieClip extends Container {
 		if (this._isToggle) {
 			this._checked = !this._checked
 			this._applyCheckedVisual(true)
-			this._playRandom(this._checked ? this.soundstoggleon : this.soundstoggleoff)
 			const res = this._checked
 				? /** @type {string} */ (this.def.restrue ?? this.def.res)
 				: /** @type {string} */ (this.def.resfalse ?? this.def.res)
-			this.dialog.buttonPress(res, this)
+			const clip = this._checked ? this.soundstoggleon : this.soundstoggleoff
+			// Unmute before the on-sound, mute after the off-sound, or the click is swallowed.
+			if (this._checked) this.dialog.buttonPress(res, this)
+			this._playRandom(clip)
+			if (!this._checked) this.dialog.buttonPress(res, this)
 			if (typeof this.def.callback === "function") this.def.callback(this._checked)
 			return
 		}

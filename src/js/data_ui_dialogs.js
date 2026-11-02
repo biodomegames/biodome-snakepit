@@ -5,71 +5,85 @@ import { TubesList } from "./data_tubelist.js"
 export const DialogDefinitions = {
 	TubeDefinitions: TubesList,
 
-	/** Settings (sound/music). Opened from the shell options menu. */
-	home: {
+	/** Cog in the upper-right corner. Opens the settings panel. */
+	digSettingsBtn: {
 		_setup: {
-			halign: "center",
-			valign: "center",
+			halign: "right",
+			valign: "top",
 			appear: TransDef.FADE,
 			disappear: TransDef.FADE,
-			alignOffset: { x: 0, y: 0 },
-			pos1: { x: 0, y: 0 },
-			pos2: { x: 0, y: 0 },
+			alignOffset: { x: 18, y: 14 },
 			aspectScaleFactor: {
 				minAspect: 0.4,
-				minScale: 1,
+				minScale: 0.85,
 				maxAspect: 1.4,
-				maxScale: 0.55,
+				maxScale: 0.6,
+			},
+		},
+		settingsBtn: {
+			type: "button_settings",
+			res: "settings",
+			closeDialog: false,
+			usePos: "absolute",
+			pos: { x: 0, y: 0 },
+			width: 96,
+			height: 96,
+			sizeRef: true,
+		},
+	},
+
+	/** Speaker and music icons from the tiles tube. */
+	digSettings: {
+		_setup: {
+			halign: "right",
+			valign: "top",
+			appear: TransDef.FADE,
+			disappear: TransDef.FADE,
+			appearSound: true,
+			disappearSound: true,
+			alignOffset: { x: 18, y: 140 },
+			aspectScaleFactor: {
+				minAspect: 0.4,
+				minScale: 0.95,
+				maxAspect: 1.4,
+				maxScale: 0.65,
 			},
 			controller: DialogSettings,
 		},
-
 		panel: {
 			type: "mine_dialog_raised",
-			width: 640,
+			width: 280,
 			height: 420,
 			sizeRef: true,
-		},
-
-		title: {
-			type: "h3_mine",
-			text: "Snakepit",
-			usePos: "absolute",
-			pos: { x: 0, y: -120 },
-		},
-
-		labelSound: {
-			type: "h3_mine",
-			text: "Sound",
-			usePos: "absolute",
-			pos: { x: -30, y: -20 },
-			anchor: { x: 1, y: 0.5 },
+			blockClicks: true,
 		},
 		checkboxSound: {
-			type: "settingsCheckbox",
+			type: "mechanicSoundToggle",
 			restrue: "soundon",
 			resfalse: "soundoff",
 			closeDialog: false,
 			usePos: "absolute",
-			pos: { x: 70, y: -20 },
+			pos: { x: 0, y: -120 },
 			initialValueGet: () => window.bdata.get("Sound", true),
 		},
-
-		labelMusic: {
-			type: "h3_mine",
-			text: "Music",
-			usePos: "absolute",
-			pos: { x: -30, y: 90 },
-			anchor: { x: 1, y: 0.5 },
-		},
 		checkboxMusic: {
-			type: "settingsCheckbox",
+			type: "mechanicMusicToggle",
 			restrue: "musicon",
 			resfalse: "musicoff",
 			closeDialog: false,
 			usePos: "absolute",
-			pos: { x: 70, y: 90 },
+			pos: { x: 0, y: 10 },
 			initialValueGet: () => window.bdata.get("Music", false),
+		},
+		resetGame: {
+			type: "button_textlink",
+			text: "Reset Game",
+			res: "resetgame",
+			closeDialog: false,
+			usePos: "absolute",
+			pos: { x: 0, y: 140 },
+			width: 220,
+			height: 56,
 		},
 	},
 
@@ -79,6 +93,8 @@ export const DialogDefinitions = {
 			valign: "center",
 			appear: TransDef.FADE,
 			disappear: TransDef.FADE,
+			appearSound: true,
+			disappearSound: true,
 		},
 		panel: { type: "mine_dialog_raised", width: 760, height: 820, sizeRef: true },
 		closebut: {
@@ -104,6 +120,10 @@ export const DialogDefinitions = {
 		_setup: {
 			valign: "center",
 			halign: "center",
+			appear: TransDef.FADE,
+			disappear: TransDef.FADE,
+			appearSound: true,
+			disappearSound: true,
 			pos1: { x: 0, y: -400 },
 			pos2: { x: 0, y: "bottom" },
 			aspectScaleFactor: {

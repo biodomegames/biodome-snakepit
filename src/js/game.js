@@ -1,4 +1,4 @@
-import { Container, Graphics, Text, TextStyle } from "pixi.js"
+import { Container, Graphics, Sprite, Text, TextStyle, Texture } from "pixi.js"
 import { boardHas } from "./snakepit/board.js"
 import { BoardView } from "./snakepit/boardView.js"
 import { LevelSession } from "./snakepit/level.js"
@@ -9,9 +9,18 @@ import {
 	saveProgress,
 } from "./snakepit/progress.js"
 import { Easing, newTween } from "./dome/Tween.js"
+import { createTitleLogo } from "./snakepit/titleLogo.js"
+import { FlowerFountain } from "./snakepit/flowerFountain.js"
+import * as sfx from "./snakepit/sfx.js"
 
 /** After game over, resume around this pit (or level 1 if not there yet). */
 const RESTART_LEVEL = 3
+
+/**
+ * How much neighboring floor-grass tiles cover each other.
+ * 0 is edge to edge. 0.25 overlaps by a quarter of the tile.
+ */
+const FLOOR_GRASS_OVERLAP = 0.22
 
 /** Deaths that end the level: 10% of that level's ants, rounded up. */
 function antDeathLimit(total) {
@@ -35,44 +44,21 @@ export class Game extends Container {
 		super()
 		this.app = app
 		this.hooks = hooks
+		this.floorGrass = new Container()
+		this.floorGrass.eventMode = "none"
+		this.floorGrass.interactiveChildren = false
+		this.addChild(this.floorGrass)
+
 		this.boardRoot = new Container()
 		this.world = new Container()
 		this.boardRoot.addChild(this.world)
 		this.addChild(this.boardRoot)
 
+		this.flowers = new FlowerFountain(() => window.alltubes?.tiles)
+		this.addChild(this.flowers.layer)
+
 		this.hud = new Container()
 		this.addChild(this.hud)
-
-		this.statusText = new Text({
-			text: "",
-			style: new TextStyle({
-				fontFamily: "Arial",
-				fontSize: 28,
-				fill: 0xffffff,
-				align: "center",
-				dropShadow: {
-					color: 0x000000,
-					blur: 4,
-					distance: 2,
-				},
-			}),
-		})
-		this.statusText.anchor.set(0.5, 0)
-		this.hud.addChild(this.statusText)
-
-		this.hintText = new Text({
-			text: "Tap a snake to send it forward. Clear the path to escape.",
-			style: new TextStyle({
-				fontFamily: "Arial",
-				fontSize: 18,
-				fill: 0xc8d8cc,
-				align: "center",
-				wordWrap: true,
-				wordWrapWidth: 520,
-			}),
-		})
-		this.hintText.anchor.set(0.5, 0)
-		this.hud.addChild(this.hintText)
 
 		/** @type {import('./dome/movieclip.js').MovieClip | null} */
 		this.logo = null
@@ -104,17 +90,63 @@ export class Game extends Container {
 		return this.activePit?.view ?? null
 	}
 
+	showSettingsButton() {
+		if (this.settingsBtn) return
+		const ui = this.hooks.getUi?.()
+		if (!ui) return
+		this.settingsBtn = ui.displayDialog("digSettingsBtn", {}, (res) => {
+			if (res === "settings") this.toggleSettings()
+		})
+	}
+
+	toggleSettings() {
+		const ui = this.hooks.getUi?.()
+		if (!ui) return
+		if (this.settingsDialog) {
+			const open = this.settingsDialog
+			this.settingsDialog = undefined
+			ui.closeDialog(open)
+			return
+		}
+		const shell = this.hooks.getShell?.()
+		this.settingsDialog = ui.displayDialog("digSettings", {}, (_res, dialog) => {
+			if (dialog?.isClosing || dialog?.isClosed) this.settingsDialog = undefined
+		})
+		this.settingsDialog?.controller?.setGameObjects({
+			game: this,
+			musman: shell?.musman,
+			defaultSound: shell?.defaultSound ?? true,
+			defaultMusic: shell?.defaultMusic ?? false,
+		})
+	}
+
+	closeSettings() {
+		const ui = this.hooks.getUi?.()
+		if (!this.settingsDialog || !ui) return
+		const open = this.settingsDialog
+		this.settingsDialog = undefined
+		ui.closeDialog(open)
+	}
+
+	/** Settings panel reset. Sound and music choices stay. */
+	resetGame() {
+		if (!window.confirm("Reset your progress? Sound and music stay as they are.")) return
+		this.closeSettings()
+		this.resetProgressAndRestart()
+	}
+
 	start() {
 		const prog = loadProgress()
 		this.levelIndex = prog.level
 		this.gameOver = false
 		this._clearGameOverUi()
 		this._clearWorld()
+		this._ensureLogo()
 		this._spawnPit(this.levelIndex, prog.seed || undefined, 0)
 		this._focusActivePit(false)
-		this._refreshHud()
 		this.resize()
 		this._playLogoIntro()
+		this.showSettingsButton()
 	}
 
 	resetProgressAndRestart() {
@@ -123,49 +155,84 @@ export class Game extends Container {
 		this.gameOver = false
 		this._clearGameOverUi()
 		this._clearWorld()
+		this._ensureLogo()
 		this._spawnPit(this.levelIndex, prog.seed, 0)
 		this._focusActivePit(false)
-		this._refreshHud()
 		this.resize()
 		this._playLogoIntro()
 	}
 
 	_ensureLogo() {
 		if (this.logo) return this.logo
+		// Snake wordmark stays in titleLogo.js. The tube clip is the one on screen.
+		const showSnakeTitle = false
+		if (showSnakeTitle) {
+			const logo = createTitleLogo(() => window.alltubes?.tiles)
+			logo.isSnakeTitle = true
+			this.hud.addChildAt(logo, 0)
+			this.logo = logo
+			return logo
+		}
 		const tube = window.alltubes?.tiles
-		if (!tube) return null
-		const mc = tube.getMovieClip("logo")
+		const mc = tube?.getMovieClip?.("logo")
 		if (!mc) return null
 		mc.eventMode = "none"
 		mc.interactiveChildren = false
+		if (mc.framelabels?.idle != null) mc.setFrame("idle")
+		mc.stop?.()
+		const bounds = mc.getLocalBounds?.()
+		const width = Math.max(1, bounds?.width || 335)
+		const height = Math.max(1, bounds?.height || 51)
+		mc.layoutWidth = width
+		mc.layoutHeight = height
+		if (bounds) mc.pivot.set(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2)
 		this.hud.addChildAt(mc, 0)
 		this.logo = mc
 		return mc
 	}
 
+	/** Width of the settled wordmark. Leaves the upper-right settings cog clear. */
+	_logoTargetWidth(w, settled) {
+		if (settled) return Math.min(Math.max(160, w - 112), 520)
+		return Math.min(w * 0.94, 660)
+	}
+
+	_logoScale(w, settled) {
+		const naturalW = Math.max(1, this.logo?.layoutWidth || 640)
+		return this._logoTargetWidth(w, settled) / naturalW
+	}
+
+	/** Center the logo, shifting left when the cog would cover the last letter. */
+	_logoX(w, halfWidth) {
+		const gear = 104
+		let x = w / 2
+		if (x + halfWidth > w - gear) x = w - gear - halfWidth - 4
+		if (x - halfWidth < 6) x = halfWidth + 6
+		return x
+	}
+
 	_logoLayout(settled) {
 		const { w, h } = this._layoutMetrics()
-		const logo = this.logo
-		const bounds = logo?.getLocalBounds?.()
-		const naturalW = Math.max(1, bounds?.width || 335)
-		const naturalH = Math.max(1, bounds?.height || 51)
+		const naturalW = Math.max(1, this.logo?.layoutWidth || 640)
+		const naturalH = Math.max(1, this.logo?.layoutHeight || 150)
+		const scale = this._logoScale(w, settled)
+		const halfW = (naturalW * scale) / 2
 		if (settled) {
-			const targetW = Math.min(w * 0.5, 240)
-			const scale = targetW / naturalW
+			const height = naturalH * scale
+			const topPad = 14
 			return {
-				x: w / 2,
-				y: 8 + (naturalH * scale) / 2,
+				x: this._logoX(w, halfW),
+				y: topPad + height / 2,
 				scale,
-				bottom: 8 + naturalH * scale + 6,
+				bottom: topPad + height + 6,
 			}
 		}
-		const targetW = Math.min(w * 0.86, 400)
-		const scale = targetW / naturalW
+		const y = Math.min(h * 0.22, 150)
 		return {
 			x: w / 2,
-			y: Math.min(h * 0.22, 140),
+			y,
 			scale,
-			bottom: Math.min(h * 0.22, 140) + (naturalH * scale) / 2 + 8,
+			bottom: y + (naturalH * scale) / 2 + 8,
 		}
 	}
 
@@ -179,6 +246,7 @@ export class Game extends Container {
 
 	_playLogoIntro() {
 		const logo = this._ensureLogo()
+		sfx.play("logo")
 		if (!logo) return
 		const from = this._logoLayout(false)
 		const to = this._logoLayout(true)
@@ -187,7 +255,6 @@ export class Game extends Container {
 		logo.alpha = 1
 		logo.position.set(from.x, from.y)
 		logo.scale.set(from.scale)
-		this._layoutHudText(from.bottom)
 		const proxy = { t: 0 }
 		newTween(proxy, { t: 1 }, 0.95)
 			.ease(Easing.outCubic)
@@ -196,25 +263,13 @@ export class Game extends Container {
 				logo.scale.set(from.scale + (to.scale - from.scale) * t)
 				logo.x = from.x + (to.x - from.x) * t
 				logo.y = from.y + (to.y - from.y) * t
-				const bottom =
-					from.bottom + (to.bottom - from.bottom) * t
-				this._layoutHudText(bottom)
 			})
 			.onDone(() => {
 				logo.scale.set(to.scale)
 				logo.position.set(to.x, to.y)
 				this.logoSettled = true
 				this.logoIntroPlaying = false
-				this._layoutHudText(to.bottom)
 			})
-	}
-
-	_layoutHudText(logoBottom) {
-		const { w } = this._layoutMetrics()
-		const top = Math.max(36, logoBottom ?? 36)
-		this.statusText.position.set(w / 2, top)
-		this.hintText.position.set(w / 2, top + 32)
-		this.hintText.style.wordWrapWidth = Math.min(560, w - 24)
 	}
 
 	_clearWorld() {
@@ -224,6 +279,7 @@ export class Game extends Container {
 		this.pitStack = []
 		this.activePit = null
 		this.world.removeChildren()
+		this.flowers?.clear()
 	}
 
 	/**
@@ -243,7 +299,6 @@ export class Game extends Container {
 
 	_spawnPit(level, seed, worldY) {
 		const session = new LevelSession({ level, seed })
-		session.onChange = () => this._refreshHud()
 		const view = new BoardView({
 			getTube: () => window.alltubes?.tiles,
 			onSnakeClick: (id) => this._onSnakeClick(id),
@@ -271,18 +326,29 @@ export class Game extends Container {
 		const botHud = 36
 		const padX = Math.max(8, Math.min(18, w * 0.03))
 		const padY = 8
+		let top = topHud
+		const logoW = this.logo?.layoutWidth || 0
+		const logoH = this.logo?.layoutHeight || 0
+		if (logoW > 0 && logoH > 0) {
+			const scale = Math.min(Math.max(160, w - 112), 520) / logoW
+			const logoBottom = 14 + logoH * scale + 6
+			top = Math.max(topHud, logoBottom + 16)
+		}
 		const availW = Math.max(1, w - padX * 2)
-		const availH = Math.max(1, h - topHud - botHud - padY * 2)
-		return { w, h, topHud, botHud, padX, padY, availW, availH }
+		const availH = Math.max(1, h - top - botHud - padY * 2)
+		return { w, h, topHud: top, botHud, padX, padY, availW, availH }
 	}
 
 	_cameraForPit(pit) {
-		const { availW, availH, w, topHud, padY } = this._layoutMetrics()
+		const { availW, availH, w, h, topHud, padY } = this._layoutMetrics()
 		const field = pit.view.playfieldPixelSize()
 		const pitBox = pit.view.boardPixelSize()
 		const fit = Math.min(availW / Math.max(field.w, 1), availH / Math.max(field.h, 1))
-		// Don't zoom in past this: keeps small pits from filling the phone with huge tiles.
-		const maxTileScreen = 72 // max center→vertex size in screen px
+		// Small pits would otherwise grow until they fill the screen. On a narrow
+		// phone the same cap leaves the first levels looking far away, so allow
+		// a little more zoom there. Later levels are already limited by fit.
+		const narrow = h > w * (768 / 1024)
+		const maxTileScreen = narrow ? 90 : 72
 		const maxScale = maxTileScreen / Math.max(pit.view.hexSize || 36, 1)
 		const scale = Math.min(fit, maxScale)
 		// View is placed so the pit center sits at world (0, worldY). Frame the lanes too.
@@ -349,20 +415,27 @@ export class Game extends Container {
 			const rimSteps = this._escapeStepsToRim(result.steps, session.board)
 			session.beginMove(snakeId)
 			session.commitEscape(snakeId)
-			this._refreshHud()
-			await view.playSteps(result.snake, rimSteps, { bump: false, handoff: true })
-			const from = view.escapeHandoffLocal(rimSteps, dir)
-			const bodyPts = view.escapeBodyPoints(rimSteps, dir)
-			view.dock.enqueueEscapedSnake({
-				color,
-				capacity,
-				from,
-				bodyPts,
-				lane,
-			})
-			view.removeSnakeGfx(snakeId)
+			sfx.play("lane")
+			sfx.play("snakeStart")
+			sfx.loopAdd("slither")
+			let handedOff = false
+			try {
+				await view.playSteps(result.snake, rimSteps, { bump: false, handoff: true })
+				const from = view.escapeHandoffLocal(rimSteps, dir)
+				const bodyPts = view.escapeBodyPoints(rimSteps, dir)
+				view.removeSnakeGfx(snakeId)
+				view.dock.enqueueEscapedSnake({
+					color,
+					capacity,
+					from,
+					bodyPts,
+					lane,
+				})
+				handedOff = true
+			} finally {
+				if (!handedOff) sfx.loopRemove("slither")
+			}
 			session.endMove(snakeId)
-			this._refreshHud()
 			// Wait until every in-flight escape on this pit finishes — otherwise
 			// parallel clears can advance multiple levels at once.
 			await this._maybeAdvanceAfterClear(pit)
@@ -370,16 +443,22 @@ export class Game extends Container {
 		}
 
 		session.beginMove(snakeId)
-		await view.playSteps(result.snake, result.steps, { bump: true })
+		sfx.play("snakeStart")
+		// A snake blocked on the first hex only nudges and bonks. No slither.
+		const travels = (result.steps?.length ?? 0) > 1
+		if (travels) sfx.loopAdd("slither")
+		try {
+			await view.playSteps(result.snake, result.steps, { bump: true })
+		} finally {
+			if (travels) sfx.loopRemove("slither")
+		}
 		session.endMove(snakeId)
-		this._refreshHud()
 	}
 
 	/** @returns {boolean} true when this death reaches 10% of the level's ants */
 	_onAntDied() {
 		if (this.gameOver) return false
 		this.deadAnts++
-		this._refreshHud()
 		return this.deadAnts >= antDeathLimit(this.antTotal)
 	}
 
@@ -396,11 +475,11 @@ export class Game extends Container {
 
 	async _triggerGameOver(pit) {
 		if (this.gameOver) return
+		sfx.play("gameOver")
 		this.gameOver = true
 		this.transitioning = true
 		pit.view.eventMode = "none"
 		pit.view.interactiveChildren = false
-		this.hintText.text = "Too many ants died — game over!"
 
 		const tube = window.alltubes?.tiles
 		const sign = tube?.getMovieClip?.("gameOver")
@@ -423,14 +502,16 @@ export class Game extends Container {
 					})
 					.onDone(() => {
 						sign.y = toY
+						sfx.play("signThud")
 						resolve()
 					})
 			})
+		} else {
+			sfx.play("signThud")
 		}
 
 		this._showRestartButton()
 		this.transitioning = false
-		this._refreshHud()
 	}
 
 	_showRestartButton() {
@@ -470,6 +551,7 @@ export class Game extends Container {
 	}
 
 	_restartAfterGameOver() {
+		sfx.play("restart")
 		const restartLevel = this.levelIndex >= RESTART_LEVEL ? RESTART_LEVEL : 1
 		const seed = (Math.floor(Math.random() * 0xffffffff) >>> 0)
 		this.levelIndex = restartLevel
@@ -480,8 +562,6 @@ export class Game extends Container {
 		saveProgress(restartLevel, seed)
 		this._spawnPit(restartLevel, seed, 0)
 		this._focusActivePit(false)
-		this.hintText.text = "Tap a snake to send it forward. Clear the path to escape."
-		this._refreshHud()
 		this.resize()
 	}
 
@@ -493,12 +573,11 @@ export class Game extends Container {
 		// Stale callback from an already-left pit.
 		if (this.activePit !== pit) return
 		this._awaitingDockClear = true
-		this.hintText.text = "Pit cleared — ants boarding…"
+		sfx.play("pitCleared")
 		try {
 			await pit.view.dock.waitUntilIdle()
 			if (this.activePit !== pit || this.transitioning || this.gameOver) return
 			if (pit.view.dock.hasLeftoverAnts()) {
-				this.hintText.text = "An anteater arrives…"
 				await pit.view.dock.playAnteater(this.hud)
 				if (this.activePit !== pit || this.transitioning || this.gameOver) return
 			}
@@ -515,7 +594,14 @@ export class Game extends Container {
 		this.transitioning = true
 		prev.view.eventMode = "none"
 		prev.view.interactiveChildren = false
-		this.hintText.text = "Pit cleared — climbing to the next one…"
+		const pitBox = prev.view.boardPixelSize()
+		const global = prev.view.toGlobal({
+			x: pitBox.cx,
+			y: pitBox.cy + pitBox.h * 0.48,
+		})
+		const local = this.toLocal(global)
+		const climb = Math.min(pitBox.h * (this.cam.scale || 1) * 1.15, 520)
+		this.flowers.burst(local.x, local.y, climb)
 		const nextLevel = nextLevelIndex(this.levelIndex)
 		const gap = 80
 		const prevField = prev.view.playfieldPixelSize()
@@ -535,6 +621,7 @@ export class Game extends Container {
 		next.view.position.set(-nextPit.cx, preciseY - nextPit.cy)
 		next.view.cullDecorOnScreen(this.cam)
 
+		sfx.play("climb")
 		await this._focusActivePit(true)
 		if (this.pitStack.length > 2) {
 			const old = this.pitStack.shift()
@@ -543,36 +630,100 @@ export class Game extends Container {
 		next.view.eventMode = "static"
 		next.view.interactiveChildren = true
 		this.transitioning = false
-		this.hintText.text = "Tap a snake to send it forward. Clear the path to escape."
-		this._refreshHud()
 	}
 
-	_refreshHud() {
-		const session = this.session
-		if (!session) return
-		const left = session.remaining()
-		const total = session.total()
-		const limit = antDeathLimit(this.antTotal)
-		const deadNote = Number.isFinite(limit) ? `${this.deadAnts}/${limit} ants dead` : ""
-		if (this.gameOver) {
-			this.statusText.text = `Game over  ·  Level ${this.levelIndex}`
-		} else if (session.isWon()) {
-			this.statusText.text = `Level ${this.levelIndex} cleared!`
-		} else {
-			this.statusText.text = `Level ${this.levelIndex}  ·  ${total - left}/${total} escaped  ·  ${deadNote}`
+	tick(dt) {
+		this.flowers?.tick(dt)
+		if (this.logo?.isSnakeTitle) this.logo.tick(dt)
+		if (this.gameOver) return
+		if (this._critterIn == null) this._critterIn = 8
+		this._critterIn -= dt
+		if (this._critterIn > 0) return
+		sfx.play("critter")
+		this._critterIn = 14 + Math.random() * 18
+	}
+
+	/** Tile floorgrass across the screen. Each tile shows a random frame of the clip. */
+	_layoutFloorGrass() {
+		const tube = window.alltubes?.tiles
+		if (!tube?.getMovieClip) return
+		const { w, h } = this._layoutMetrics()
+		let sample = this.floorGrass.children[0]
+		if (!sample) {
+			sample = tube.getMovieClip("floorgrass")
+			if (!sample) return
+			sample.eventMode = "none"
+			sample.interactiveChildren = false
+			const frames = Math.max(1, sample.data?.length || 1)
+			sample.setFrame(Math.floor(Math.random() * frames))
+			sample.stop?.()
+			this.floorGrass.addChild(sample)
 		}
+		const bounds = sample.getLocalBounds()
+		const tileW = Math.max(8, bounds.width)
+		const tileH = Math.max(8, bounds.height)
+		const frames = Math.max(1, sample.data?.length || 1)
+		const stepX = tileW * (1 - FLOOR_GRASS_OVERLAP)
+		const stepY = tileH * (1 - FLOOR_GRASS_OVERLAP)
+		const cols = Math.ceil((w + stepX) / stepX) + 1
+		const rows = Math.ceil((h + stepY) / stepY) + 1
+		const need = cols * rows
+
+		while (this.floorGrass.children.length > need) {
+			const extra = this.floorGrass.children.pop()
+			extra?.stop?.()
+			extra?.destroy({ children: true })
+		}
+		while (this.floorGrass.children.length < need) {
+			const mc = tube.getMovieClip("floorgrass")
+			if (!mc) break
+			mc.eventMode = "none"
+			mc.interactiveChildren = false
+			mc.setFrame(Math.floor(Math.random() * frames))
+			mc.stop?.()
+			this.floorGrass.addChild(mc)
+		}
+
+		let i = 0
+		for (let row = 0; row < rows; row++) {
+			for (let col = 0; col < cols; col++) {
+				const mc = this.floorGrass.children[i++]
+				if (!mc) return
+				mc.position.set(col * stepX - stepX * 0.5, row * stepY - stepY * 0.5)
+			}
+		}
+		this._layoutBgTint()
 	}
 
-	tick() {}
+	/** Full-screen shade sitting directly above the floor grass. */
+	_layoutBgTint() {
+		const { w, h } = this._layoutMetrics()
+		if (!this.bgTint) {
+			let tex = null
+			try {
+				tex = Texture.from("tiles_bgtint.png")
+				if (!tex || tex.width <= 1) return
+			} catch {
+				return
+			}
+			const spr = new Sprite(tex)
+			spr.eventMode = "none"
+			spr.anchor.set(0, 0)
+			spr.alpha = 0.5
+			const grassIndex = this.getChildIndex(this.floorGrass)
+			this.addChildAt(spr, grassIndex + 1)
+			this.bgTint = spr
+		}
+		this.bgTint.width = w
+		this.bgTint.height = h
+	}
 
 	resize() {
+		this._layoutFloorGrass()
+		this._layoutBgTint()
 		if (this.activePit && !this.transitioning && !this.gameOver) this._focusActivePit(false)
 		if (this.logo && !this.logoIntroPlaying) {
 			this._applyLogoLayout(this.logoSettled)
-			const layout = this._logoLayout(this.logoSettled)
-			this._layoutHudText(layout.bottom)
-		} else if (!this.logo) {
-			this._layoutHudText(18)
 		}
 		this._layoutRestartButton()
 	}

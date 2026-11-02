@@ -5,7 +5,9 @@ import { Container } from 'pixi.js';
 import { Sprite } from 'pixi.js';
 import { Texture } from 'pixi.js';
 import { Slider } from '@pixi/ui';
+import { Howl } from 'howler';
 import { TransDef, UITransitionSounds } from './ui.js';
+import { soundSrcList } from './ui_sounds.js';
 import { Assets } from 'pixi.js';
 import { NineSliceSprite } from 'pixi.js';
 import { Rectangle } from 'pixi.js';
@@ -1382,46 +1384,25 @@ export class Dialog extends Container
 
 		checkBox.onCheck.connect((checked) =>
 		{
+			const playToggle = () => {
+				const list = checked ? checkBox.soundson : checkBox.soundsoff
+				if (!list?.length) return
+				list[Math.floor(Math.random() * list.length)].play()
+			}
+			// Unmute before the on-sound, mute after the off-sound, or the click is swallowed.
+			if (!checked) playToggle()
 			this.buttonPress(checked ? def.restrue : def.resfalse, checkBox)
 			if (def.callback) def.callback(checked)
-			
-			if (checked)
-			{
-				if (checkBox.soundson)
-				{
-					var rnd = Math.floor(Math.random() * checkBox.soundson.length)
-					checkBox.soundson[rnd].play()
-				}
-			}
-			else
-			{
-				if (checkBox.soundsoff)
-				{
-					var rnd = Math.floor(Math.random() * checkBox.soundsoff.length)
-					checkBox.soundsoff[rnd].play()
-				}
-			}
+			if (checked) playToggle()
 		});
 
 		if (compDef.soundtoggleon)
 		{
-			checkBox.soundson = []
-			for (var s in compDef.soundtoggleon)
-			{
-				checkBox.soundson.push(new Howl({
-					src: compDef.soundtoggleon[s]
-					}));
-			}
+			checkBox.soundson = soundSrcList(compDef.soundtoggleon).map((src) => new Howl({ src }))
 		}
 		if (compDef.soundtoggleoff)
 		{
-			checkBox.soundsoff = []
-			for (var s in compDef.soundtoggleoff)
-			{
-				checkBox.soundsoff.push(new Howl({
-					src: compDef.soundtoggleoff[s]
-					}));
-			}
+			checkBox.soundsoff = soundSrcList(compDef.soundtoggleoff).map((src) => new Howl({ src }))
 		}	
 	
 		return checkBox
@@ -1996,9 +1977,14 @@ export class Dialog extends Container
 	{
 		for (var layer of layerlist)
 		{
+			const texture = Texture.from(layer.source)
+			if (!texture) {
+				console.error("Missing 9-slice texture", layer.source)
+				continue
+			}
 			var plane9 = new NineSliceSprite(
 			{
-				texture: Texture.from(layer.source), leftWidth: layer.left, rightWidth: layer.right, topHeight: layer.top, bottomHeight: layer.bottom
+				texture, leftWidth: layer.left, rightWidth: layer.right, topHeight: layer.top, bottomHeight: layer.bottom
 			});
 			let width = _width
 			let height = _height
