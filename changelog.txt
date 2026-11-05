@@ -1,3 +1,13 @@
+------- Version 0.5.0 (Build 56) -------
+
+## 2026-11-05 (thursday)
+-  Close settings on gameplay taps and start lane locks a bit earlier. (Tobias)
+-  Co-authored-by: Cursor <cursoragent@cursor.com>
+-  Add difficulty/lane unlocks, run persistence, and a richer anteater eat sequence. (Tobias)
+-  Gate saves while snakes are mid-slither, fix FlashTube dropping tiny-skew rotations so bendy bodies play back, and ship the updated tiles anteater art.
+-  Co-authored-by: Cursor <cursoragent@cursor.com>
+
+
 ------- Version 0.5.0 (Build 55) -------
 
 ## 2026-11-02 (monday)

@@ -1,4 +1,4 @@
-import { Container, Graphics, Rectangle, Sprite, Text, TextStyle, Texture } from "pixi.js"
+import { Assets, Container, Graphics, Rectangle, Sprite, Text, TextStyle, Texture } from "pixi.js"
 import { boardHas } from "./snakepit/board.js"
 import { BoardView } from "./snakepit/boardView.js"
 import { LevelSession } from "./snakepit/level.js"
@@ -104,6 +104,8 @@ export class Game extends Container {
 		/** @type {any} */
 		this._livesRefillDialog = null
 		this._livesRefillBusy = false
+		/** @type {any} */
+		this._resetConfirmDialog = null
 		this._persistBound = false
 		this._onVisibilityPersist = () => {
 			if (document.visibilityState === "hidden") this._persistRun()
@@ -158,9 +160,22 @@ export class Game extends Container {
 
 	/** Settings panel reset. Sound and music choices stay. */
 	resetGame() {
-		if (!window.confirm("Reset your progress? Sound and music stay as they are.")) return
-		this.closeSettings()
-		this.resetProgressAndRestart()
+		if (this._resetConfirmDialog) return
+		const ui = this.hooks.getUi?.()
+		if (!ui?.displayDialog) {
+			this.closeSettings()
+			this.resetProgressAndRestart()
+			return
+		}
+		this._resetConfirmDialog = ui.displayDialog("confirmReset", {}, (res, dialog) => {
+			if (dialog?.isClosing || dialog?.isClosed) {
+				if (this._resetConfirmDialog === dialog) this._resetConfirmDialog = null
+			}
+			if (res === "confirmreset") {
+				this.closeSettings()
+				this.resetProgressAndRestart()
+			}
+		})
 	}
 
 	start() {
@@ -346,11 +361,18 @@ export class Game extends Container {
 		btn.eventMode = "static"
 		btn.cursor = "pointer"
 		btn.visible = false
-		const icon = new Sprite(Texture.from(watchAdIcon))
+		const icon = new Sprite()
 		icon.anchor.set(0.5)
 		icon.eventMode = "none"
 		btn.addChild(icon)
 		btn._icon = icon
+		const applyIcon = (tex) => {
+			if (!tex || icon.destroyed) return
+			icon.texture = tex
+		}
+		const cached = Texture.from(watchAdIcon)
+		if (cached?.width > 1) applyIcon(cached)
+		else Assets.load(watchAdIcon).then(applyIcon).catch(() => {})
 		btn.on("pointertap", (e) => {
 			e.stopPropagation()
 			this._openLivesRefillDialog()
@@ -392,6 +414,7 @@ export class Game extends Container {
 		adManager.showRewarded((ok) => {
 			this._livesRefillBusy = false
 			if (!ok) return
+			adManager.noteRewardedCompleted()
 			this.antLives = Math.min(ANT_LIVES, (this.antLives | 0) + livesRefillAmount())
 			this._refreshLifeIcons()
 			this._persistRun()
@@ -405,7 +428,7 @@ export class Game extends Container {
 		if (!spr) return
 		const naturalW = Math.max(1, spr.texture?.width || 33)
 		const naturalH = Math.max(1, spr.texture?.height || 29)
-		const scale = Math.min(1.35, Math.max(0.85, (this._layoutMetrics().w / 520) * 1.1))
+		const scale = Math.min(0.85, Math.max(0.5, (this._layoutMetrics().w / 520) * 0.7))
 		const gap = naturalW * scale + 8
 		const n = this.lifeSprites.length
 		const livesLeft = Math.max(0, this.antLives | 0)
@@ -948,6 +971,7 @@ export class Game extends Container {
 		// Stale callback from an already-left pit.
 		if (this.activePit !== pit) return
 		this._awaitingDockClear = true
+		// Pit board is empty; snakes may still be filling / leaving lanes.
 		sfx.play("pitCleared")
 		try {
 			await pit.view.dock.waitUntilIdle()
@@ -956,6 +980,8 @@ export class Game extends Container {
 				await pit.view.dock.playAnteater(this.hud)
 				if (this.activePit !== pit || this.transitioning || this.gameOver) return
 			}
+			// Last snake has left the lanes and leftovers are cleared.
+			sfx.play("levelComplete")
 			await this._onLevelCleared(pit)
 		} finally {
 			this._awaitingDockClear = false
@@ -1001,6 +1027,13 @@ export class Game extends Container {
 		if (this.pitStack.length > 2) {
 			const old = this.pitStack.shift()
 			old?.view.parent?.removeChild(old.view)
+		}
+		await new Promise((resolve) => {
+			adManager.maybeInterstitialOnNewPit(resolve)
+		})
+		if (this.activePit !== next || this.gameOver) {
+			this.transitioning = false
+			return
 		}
 		next.view.eventMode = "static"
 		next.view.interactiveChildren = true

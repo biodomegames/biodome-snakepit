@@ -521,8 +521,10 @@ export class MovieClip extends Container {
 			for (var g in this.gluerules)
 			{
 				var gr = this.gluerules[g]
-				//var found = false
-				if (gr.instancename == sprite.name)
+				const glueName = gr.instancename != null ? String(gr.instancename).toLowerCase() : ""
+				const inst = sprite.instancename != null ? String(sprite.instancename).toLowerCase() : ""
+				const sprName = sprite.name != null ? String(sprite.name).toLowerCase() : ""
+				if (glueName && (glueName === inst || glueName === sprName))
 				{
 					gr.item.visible = spr.visible
 					if (!spr.visible) continue
@@ -534,8 +536,7 @@ export class MovieClip extends Container {
 					gr.item.scale.y = spr.scale.y
 					gr.item.skew.x = spr.skew.x
 					gr.item.skew.y = spr.skew.y
-					
-
+					this.addChild(gr.item)
 				}
 			}
 		}
@@ -681,8 +682,10 @@ export class MovieClip extends Container {
 			for (var g in this.gluerules)
 			{
 				var gr = this.gluerules[g]
-				//var found = false
-				if (gr.instancename == sprite.name)
+				const glueName = gr.instancename != null ? String(gr.instancename).toLowerCase() : ""
+				const inst = sprite.instancename != null ? String(sprite.instancename).toLowerCase() : ""
+				const sprName = sprite.name != null ? String(sprite.name).toLowerCase() : ""
+				if (glueName && (glueName === inst || glueName === sprName))
 				{
 					gr.item.visible = spr.visible
 					if (!spr.visible) continue
@@ -694,8 +697,7 @@ export class MovieClip extends Container {
 					gr.item.scale.y = spr.scale.y
 					gr.item.skew.x = spr.skew.x
 					gr.item.skew.y = spr.skew.y
-					
-
+					this.addChild(gr.item)
 				}
 			}
 		}

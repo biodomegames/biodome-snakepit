@@ -72,6 +72,9 @@ export class DialogSettings extends DialogController {
 					"web/moreinfo/index.html"
 				)
 				break
+			case "resetgame":
+				this.game?.resetGame?.()
+				break
 		}
 		return result
 	}

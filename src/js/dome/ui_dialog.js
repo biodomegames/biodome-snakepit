@@ -215,10 +215,10 @@ export class Dialog extends Container
 		if (definition._setup.appearSound)
 		{
 			var transSounds = UITransitionSounds[definition._setup.appear]
-			if (transSounds && transSounds.insound)
+			if (transSounds?.insound?.length)
 			{
 				var idx = Math.floor(Math.random() * transSounds.insound.length)
-				transSounds.insound[idx].play()
+				transSounds.insound[idx]?.play()
 				
 				//<debug>
 				console.log("Playing entry sound ", definition.name)
@@ -349,10 +349,10 @@ export class Dialog extends Container
 		if (definition._setup.disappearSound)
 		{
 			var transSounds = UITransitionSounds[definition._setup.disappear]
-			if (transSounds && transSounds.outsound)
+			if (transSounds?.outsound?.length)
 			{
 				var idx = Math.floor(Math.random() * transSounds.outsound.length)
-				transSounds.outsound[idx].play()
+				transSounds.outsound[idx]?.play()
 				//<debug>
 				console.log("Playing exit sound ", definition.name)
 				//</debug>

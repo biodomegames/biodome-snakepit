@@ -1,4 +1,4 @@
-import { Container, Graphics, Rectangle, Sprite, Texture } from "pixi.js"
+import { Assets, Container, Graphics, Rectangle, Sprite, Texture } from "pixi.js"
 import { Easing, newTween } from "../dome/Tween.js"
 import { solutionAntColors, laneCountForSnakes } from "./snake.js"
 import {
@@ -429,14 +429,21 @@ export class AntDock extends Container {
 			dim.eventMode = "none"
 			overlay.addChild(dim)
 
-			const icon = new Sprite(Texture.from(watchAdIcon))
+			const icon = new Sprite()
 			icon.anchor.set(0.5)
-			const iconSize = Math.min(44, LANE_H - 4)
-			icon.width = iconSize
-			icon.height = iconSize
 			icon.position.set(this._left + this._laneW / 2, lane.y)
 			icon.eventMode = "none"
 			overlay.addChild(icon)
+			const iconSize = Math.min(44, LANE_H - 4)
+			const applyIcon = (tex) => {
+				if (!tex || icon.destroyed) return
+				icon.texture = tex
+				icon.width = iconSize
+				icon.height = iconSize
+			}
+			const cached = Texture.from(watchAdIcon)
+			if (cached?.width > 1) applyIcon(cached)
+			else Assets.load(watchAdIcon).then(applyIcon).catch(() => {})
 
 			overlay.on("pointertap", (e) => {
 				e.stopPropagation()
@@ -471,6 +478,7 @@ export class AntDock extends Container {
 		adManager.showRewarded((ok) => {
 			this._adBusy = false
 			if (!ok) return
+			adManager.noteRewardedCompleted()
 			this._unlockLane(lane, overlay)
 		})
 	}

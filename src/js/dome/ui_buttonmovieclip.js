@@ -1,7 +1,10 @@
-import { Container, Rectangle } from "pixi.js"
+import { Container, Rectangle, Sprite, Texture } from "pixi.js"
 import { Button } from "@pixi/ui"
 import { Howl } from "howler"
 import { soundSrcList } from "./ui_sounds.js"
+
+/** Default Animate instance name for the button face (export may lower-case it). */
+const DEFAULT_FACE_INSTANCE = "btnFace"
 
 /**
  * Label action for {@link ComponentTypes.BUTTONMOVIECLIP}.
@@ -40,6 +43,13 @@ export class UIButtonMovieClip extends Container {
 	compDef = undefined
 	/** @type {import('./movieclip.js').MovieClip | undefined} */
 	mc = undefined
+	/** Face overlay (icon / label) parented under the tube `btnFace` sprite. */
+	/** @type {Container | undefined} */
+	faceContent = undefined
+	/** @type {Sprite | undefined} */
+	image = undefined
+	/** @type {import('pixi.js').Text | undefined} */
+	text = undefined
 	isEnabled = true
 	_pointerOver = false
 	_pointerDown = false
@@ -96,6 +106,8 @@ export class UIButtonMovieClip extends Container {
 			this._applyUpState()
 		}
 
+		this._setupFaceContent()
+
 		const button = new Button(this)
 		button.onDown.connect(() => this._onDown())
 		button.onUp.connect(() => this._onUp())
@@ -104,6 +116,82 @@ export class UIButtonMovieClip extends Container {
 		button.onUpOut.connect(() => this._onUpOut())
 		button.onPress.connect(() => this._onPress())
 		this.button = button
+	}
+
+	/**
+	 * Resolve the tube sprite that owns button face content (`btnFace` / `btnface`).
+	 * Avoids {@link MovieClip#getSprite} so we do not create an empty placeholder.
+	 * @returns {import('pixi.js').Container | undefined}
+	 */
+	_resolveFaceSprite() {
+		if (!this.mc) return undefined
+		const wanted = String(this.compDef?.faceInstance || DEFAULT_FACE_INSTANCE)
+		const cache = this.mc.spritecache || {}
+		if (cache[wanted]) return cache[wanted]
+		const lower = wanted.toLowerCase()
+		for (const key of Object.keys(cache)) {
+			if (key.toLowerCase() === lower) return cache[key]
+		}
+		return undefined
+	}
+
+	/** Build image/text overlay and parent it under the animating face sprite. */
+	_setupFaceContent() {
+		if (!this.mc || !this.def) return
+		const face = this._resolveFaceSprite()
+		const content = new Container()
+		content.eventMode = "none"
+		this.faceContent = content
+
+		if (this.def.image?.source) {
+			const img = new Sprite(Texture.from(/** @type {string} */ (this.def.image.source)))
+			img.anchor.set(0.5)
+			const scale = this.def.image.scale
+			img.scale.set(typeof scale === "number" ? scale : 1)
+			img.eventMode = "none"
+			content.addChild(img)
+			this.image = img
+		}
+
+		if (this.def.text != null && this.def.text !== "" && this.compDef?.text) {
+			this.setText(/** @type {string} */ (this.def.text))
+		}
+
+		if (face) {
+			// Parent under the tube face so scale/rotation/skew follow the animation.
+			face.addChild(content)
+		} else {
+			// Fallback: glue by instance name as a sibling on the movieclip.
+			this.mc.addChild(content)
+			const faceName = String(this.compDef?.faceInstance || DEFAULT_FACE_INSTANCE)
+			this.mc.setItemTransformOnInstanceItem("faceContent", content, faceName)
+		}
+	}
+
+	/**
+	 * Dialog system calls this when the button has a text label.
+	 * @param {string} str
+	 */
+	setText(str) {
+		if (this.text) {
+			this.text.text = str
+			return
+		}
+		if (!this.dialog || !this.compDef?.text) return
+		const textDef = this.dialog.ui.componentDefinitions[/** @type {string} */ (this.compDef.text)]
+		if (!textDef) return
+		const label = this.dialog.initText({ ...this.def, text: str }, textDef)
+		// initText parents onto the dialog — move onto the face overlay.
+		label.parent?.removeChild(label)
+		label.eventMode = "none"
+		if (!this.faceContent) {
+			this.faceContent = new Container()
+			this.faceContent.eventMode = "none"
+			const face = this._resolveFaceSprite()
+			;(face || this).addChild(this.faceContent)
+		}
+		this.faceContent.addChild(label)
+		this.text = label
 	}
 
 	/** @param {Record<string, unknown>} compDef */

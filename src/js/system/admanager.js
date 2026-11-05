@@ -1,10 +1,39 @@
 
-
+import { Config } from "../config.js"
 
 export class AdManager {
 	constructor() {
 		/** Resolves when {@link #initialize} has finished (success or failure). Subclasses may replace. */
 		this.whenInitialized = Promise.resolve()
+		/**
+		 * Levels cleared since the last rewarded completion or between-level interstitial attempt.
+		 * Used by {@link #maybeInterstitialOnNewPit}.
+		 */
+		this.levelsSinceFullscreenAd = 0
+	}
+
+	/** Rewarded finished successfully — skip the next interstitial streak. */
+	noteRewardedCompleted() {
+		this.levelsSinceFullscreenAd = 0
+	}
+
+	/**
+	 * Call when the player arrives at a new pit after clearing one.
+	 * Shows an interstitial every {@link Config.interstitialAfterEveryNthLevel} clears
+	 * unless a rewarded ad reset the counter sooner.
+	 */
+	async maybeInterstitialOnNewPit(onContinue) {
+		const n = Number(Config.interstitialAfterEveryNthLevel)
+		const every = Number.isFinite(n) && n > 0 ? Math.floor(n) : 0
+		this.levelsSinceFullscreenAd++
+		if (!every || this.levelsSinceFullscreenAd < every) {
+			onContinue && onContinue()
+			return
+		}
+		await this.showInterstitialBetweenLevels(() => {
+			this.levelsSinceFullscreenAd = 0
+			onContinue && onContinue()
+		})
 	}
 	setUI(ui) {
 		this.ui = ui

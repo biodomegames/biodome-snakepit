@@ -14,7 +14,12 @@
 <frameReference name="bgtint" file="tiles_bgtint.png"></frameReference>
 <frameReference name="body" file="tiles_body.png"></frameReference>
 <frameReference name="body_copy" file="tiles_body_copy.png"></frameReference>
+<frameReference name="btnClose" file="tiles_btnClose.png"></frameReference>
+<frameReference name="btnSimple" file="tiles_btnSimple.png"></frameReference>
 <frameReference name="cross" file="tiles_cross.png"></frameReference>
+<frameReference name="dialogbg11" file="tiles_dialogbg11.png"></frameReference>
+<frameReference name="dialogbg21" file="tiles_dialogbg21.png"></frameReference>
+<frameReference name="dialogbg43" file="tiles_dialogbg43.png"></frameReference>
 <frameReference name="flower1" file="tiles_flower1.png"></frameReference>
 <frameReference name="flower2" file="tiles_flower2.png"></frameReference>
 <frameReference name="fountainflower_1" file="tiles_fountainflower_1.png"></frameReference>
@@ -48,6 +53,8 @@
 <frameReference name="rock_art_3" file="tiles_rock_art_3.png"></frameReference>
 <frameReference name="rock_art_4" file="tiles_rock_art_4.png"></frameReference>
 <frameReference name="shad" file="tiles_shad.png"></frameReference>
+<frameReference name="shade" file="tiles_shade.png"></frameReference>
+<frameReference name="shade2" file="tiles_shade2.png"></frameReference>
 <frameReference name="slot_tile_art" file="tiles_slot_tile_art.png"></frameReference>
 <frameReference name="snake_face_art_1" file="tiles_snake_face_art_1.png"></frameReference>
 <frameReference name="snake_face_art_2" file="tiles_snake_face_art_2.png"></frameReference>
@@ -75,12 +82,16 @@
 			<sprite type="bgtint" spritename="tiles_bgtint.png" instancename="instance0" posx="464.7151" posy="529.84485" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<subsequence name="gameOver" posx="438.80905" posy="97.71662" angle="0" skewx="0" skewy="0" z="11" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
 			<subsequence name="flowers" posx="93.62218" posy="135.08261" angle="0" skewx="0" skewy="0" z="12" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<sprite type="antLifeSprite" spritename="tiles_antLifeSprite.png" instancename="instance1" posx="146.53902" posy="40.695133" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="13" alpha="1" framespan="1"></sprite>
-			<sprite type="antLifeSprite" spritename="tiles_antLifeSprite.png" instancename="instance2" posx="185.69295" posy="40.170326" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="14" alpha="1" framespan="1"></sprite>
-			<subsequence name="rock" posx="307.91766" posy="319.52045" angle="0" skewx="0" skewy="0" z="15" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="soundOnOff" posx="-66.50075" posy="46.698242" angle="0" skewx="0" skewy="0" z="16" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="musicOnOff" posx="-67.70334" posy="166.41339" angle="0" skewx="0" skewy="0" z="17" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
-			<subsequence name="ftuefingertapmc" posx="338.11218" posy="314.6404" angle="0" skewx="0" skewy="0" z="18" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<sprite type="antLifeSprite" spritename="tiles_antLifeSprite.png" instancename="instance1" posx="187.98018" posy="43.945118" angle="1.6933678" scalex="0.59880227" scaley="0.59880227" skewx="0" skewy="0" z="13" alpha="1" framespan="1"></sprite>
+			<sprite type="dialogbg21" spritename="tiles_dialogbg21.png" instancename="instance2" posx="-180.47557" posy="674.2017" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="14" alpha="1" framespan="1"></sprite>
+			<sprite type="dialogbg11" spritename="tiles_dialogbg11.png" instancename="instance3" posx="179.26068" posy="752.4205" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="15" alpha="1" framespan="1"></sprite>
+			<sprite type="dialogbg43" spritename="tiles_dialogbg43.png" instancename="instance4" posx="701.36743" posy="584.3132" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="16" alpha="1" framespan="1"></sprite>
+			<subsequence name="mcBtnClose" posx="834.10455" posy="524.1364" angle="0" skewx="0" skewy="0" z="17" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="mcBtn" posx="702.0866" posy="623.2999" angle="0" skewx="0" skewy="0" z="18" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="rock" posx="307.91766" posy="319.52045" angle="0" skewx="0" skewy="0" z="19" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="soundOnOff" posx="-66.50075" posy="46.698242" angle="0" skewx="0" skewy="0" z="20" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="musicOnOff" posx="-67.70334" posy="166.41339" angle="0" skewx="0" skewy="0" z="21" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
+			<subsequence name="ftuefingertapmc" posx="338.11218" posy="314.6404" angle="0" skewx="0" skewy="0" z="22" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
 		</frame>
 	</sequence>
 	<sequence name="ant">
@@ -845,152 +856,152 @@
 	</sequence>
 	<sequence name="ftuefingertapmc">
 		<frame num="1" label="loop">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0" framespan="1"></sprite>
 		</frame>
 		<frame num="2">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="174.20909" posy="50.589703" angle="-4.5209923" scalex="0.9999962" scaley="0.9999962" skewx="0" skewy="0" z="0" alpha="0.2" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="174.20909" posy="50.589703" angle="-4.5209923" scalex="0.6666641" scaley="0.6666641" skewx="0" skewy="0" z="0" alpha="0.2" framespan="1"></sprite>
 		</frame>
 		<frame num="3">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="155.48315" posy="48.179123" angle="-3.0845046" scalex="0.9999932" scaley="0.9999932" skewx="-0.00000021344486" skewy="0.00000021344486" z="0" alpha="0.4" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="155.48315" posy="48.179123" angle="-3.0845046" scalex="0.66666216" scaley="0.66666216" skewx="-0.00000021344486" skewy="0.00000021344486" z="0" alpha="0.4" framespan="1"></sprite>
 		</frame>
 		<frame num="4">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="136.72592" posy="45.789738" angle="-1.6480173" scalex="0.9999902" scaley="0.9999902" skewx="-0.00000010672275" skewy="0.00000010672275" z="0" alpha="0.6" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="136.72592" posy="45.789738" angle="-1.6480173" scalex="0.66666013" scaley="0.66666013" skewx="-0.00000010672275" skewy="0.00000010672275" z="0" alpha="0.6" framespan="1"></sprite>
 		</frame>
 		<frame num="5">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="117.9369" posy="43.420746" angle="-0.2115302" scalex="0.9999874" scaley="0.9999874" skewx="0" skewy="0" z="0" alpha="0.8" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="117.9369" posy="43.420746" angle="-0.2115302" scalex="0.6666583" scaley="0.6666583" skewx="0" skewy="0" z="0" alpha="0.8" framespan="1"></sprite>
 		</frame>
 		<frame num="6">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="99.11557" posy="41.071358" angle="1.2249566" scalex="0.9999844" scaley="0.9999844" skewx="0.00000010672338" skewy="-0.00000010672338" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="99.11557" posy="41.071358" angle="1.2249566" scalex="0.66665626" scaley="0.66665626" skewx="0.00000010672338" skewy="-0.00000010672338" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="7">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="95.0078" posy="45.7017" angle="-1.8077753" scalex="0.9999805" scaley="0.9999805" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="95.0078" posy="45.7017" angle="-1.8077753" scalex="0.6666537" scaley="0.6666537" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="8">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="90.75859" posy="50.423405" angle="-4.8405075" scalex="0.9999766" scaley="0.9999766" skewx="-0.00000042689686" skewy="0.00000042689686" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="90.75859" posy="50.423405" angle="-4.8405075" scalex="0.66665107" scaley="0.66665107" skewx="-0.00000042689686" skewy="0.00000042689686" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="9">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="86.373" posy="55.243816" angle="-7.8732395" scalex="0.9999727" scaley="0.9999727" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="86.373" posy="55.243816" angle="-7.8732395" scalex="0.66664845" scaley="0.66664845" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="10">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="81.856415" posy="60.17003" angle="-10.905971" scalex="0.9999689" scaley="0.9999689" skewx="0.0000008538002" skewy="-0.0000008538002" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="81.856415" posy="60.17003" angle="-10.905971" scalex="0.66664594" scaley="0.66664594" skewx="0.0000008538002" skewy="-0.0000008538002" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="11">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="77.214645" posy="65.2088" angle="-13.938702" scalex="0.999965" scaley="0.999965" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="77.214645" posy="65.2088" angle="-13.938702" scalex="0.6666433" scaley="0.6666433" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="12">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.1" posy="0.25" angle="0" scalex="1.7525852" scaley="1.6753064" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="72.64613" posy="60.606594" angle="-20.42711" scalex="0.9264869" scaley="0.9264869" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="72.64613" posy="60.606594" angle="-20.42711" scalex="0.61765796" scaley="0.61765796" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="13">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.1954546" posy="0.25" angle="0" scalex="1.9012463" scaley="1.8473784" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="71.25795" posy="58.687035" angle="-22.674488" scalex="0.92648745" scaley="0.92648745" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="71.25795" posy="58.687035" angle="-22.674488" scalex="0.6176583" scaley="0.6176583" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="14">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.2909092" posy="0.25" angle="0" scalex="2.0499074" scaley="2.0194502" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="69.83505" posy="56.86135" angle="-24.921865" scalex="0.9264882" scaley="0.9264882" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="69.83505" posy="56.86135" angle="-24.921865" scalex="0.6176588" scaley="0.6176588" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="15">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.3863637" posy="0.25" angle="0" scalex="2.1985686" scaley="2.1915221" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="68.38112" posy="55.130844" angle="-27.169243" scalex="0.92648876" scaley="0.92648876" skewx="0.0000018430308" skewy="-0.0000018430308" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="68.38112" posy="55.130844" angle="-27.169243" scalex="0.61765915" scaley="0.61765915" skewx="0.0000018430308" skewy="-0.0000018430308" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="16">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.4818182" posy="0.25" angle="0" scalex="2.3472297" scaley="2.363594" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="66.89995" posy="53.49663" angle="-29.41662" scalex="0.9264895" scaley="0.9264895" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="66.89995" posy="53.49663" angle="-29.41662" scalex="0.6176596" scaley="0.6176596" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="17">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.5772728" posy="0.25" angle="0" scalex="2.4958909" scaley="2.535666" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="66.389595" posy="53.704166" angle="-29.772734" scalex="0.9264733" scaley="0.9264733" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="66.389595" posy="53.704166" angle="-29.772734" scalex="0.6176489" scaley="0.6176489" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="18">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.6727273" posy="0.25" angle="0" scalex="2.6445518" scaley="2.707738" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.87867" posy="53.91416" angle="-30.128849" scalex="0.92645717" scaley="0.92645717" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.87867" posy="53.91416" angle="-30.128849" scalex="0.6176381" scaley="0.6176381" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="19">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.7681818" posy="0.25" angle="0" scalex="2.793213" scaley="2.8798099" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.3672" posy="54.126602" angle="-30.484962" scalex="0.92644095" scaley="0.92644095" skewx="0.0000036862518" skewy="-0.0000036862518" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.3672" posy="54.126602" angle="-30.484962" scalex="0.6176273" scaley="0.6176273" skewx="0.0000036862518" skewy="-0.0000036862518" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="20">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.8636365" posy="0.25" angle="0" scalex="2.941874" scaley="3.0518818" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.3672" posy="54.126602" angle="-30.484962" scalex="0.92644095" scaley="0.92644095" skewx="0.0000036862518" skewy="-0.0000036862518" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.3672" posy="54.126602" angle="-30.484962" scalex="0.6176273" scaley="0.6176273" skewx="0.0000036862518" skewy="-0.0000036862518" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="21">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.959091" posy="0.25" angle="0" scalex="3.0905352" scaley="3.2239537" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.3672" posy="54.126602" angle="-30.484962" scalex="0.92644095" scaley="0.92644095" skewx="0.0000036862518" skewy="-0.0000036862518" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.3672" posy="54.126602" angle="-30.484962" scalex="0.6176273" scaley="0.6176273" skewx="0.0000036862518" skewy="-0.0000036862518" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="22">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-2.0545456" posy="0.25" angle="0" scalex="3.2391963" scaley="3.3960257" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.3672" posy="54.126602" angle="-30.484962" scalex="0.92644095" scaley="0.92644095" skewx="0.0000036862518" skewy="-0.0000036862518" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingerpressed" spritename="tiles_ftuefingerpressed.png" instancename="instance2" posx="65.3672" posy="54.126602" angle="-30.484962" scalex="0.6176273" scaley="0.6176273" skewx="0.0000036862518" skewy="-0.0000036862518" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="23">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-2.15" posy="0.25" angle="0" scalex="3.3878574" scaley="3.5680976" skewx="0" skewy="0" z="0" alpha="0.69921875" framespan="1"></sprite>
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="81.894684" posy="50.573105" angle="-20.664516" scalex="0.99994135" scaley="0.99994135" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="81.894684" posy="50.573105" angle="-20.664516" scalex="0.6666276" scaley="0.6666276" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="24">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-2.075" posy="0.275" angle="-0.5229517" scalex="3.3358884" scaley="3.5205483" skewx="0" skewy="0" z="0" alpha="0.57421875" framespan="1"></sprite>
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="90.530594" posy="50.65975" angle="-19.533205" scalex="0.9999459" scaley="0.9999459" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="90.530594" posy="50.65975" angle="-19.533205" scalex="0.66663057" scaley="0.66663057" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="25">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-2" posy="0.3" angle="-1.0459034" scalex="3.2839193" scaley="3.472999" skewx="0.0000001229159" skewy="0" z="0" alpha="0.44921875" framespan="1"></sprite>
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="99.15162" posy="50.76451" angle="-18.401894" scalex="0.9999503" scaley="0.9999503" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="99.15162" posy="50.76451" angle="-18.401894" scalex="0.66663355" scaley="0.66663355" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="26">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.9250001" posy="0.325" angle="-1.568855" scalex="3.2319503" scaley="3.4254498" skewx="0.00000024924424" skewy="0" z="0" alpha="0.32421875" framespan="1"></sprite>
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="107.757416" posy="50.887085" angle="-17.270586" scalex="0.99995464" scaley="0.99995464" skewx="-0.0000017076248" skewy="0.0000017076248" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="107.757416" posy="50.887085" angle="-17.270586" scalex="0.6666364" scaley="0.6666364" skewx="-0.0000017076248" skewy="0.0000017076248" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="27">
 			<sprite type="glowspark" spritename="tiles_glowspark.png" instancename="instance1" posx="-1.85" posy="0.35" angle="-2.091807" scalex="3.1799812" scaley="3.3779008" skewx="0" skewy="-0.00000013424193" z="0" alpha="0.19921875" framespan="1"></sprite>
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="116.34764" posy="51.027164" angle="-16.139273" scalex="0.9999592" scaley="0.9999592" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="116.34764" posy="51.027164" angle="-16.139273" scalex="0.66663945" scaley="0.66663945" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="28">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="124.92194" posy="51.184437" angle="-15.007963" scalex="0.99996364" scaley="0.99996364" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="124.92194" posy="51.184437" angle="-15.007963" scalex="0.6666424" scaley="0.6666424" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="29">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="133.48" posy="51.35859" angle="-13.876653" scalex="0.99996805" scaley="0.99996805" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="133.48" posy="51.35859" angle="-13.876653" scalex="0.66664535" scaley="0.66664535" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="30">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="142.02147" posy="51.549294" angle="-12.745341" scalex="0.99997246" scaley="0.99997246" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="142.02147" posy="51.549294" angle="-12.745341" scalex="0.6666483" scaley="0.6666483" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="31">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="150.54602" posy="51.756226" angle="-11.61403" scalex="0.999977" scaley="0.999977" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="150.54602" posy="51.756226" angle="-11.61403" scalex="0.6666513" scaley="0.6666513" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="32">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="159.05334" posy="51.979042" angle="-10.482721" scalex="0.9999814" scaley="0.9999814" skewx="-0.0000008537895" skewy="0.0000008537895" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="159.05334" posy="51.979042" angle="-10.482721" scalex="0.6666543" scaley="0.6666543" skewx="-0.0000008537895" skewy="0.0000008537895" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="33">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="167.54315" posy="52.21741" angle="-9.35141" scalex="0.99998575" scaley="0.99998575" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="167.54315" posy="52.21741" angle="-9.35141" scalex="0.66665715" scaley="0.66665715" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="34">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="176.0151" posy="52.470966" angle="-8.220099" scalex="0.9999903" scaley="0.9999903" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="176.0151" posy="52.470966" angle="-8.220099" scalex="0.6666602" scaley="0.6666602" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="35">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="184.4689" posy="52.73937" angle="-7.088789" scalex="0.99999475" scaley="0.99999475" skewx="0.00000042688907" skewy="-0.00000042688907" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="184.4689" posy="52.73937" angle="-7.088789" scalex="0.66666317" scaley="0.66666317" skewx="0.00000042688907" skewy="-0.00000042688907" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="36">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="1" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 		<frame num="37">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.875" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.875" framespan="1"></sprite>
 		</frame>
 		<frame num="38">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.75" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.75" framespan="1"></sprite>
 		</frame>
 		<frame num="39">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.625" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.625" framespan="1"></sprite>
 		</frame>
 		<frame num="40">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.5" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.5" framespan="1"></sprite>
 		</frame>
 		<frame num="41">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.375" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.375" framespan="1"></sprite>
 		</frame>
 		<frame num="42">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.25" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.25" framespan="1"></sprite>
 		</frame>
 		<frame num="43">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.125" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0.125" framespan="1"></sprite>
 		</frame>
 		<frame num="44">
-			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.99999917" scaley="0.99999917" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0" framespan="1"></sprite>
+			<sprite type="ftuefingeridle" spritename="tiles_ftuefingeridle.png" instancename="instance0" posx="192.90431" posy="53.022247" angle="-5.9574785" scalex="0.6666661" scaley="0.6666661" skewx="0.0000004268872" skewy="-0.0000004268872" z="0" alpha="0" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="gameOver">
@@ -1608,6 +1619,113 @@
 	<sequence name="logo">
 		<frame num="1" label="idle">
 			<sprite type="logo_art" spritename="tiles_logo_art.png" instancename="art" posx="-10.463013" posy="-171.89493" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+	</sequence>
+	<sequence name="mcBtn">
+		<frame num="1" label="up">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="2.5112648" posy="9.12323" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.09095251" scalex="1" scaley="1" skewx="-0.06178524" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="2">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="2.5112648" posy="9.12323" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.09095251" scalex="1" scaley="1" skewx="-0.041190155" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="2.5112648" posy="9.12323" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.09095251" scalex="1" scaley="1" skewx="-0.020595081" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4" label="over">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="2.5112648" posy="9.12323" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.09095251" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="5">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="3.1779315" posy="9.456563" angle="0" scalex="1.0204923" scaley="1.0204923" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.09095251" scalex="1.0186226" scaley="1.0186226" skewx="0.0000000065481625" skewy="-0.0000000065481625" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="6">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="3.8445983" posy="9.789897" angle="0" scalex="1.0409847" scaley="1.0409847" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.09095251" scalex="1.0372454" scaley="1.0372454" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="7">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="4.511265" posy="10.12323" angle="0" scalex="1.0614771" scaley="1.0614771" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.0909525" scalex="1.055868" scaley="1.055868" skewx="0.0000000063171783" skewy="-0.0000000063171783" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="8" label="down">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="4.511265" posy="10.12323" angle="0" scalex="0.95048964" scaley="0.95048964" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.0909525" scalex="0.96445066" scaley="0.96445066" skewx="0.0000000069159642" skewy="-0.0000000069159642" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="9">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="4.511265" posy="10.12323" angle="0" scalex="0.83950216" scaley="0.83950216" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.0909525" scalex="0.8730332" scaley="0.8730332" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="10">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="4.011265" posy="9.87323" angle="0" scalex="0.87962663" scaley="0.87962663" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.0909525" scalex="0.9047749" scaley="0.9047749" skewx="0.000000007372117" skewy="-0.000000007372117" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="11">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="3.5112648" posy="9.62323" angle="0" scalex="0.91975105" scaley="0.91975105" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.09095251" scalex="0.9365166" scaley="0.9365166" skewx="0.0000000071222512" skewy="-0.0000000071222512" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="12">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="3.0112648" posy="9.37323" angle="0" scalex="0.9598755" scaley="0.9598755" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="1"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.0909525" scalex="0.9682583" scaley="0.9682583" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="13">
+			<sprite type="shade" spritename="tiles_shade.png" instancename="instance0" posx="2.5112648" posy="9.12323" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="0.3050695" framespan="3"></sprite>
+			<sprite type="btnSimple" spritename="tiles_btnSimple.png" instancename="btnface" posx="0" posy="0" angle="-0.09095251" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="3"></sprite>
+		</frame>
+		<frame num="14"></frame>
+		<frame num="15"></frame>
+	</sequence>
+	<sequence name="mcBtnClose">
+		<frame num="1" label="up">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="8.894348" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="2"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="2"></sprite>
+		</frame>
+		<frame num="2"></frame>
+		<frame num="3" label="over">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="8.894348" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="9.561015" angle="0" scalex="1.0397229" scaley="1.0397229" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="0" scalex="1.0603212" scaley="1.0603212" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="5">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="10.227681" angle="0" scalex="1.079446" scaley="1.079446" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="0" scalex="1.1206424" scaley="1.1206424" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="6">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="10.894348" angle="0" scalex="1.1191689" scaley="1.1191689" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="0" scalex="1.1809636" scaley="1.1809636" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="7" label="down">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="9.38933" angle="0" scalex="1.0023259" scaley="1.033689" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="-0.16146114" scalex="1.0636646" scaley="1.0636646" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="8">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="7.8843117" angle="0" scalex="0.8854828" scaley="0.9482092" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="-0.32292223" scalex="0.9463657" scaley="0.9463657" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="9">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="6.379294" angle="0" scalex="0.7686398" scaley="0.86272943" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="-0.48438337" scalex="0.8290668" scaley="0.8290668" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="10">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="6.629294" angle="0" scalex="0.8062526" scaley="0.90494645" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="-0.3632875" scalex="0.8718001" scaley="0.8718001" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="11">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="6.879294" angle="0" scalex="0.8438654" scaley="0.94716346" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="-0.24219169" scalex="0.9145334" scaley="0.9145334" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="12">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="7.129294" angle="0" scalex="0.88147825" scaley="0.9893805" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="-0.12109583" scalex="0.9572668" scaley="0.9572668" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="13">
+			<sprite type="shade2" spritename="tiles_shade2.png" instancename="instance0" posx="2.958664" posy="7.379294" angle="0" scalex="0.91909105" scaley="1.0315975" skewx="0" skewy="0" z="0" alpha="0.37406442" framespan="1"></sprite>
+			<sprite type="btnClose" spritename="tiles_btnClose.png" instancename="instance1" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="1" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
 	<sequence name="musicOnOff">

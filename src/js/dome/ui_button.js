@@ -400,15 +400,15 @@ export class UIButton extends Container
 		//this.gdown.visible = true
 		//this.gup.visible = false
 		
-		if (this.sounds) 
+		if (this.sounds?.length)
 		{
 			var rnd = Math.floor(Math.random() * this.sounds.length)
-			this.sounds[rnd].play()
+			this.sounds[rnd]?.play()
 		}
-		if (this.soundsdown)
+		if (this.soundsdown?.length)
 		{
 			var rnd = Math.floor(Math.random() * this.soundsdown.length)
-			this.soundsdown[rnd].play()
+			this.soundsdown[rnd]?.play()
 		}
 		var compDef = this.compDef
 		var def = this.def
@@ -432,10 +432,10 @@ export class UIButton extends Container
 		var compDef = this.compDef
 		var def = this.def
 		this.refreshTextAndImagePos(compDef.textoffset?.hover, compDef.textoffset?.hover?.scale, def.image?.align, def.image?.scale)
-		if (this.soundsup)
+		if (this.soundsup?.length)
 		{
 			var rnd = Math.floor(Math.random() * this.soundsup.length)
-			this.soundsup[rnd].play()
+			this.soundsup[rnd]?.play()
 		}
 		//this.ghover.visible = true
 		//this.gdown.visible = false
