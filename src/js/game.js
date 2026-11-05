@@ -371,6 +371,7 @@ export class Game extends Container {
 	_openLivesRefillDialog() {
 		if (this.gameOver || this._livesRefillBusy || this._livesRefillDialog) return
 		if (!shouldShowLivesRefill(this.antLives)) return
+		this.closeSettings()
 		const ui = this.hooks.getUi?.()
 		if (!ui?.displayDialog) {
 			this._playLivesRefillAd()
@@ -516,6 +517,7 @@ export class Game extends Container {
 			onAntDied: () => this._onAntDied(),
 			onAntGameOver: () => this._triggerGameOver(this.activePit),
 			onDockStateChange: () => this._persistRun(),
+			onInteract: () => this.closeSettings(),
 		})
 		view.setSession(session, saved)
 		const bounds = view.boardPixelSize()
@@ -748,6 +750,7 @@ export class Game extends Container {
 
 		const result = session.tryEscape(snakeId)
 		if (!result) return
+		this.closeSettings()
 		this._onFtueSnakeTapped(snakeId)
 
 		if (result.kind === "escaped") {

@@ -60,6 +60,7 @@ export class BoardView extends Container {
 			onAntDied: () => this.hooks.onAntDied?.() === true,
 			onAntGameOver: () => this.hooks.onAntGameOver?.(),
 			onStateChange: () => this.hooks.onDockStateChange?.(),
+			onInteract: () => this.hooks.onInteract?.(),
 			pace: this.pace,
 			groundLayer: this.decorLayer,
 		})

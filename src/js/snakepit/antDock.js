@@ -33,6 +33,7 @@ export class AntDock extends Container {
 		onAntDied,
 		onAntGameOver,
 		onStateChange,
+		onInteract,
 		pace = 1,
 		groundLayer = null,
 	} = {}) {
@@ -42,6 +43,7 @@ export class AntDock extends Container {
 		this.onAntDied = onAntDied
 		this.onAntGameOver = onAntGameOver
 		this.onStateChange = onStateChange
+		this.onInteract = onInteract
 		this.pace = pace
 		this.eventMode = "passive"
 		this.interactiveChildren = true
@@ -448,6 +450,7 @@ export class AntDock extends Container {
 
 	_openUnlockLaneDialog(lane, overlay) {
 		if (!lane?.locked || this._adBusy || this._unlockDialog) return
+		this.onInteract?.()
 		const ui = this.getUi?.()
 		if (!ui?.displayDialog) {
 			// No UI shell — still allow unlock via rewarded flow.
@@ -1163,6 +1166,7 @@ export class AntDock extends Container {
 		hit.hitArea = new Rectangle(minX, state.laneY - LANE_H / 2, Math.max(24, maxX - minX), LANE_H)
 		hit.on("pointertap", (e) => {
 			e.stopPropagation()
+			this.onInteract?.()
 			state.finish?.()
 		})
 		state.root.addChild(hit)
@@ -1317,6 +1321,7 @@ export class AntDock extends Container {
 	_killFrontAnt() {
 		const ant = this.ants[0]
 		if (!ant || ant.dying || this._eating) return
+		this.onInteract?.()
 		ant.dying = true
 		if (ant.crawl) {
 			ant.crawl.stop?.()

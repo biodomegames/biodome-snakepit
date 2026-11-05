@@ -14,12 +14,12 @@ export const ANT_MODE = {
  */
 export const DIFFICULTY = {
 	/** Levels 1..easyThroughLevel use contiguous solution ant blocks. */
-	easyThroughLevel: 6,
+	easyThroughLevel: 4,
 	/** Levels easyThroughLevel+1 .. parkThroughLevel force parking before fill. */
 	parkThroughLevel: 11,
 	/** Levels above parkThroughLevel use inter-swapped ants (still solvable). */
 	/** First level that reserves dock lanes behind a rewarded ad. */
-	lockedLanesFromLevel: 7,
+	lockedLanesFromLevel: 5,
 	/** How many bottom lanes start locked when locking is active. */
 	lockedLaneCount: 1,
 	/** Show the lives refill button when lives are below this. */
