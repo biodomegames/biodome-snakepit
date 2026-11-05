@@ -1740,6 +1740,8 @@ export class AntDock extends Container {
 			lastFrame = pose
 			await this._playClipToFrame(clip, pose)
 			if (!clip.parent) break
+			// Parent pose settle stops ticking (and nested clips); start tongue after that.
+			this._playTongueLick(clip)
 			await Promise.all(
 				batch.map((ant, i) =>
 					this._delay(i * 0.06 * this.pace).then(async () => {
@@ -1750,6 +1752,21 @@ export class AntDock extends Container {
 			)
 		}
 		if (fatal) this.onAntGameOver?.()
+	}
+
+	/** Nested `tongue` subsequence — random `grab1` / `grab2`, then park on the empty frame. */
+	_playTongueLick(anteater) {
+		const tongue = anteater?.getSprite?.("tongue")
+		if (!tongue?.playLabel) return
+		const labels = ["grab1", "grab2"].filter((l) => tongue.framelabels?.[l] != null)
+		if (!labels.length) return
+		tongue.looping = false
+		tongue.interpolate = true
+		tongue.framerate = 28 / this.pace
+		const label = labels[Math.floor(Math.random() * labels.length)]
+		tongue.playLabel(label, () => {
+			tongue.setFrame?.(0)
+		})
 	}
 
 	/**

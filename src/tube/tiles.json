@@ -44,7 +44,7 @@
       "frame": {
         "h": 15,
         "w": 63,
-        "x": 293,
+        "x": 432,
         "y": 999
       },
       "rotated": false,
@@ -64,8 +64,8 @@
       "frame": {
         "h": 14,
         "w": 62,
-        "x": 358,
-        "y": 999
+        "x": 793,
+        "y": 856
       },
       "rotated": false,
       "sourceSize": {
@@ -124,8 +124,8 @@
       "frame": {
         "h": 19,
         "w": 7,
-        "x": 454,
-        "y": 999
+        "x": 558,
+        "y": 845
       },
       "rotated": false,
       "sourceSize": {
@@ -164,8 +164,8 @@
       "frame": {
         "h": 19,
         "w": 6,
-        "x": 463,
-        "y": 999
+        "x": 652,
+        "y": 491
       },
       "rotated": false,
       "sourceSize": {
@@ -184,8 +184,8 @@
       "frame": {
         "h": 19,
         "w": 6,
-        "x": 471,
-        "y": 999
+        "x": 1007,
+        "y": 674
       },
       "rotated": false,
       "sourceSize": {
@@ -204,8 +204,8 @@
       "frame": {
         "h": 22,
         "w": 6,
-        "x": 618,
-        "y": 723
+        "x": 1014,
+        "y": 426
       },
       "rotated": false,
       "sourceSize": {
@@ -424,8 +424,8 @@
       "frame": {
         "h": 32,
         "w": 28,
-        "x": 656,
-        "y": 810
+        "x": 546,
+        "y": 871
       },
       "rotated": false,
       "sourceSize": {
@@ -644,8 +644,8 @@
       "frame": {
         "h": 31,
         "w": 32,
-        "x": 926,
-        "y": 803
+        "x": 962,
+        "y": 841
       },
       "rotated": false,
       "sourceSize": {
@@ -804,8 +804,8 @@
       "frame": {
         "h": 13,
         "w": 30,
-        "x": 422,
-        "y": 999
+        "x": 660,
+        "y": 852
       },
       "rotated": false,
       "sourceSize": {
@@ -824,8 +824,8 @@
       "frame": {
         "h": 7,
         "w": 23,
-        "x": 997,
-        "y": 674
+        "x": 618,
+        "y": 741
       },
       "rotated": false,
       "sourceSize": {
@@ -1064,8 +1064,8 @@
       "frame": {
         "h": 14,
         "w": 31,
-        "x": 475,
-        "y": 434
+        "x": 569,
+        "y": 820
       },
       "rotated": false,
       "sourceSize": {
@@ -1124,8 +1124,8 @@
       "frame": {
         "h": 36,
         "w": 36,
-        "x": 618,
-        "y": 810
+        "x": 755,
+        "y": 807
       },
       "rotated": false,
       "sourceSize": {
@@ -1184,8 +1184,8 @@
       "frame": {
         "h": 47,
         "w": 28,
-        "x": 755,
-        "y": 807
+        "x": 630,
+        "y": 840
       },
       "rotated": false,
       "sourceSize": {
@@ -1304,8 +1304,8 @@
       "frame": {
         "h": 36,
         "w": 36,
-        "x": 888,
-        "y": 803
+        "x": 755,
+        "y": 845
       },
       "rotated": false,
       "sourceSize": {
@@ -1357,6 +1357,426 @@
         "w": 159,
         "x": 303,
         "y": 5
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_1.png": {
+      "frame": {
+        "h": 12,
+        "w": 20,
+        "x": 608,
+        "y": 871
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 12,
+        "w": 20,
+        "x": 61,
+        "y": 17
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_10.png": {
+      "frame": {
+        "h": 1,
+        "w": 1,
+        "x": 962,
+        "y": 838
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 1,
+        "w": 1,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_11.png": {
+      "frame": {
+        "h": 9,
+        "w": 10,
+        "x": 526,
+        "y": 291
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 9,
+        "w": 10,
+        "x": 68,
+        "y": 14
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_12.png": {
+      "frame": {
+        "h": 12,
+        "w": 30,
+        "x": 692,
+        "y": 852
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 12,
+        "w": 30,
+        "x": 50,
+        "y": 12
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_13.png": {
+      "frame": {
+        "h": 17,
+        "w": 59,
+        "x": 371,
+        "y": 999
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 17,
+        "w": 59,
+        "x": 22,
+        "y": 9
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_14.png": {
+      "frame": {
+        "h": 20,
+        "w": 76,
+        "x": 293,
+        "y": 999
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 20,
+        "w": 76,
+        "x": 5,
+        "y": 11
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_15.png": {
+      "frame": {
+        "h": 23,
+        "w": 75,
+        "x": 492,
+        "y": 820
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 23,
+        "w": 75,
+        "x": 4,
+        "y": 9
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_16.png": {
+      "frame": {
+        "h": 33,
+        "w": 81,
+        "x": 888,
+        "y": 803
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 33,
+        "w": 81,
+        "x": 0,
+        "y": 0
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_17.png": {
+      "frame": {
+        "h": 28,
+        "w": 67,
+        "x": 618,
+        "y": 810
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 28,
+        "w": 67,
+        "x": 15,
+        "y": 6
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_18.png": {
+      "frame": {
+        "h": 20,
+        "w": 47,
+        "x": 497,
+        "y": 870
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 20,
+        "w": 47,
+        "x": 32,
+        "y": 14
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_19.png": {
+      "frame": {
+        "h": 14,
+        "w": 31,
+        "x": 475,
+        "y": 434
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 14,
+        "w": 31,
+        "x": 49,
+        "y": 13
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_2.png": {
+      "frame": {
+        "h": 16,
+        "w": 28,
+        "x": 618,
+        "y": 723
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 16,
+        "w": 28,
+        "x": 53,
+        "y": 12
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_20.png": {
+      "frame": {
+        "h": 9,
+        "w": 19,
+        "x": 793,
+        "y": 807
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 9,
+        "w": 19,
+        "x": 62,
+        "y": 15
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_21.png": {
+      "frame": {
+        "h": 8,
+        "w": 9,
+        "x": 847,
+        "y": 664
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 8,
+        "w": 9,
+        "x": 71,
+        "y": 16
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_3.png": {
+      "frame": {
+        "h": 22,
+        "w": 44,
+        "x": 968,
+        "y": 426
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 22,
+        "w": 44,
+        "x": 37,
+        "y": 7
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_4.png": {
+      "frame": {
+        "h": 23,
+        "w": 64,
+        "x": 492,
+        "y": 845
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 23,
+        "w": 64,
+        "x": 18,
+        "y": 10
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_5.png": {
+      "frame": {
+        "h": 32,
+        "w": 72,
+        "x": 888,
+        "y": 838
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 32,
+        "w": 72,
+        "x": 9,
+        "y": 8
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_6.png": {
+      "frame": {
+        "h": 29,
+        "w": 59,
+        "x": 569,
+        "y": 840
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 29,
+        "w": 59,
+        "x": 22,
+        "y": 9
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_7.png": {
+      "frame": {
+        "h": 20,
+        "w": 40,
+        "x": 497,
+        "y": 892
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 20,
+        "w": 40,
+        "x": 42,
+        "y": 18
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_8.png": {
+      "frame": {
+        "h": 21,
+        "w": 30,
+        "x": 576,
+        "y": 871
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 21,
+        "w": 30,
+        "x": 52,
+        "y": 17
+      },
+      "trimmed": true
+    },
+    "tiles_tonguespr_9.png": {
+      "frame": {
+        "h": 15,
+        "w": 14,
+        "x": 602,
+        "y": 820
+      },
+      "rotated": false,
+      "sourceSize": {
+        "h": 43,
+        "w": 158
+      },
+      "spriteSourceSize": {
+        "h": 15,
+        "w": 14,
+        "x": 67,
+        "y": 18
       },
       "trimmed": true
     }

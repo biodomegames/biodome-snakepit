@@ -67,6 +67,27 @@
 <frameReference name="star_art" file="tiles_star_art.png"></frameReference>
 <frameReference name="tail" file="tiles_tail.png"></frameReference>
 <frameReference name="tail_copy" file="tiles_tail_copy.png"></frameReference>
+<frameReference name="tonguespr_1" file="tiles_tonguespr_1.png"></frameReference>
+<frameReference name="tonguespr_2" file="tiles_tonguespr_2.png"></frameReference>
+<frameReference name="tonguespr_3" file="tiles_tonguespr_3.png"></frameReference>
+<frameReference name="tonguespr_4" file="tiles_tonguespr_4.png"></frameReference>
+<frameReference name="tonguespr_5" file="tiles_tonguespr_5.png"></frameReference>
+<frameReference name="tonguespr_6" file="tiles_tonguespr_6.png"></frameReference>
+<frameReference name="tonguespr_7" file="tiles_tonguespr_7.png"></frameReference>
+<frameReference name="tonguespr_8" file="tiles_tonguespr_8.png"></frameReference>
+<frameReference name="tonguespr_9" file="tiles_tonguespr_9.png"></frameReference>
+<frameReference name="tonguespr_10" file="tiles_tonguespr_10.png"></frameReference>
+<frameReference name="tonguespr_11" file="tiles_tonguespr_11.png"></frameReference>
+<frameReference name="tonguespr_12" file="tiles_tonguespr_12.png"></frameReference>
+<frameReference name="tonguespr_13" file="tiles_tonguespr_13.png"></frameReference>
+<frameReference name="tonguespr_14" file="tiles_tonguespr_14.png"></frameReference>
+<frameReference name="tonguespr_15" file="tiles_tonguespr_15.png"></frameReference>
+<frameReference name="tonguespr_16" file="tiles_tonguespr_16.png"></frameReference>
+<frameReference name="tonguespr_17" file="tiles_tonguespr_17.png"></frameReference>
+<frameReference name="tonguespr_18" file="tiles_tonguespr_18.png"></frameReference>
+<frameReference name="tonguespr_19" file="tiles_tonguespr_19.png"></frameReference>
+<frameReference name="tonguespr_20" file="tiles_tonguespr_20.png"></frameReference>
+<frameReference name="tonguespr_21" file="tiles_tonguespr_21.png"></frameReference>
 	<sequence name="anim">
 		<frame num="1" label="idle">
 			<subsequence name="antshadow" posx="150.48047" posy="223.56174" angle="0" skewx="0" skewy="0" z="0" scalex="1" scaley="1" alpha="1" framespan="1"></subsequence>
@@ -237,6 +258,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="3.5318604" posy="-0.5932987" angle="-1.7004358" scalex="0.99999994" scaley="0.9999999" skewx="-0.025990155" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-94.93205" posy="-2.4479861" angle="-1.866568" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-279.5335" posy="3.31798" angle="-59.063583" skewx="0.0000034150946" skewy="-0.0000034150946" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-273.25104" posy="4.802806" angle="-0.11239793" skewx="0" skewy="0" z="12" scalex="1.6995397" scaley="1.6995397" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="2">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="94.226326" posy="-36.478573" angle="31.482958" scalex="1.0000001" scaley="1.0000001" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -251,6 +273,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="3.4022827" posy="2.1841946" angle="3.8469183" scalex="1" scaley="0.99999994" skewx="-0.02599058" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-94.248665" posy="-9.836044" angle="-2.5654602" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-278.76605" posy="-1.8188" angle="-59.76248" skewx="-0.000003415095" skewy="0.000003415095" type="MovieClip" z="11" scalex="0.9999999" scaley="0.9999999" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-272.46594" posy="-0.41071606" angle="-0.8112903" skewx="0" skewy="0" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="3">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="93.88186" posy="-47.85612" angle="63.81251" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -265,6 +288,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="3.5755386" posy="-0.8003206" angle="5.647104" scalex="0.9999999" scaley="0.9999998" skewx="-0.025990156" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.599655" posy="-16.110567" angle="-2.9170237" scalex="0.9999999" scaley="0.9999999" skewx="-0.00000021344344" skewy="0.00000021344344" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-278.0644" posy="-6.961293" angle="-60.114044" skewx="-0.0000034150937" skewy="0.0000034150937" type="MovieClip" z="11" scalex="1.0000002" scaley="1.0000002" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.75577" posy="-5.5918922" angle="-1.162854" skewx="0" skewy="0" z="12" scalex="1.6995397" scaley="1.6995397" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="4" label="walk">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="103.81597" posy="-50.050426" angle="74.74024" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -279,6 +303,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="3.644783" posy="-37.966812" angle="-14.90371" scalex="1" scaley="0.9999999" skewx="-0.025988873" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-92.797806" posy="-15.790021" angle="-1.2190249" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.45264" posy="-12.1107" angle="-58.416046" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.18738" posy="-10.554968" angle="0.5351449" skewx="0" skewy="0" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="5">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="103.18495" posy="-48.507347" angle="61.66142" scalex="0.99999994" scaley="0.99999994" skewx="-0.0000017075475" skewy="0.0000017075475" z="0" alpha="1" framespan="1"></sprite>
@@ -293,6 +318,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="4.1640396" posy="-35.097645" angle="-13.008332" scalex="1" scaley="0.99999994" skewx="-0.025991432" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-92.9138" posy="-16.305267" angle="-1.0549363" scalex="0.99999994" scaley="0.99999994" skewx="-0.00000010672172" skewy="0.00000010672172" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.5784" posy="-13.154791" angle="-58.25196" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.31763" posy="-11.581122" angle="0.69923335" skewx="0" skewy="0" z="12" scalex="1.6995397" scaley="1.6995397" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="6">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="102.51823" posy="-46.70788" angle="47.488544" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -307,6 +333,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="4.64167" posy="-31.79356" angle="-10.83818" scalex="0.99999994" scaley="0.99999994" skewx="-0.02599058" skewy="-0.00000085377377" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.02371" posy="-16.904654" angle="-0.9169119" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.69537" posy="-14.1990385" angle="-58.113934" skewx="-0.0000017075469" skewy="0.0000017075469" type="MovieClip" z="11" scalex="1.0000002" scaley="1.0000002" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.43842" posy="-12.610292" angle="0.8372579" skewx="0" skewy="0" z="12" scalex="1.6995395" scaley="1.6995395" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="7">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="101.89789" posy="-44.896347" angle="33.84294" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -321,6 +348,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="5.0608826" posy="-27.65908" angle="-8.136685" scalex="1" scaley="0.9999999" skewx="-0.025989728" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.12587" posy="-17.664553" angle="-0.8286933" scalex="0.99999994" scaley="0.99999994" skewx="-0.00000005336086" skewy="0.00000005336086" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.80148" posy="-15.243282" angle="-58.025707" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.54697" posy="-13.644903" angle="0.92547655" skewx="0" skewy="0" z="12" scalex="1.6995392" scaley="1.6995392" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="8">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="100.01198" posy="-44.279587" angle="22.59327" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -335,6 +363,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="5.294655" posy="-18.513382" angle="-2.1872487" scalex="1" scaley="0.99999994" skewx="-0.025990153" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.212296" posy="-19.392221" angle="-1.0409753" scalex="0.9999999" scaley="0.9999999" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.8777" posy="-16.286741" angle="-58.238" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.61728" posy="-14.711547" angle="0.7131943" skewx="0" skewy="0" z="12" scalex="1.6995393" scaley="1.6995393" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="9">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="95.14993" posy="-44.242012" angle="21.996078" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -349,6 +378,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="4.185959" posy="-7.737952" angle="3.493459" scalex="1" scaley="0.99999994" skewx="-0.025990365" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.55648" posy="-18.713114" angle="-1.2397066" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-278.20996" posy="-14.967138" angle="-58.43673" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.94415" posy="-13.413668" angle="0.51446307" skewx="-0.00000003139724" skewy="0.00000003139724" z="12" scalex="1.6995395" scaley="1.6995395" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="10">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="91.98962" posy="-42.956093" angle="20.393879" scalex="1.0000001" scaley="1.0000001" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -363,6 +393,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="3.228714" posy="-2.184435" angle="5.7855406" scalex="0.99999994" scaley="0.9999999" skewx="-0.025991008" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.93031" posy="-17.024633" angle="-1.1252464" scalex="1.0000001" scaley="1.0000001" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-278.5909" posy="-13.647549" angle="-58.32227" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-272.3282" posy="-12.081565" angle="0.6289235" skewx="0" skewy="0" z="12" scalex="1.6995393" scaley="1.6995393" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="11">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="89.11648" posy="-41.45076" angle="18.567242" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -377,6 +408,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="2.305458" posy="2.4945183" angle="7.5129247" scalex="0.9999999" scaley="0.9999999" skewx="-0.025989728" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-94.32057" posy="-15.167415" angle="-0.95852125" scalex="0.99999994" scaley="0.99999994" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-278.99023" posy="-12.327688" angle="-58.155537" skewx="0.0000034150946" skewy="-0.0000034150946" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-272.73212" posy="-10.743486" angle="0.7956484" skewx="0" skewy="0" z="12" scalex="1.6995393" scaley="1.6995393" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="12">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="86.39615" posy="-39.826645" angle="16.603127" scalex="0.99999994" scaley="0.99999994" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -391,6 +423,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="1.4036484" posy="6.71729" angle="8.946621" scalex="0.99999994" scaley="1" skewx="-0.025990577" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-94.723694" posy="-13.222669" angle="-0.76468074" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-279.4019" posy="-11.007724" angle="-57.961704" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-273.14917" posy="-9.402359" angle="0.9894891" skewx="0.000000062794484" skewy="-0.000000062794484" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="13">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="83.77715" posy="-38.12365" angle="14.541362" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -405,6 +438,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="0.5181351" posy="10.646315" angle="10.191639" scalex="1" scaley="0.99999994" skewx="-0.025988871" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-95.13772" posy="-11.221976" angle="-0.5534501" scalex="0.99999994" scaley="0.99999994" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-279.82285" posy="-9.687892" angle="-57.750473" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-273.57605" posy="-8.059486" angle="1.2007197" skewx="-0.00000012558898" skewy="0.00000012558898" z="12" scalex="1.6995393" scaley="1.6995393" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="14">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="86.57808" posy="-38.7306" angle="18.473986" scalex="0.9999999" scaley="0.9999999" skewx="0.0000017075475" skewy="-0.0000017075475" z="0" alpha="1" framespan="1"></sprite>
@@ -419,6 +453,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="1.2481918" posy="7.3976164" angle="9.400239" scalex="0.99999994" scaley="0.9999999" skewx="-0.025990581" skewy="0.00000085377377" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-94.70977" posy="-13.337637" angle="-0.64147776" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-279.3923" posy="-11.51981" angle="-57.8385" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-273.14304" posy="-9.901004" angle="1.1126919" skewx="0" skewy="0" z="12" scalex="1.6995393" scaley="1.6995393" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="15">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="89.49888" posy="-39.23787" angle="22.298" scalex="1" scaley="1" skewx="-0.0000017075473" skewy="0.0000017075473" z="0" alpha="1" framespan="1"></sprite>
@@ -433,6 +468,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="2.0281754" posy="3.8386154" angle="8.405011" scalex="0.9999999" scaley="0.9999999" skewx="-0.025989728" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-94.294464" posy="-15.393571" angle="-0.71099544" scalex="0.9999999" scaley="0.9999999" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-278.97464" posy="-13.351668" angle="-57.908016" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-272.72345" posy="-11.740446" angle="1.0431745" skewx="0.00000006279449" skewy="-0.00000006279449" z="12" scalex="1.6995392" scaley="1.6995392" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="16">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="92.586" posy="-39.59589" angle="25.927643" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -447,6 +483,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="2.8730164" posy="-0.19559479" angle="7.098855" scalex="1" scaley="0.99999994" skewx="-0.02599058" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.89582" posy="-17.35789" angle="-0.7521405" scalex="0.9999999" scaley="0.9999999" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-278.5745" posy="-15.183364" angle="-57.94916" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-272.32214" posy="-13.576632" angle="1.0020293" skewx="-0.00000006279449" skewy="0.00000006279449" z="12" scalex="1.6995393" scaley="1.6995393" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="17">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="95.96503" posy="-39.690002" angle="29.223156" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -461,6 +498,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="3.8171997" posy="-5.129794" angle="5.2057204" scalex="0.99999994" scaley="0.99999994" skewx="-0.02599058" skewy="0.00000042688688" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.52169" posy="-19.148335" angle="-0.73945" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-278.20087" posy="-17.014713" angle="-57.936474" skewx="-0.0000034150942" skewy="0.0000034150942" type="MovieClip" z="11" scalex="1.0000001" scaley="1.0000001" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.94885" posy="-15.406596" angle="1.01472" skewx="0" skewy="0" z="12" scalex="1.6995395" scaley="1.6995395" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="18">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="101.03268" posy="-38.382317" angle="31.169876" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -475,6 +513,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="5.160759" posy="-15.453852" angle="-0.19651091" scalex="0.9999999" scaley="0.9999998" skewx="-0.025990061" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.21951" posy="-19.896425" angle="-0.40337735" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.90802" posy="-18.846087" angle="-57.6004" skewx="-0.000005122642" skewy="0.000005122642" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.66553" posy="-17.201324" angle="1.3507925" skewx="0" skewy="0" z="12" scalex="1.6995395" scaley="1.6995395" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="19">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="102.728134" posy="-38.265404" angle="37.240974" scalex="0.99999994" scaley="0.99999994" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -489,6 +528,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="5.241661" posy="-24.67562" angle="-6.193747" scalex="1" scaley="0.99999994" skewx="-0.025989726" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.19824" posy="-18.1268" angle="0.057318933" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.8892" posy="-18.561497" angle="-57.1397" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.66016" posy="-16.866596" angle="1.8114887" skewx="0" skewy="0" z="12" scalex="1.6995392" scaley="1.6995392" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="20">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="102.97257" posy="-39.422955" angle="44.91551" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -503,6 +543,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="4.958824" posy="-28.866255" angle="-8.92417" scalex="1.0000001" scaley="1" skewx="-0.025990577" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.1277" posy="-17.329676" angle="0.21601158" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.81677" posy="-18.27591" angle="-56.98101" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.5924" posy="-16.563763" angle="1.9701813" skewx="0" skewy="0" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="21">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="103.08966" posy="-40.763077" angle="53.231182" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -517,6 +558,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="4.588356" posy="-32.211044" angle="-11.111753" scalex="1" scaley="0.99999994" skewx="-0.02599058" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-93.04392" posy="-16.69619" angle="0.3238739" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.73087" posy="-17.990108" angle="-56.873146" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.50977" posy="-16.266247" angle="2.0780437" skewx="0" skewy="0" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="22">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="103.18415" posy="-42.133392" angle="61.820766" scalex="1.0000001" scaley="1.0000001" skewx="0.0000017075471" skewy="-0.0000017075471" z="0" alpha="1" framespan="1"></sprite>
@@ -531,6 +573,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="4.1614456" posy="-35.11345" angle="-13.018743" scalex="1" scaley="0.99999994" skewx="-0.025992287" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-92.95122" posy="-16.148346" angle="0.40510216" scalex="1" scaley="1" skewx="-0.000000026680427" skewy="0.000000026680427" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.63617" posy="-17.704094" angle="-56.791916" skewx="0.0000017075471" skewy="-0.0000017075471" type="MovieClip" z="11" scalex="1.0000001" scaley="1.0000001" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.4175" posy="-15.971415" angle="2.159272" skewx="0.0000002511779" skewy="-0.0000002511779" z="12" scalex="1.6995395" scaley="1.6995395" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="23">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="103.2587" posy="-43.45455" angle="70.29283" scalex="1" scaley="1" skewx="-0.0000017075473" skewy="0.0000017075473" z="0" alpha="1" framespan="1"></sprite>
@@ -545,6 +588,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="3.691307" posy="-37.730274" angle="-14.74701" scalex="0.9999999" scaley="0.9999998" skewx="-0.025991436" skewy="0.00000085377377" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-92.851494" posy="-15.655829" angle="0.46912834" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.53458" posy="-17.417957" angle="-56.727886" skewx="0" skewy="0" type="MovieClip" z="11" scalex="0.99999994" scaley="0.99999994" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.31787" posy="-15.6783285" angle="2.2232983" skewx="-0.00000025117794" skewy="0.00000025117794" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="24" label="goeat">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="103.28148" posy="-44.69076" angle="78.29788" scalex="1" scaley="1" skewx="0.0000017075473" skewy="-0.0000017075473" z="0" alpha="1" framespan="1"></sprite>
@@ -559,6 +603,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="3.185295" posy="-40.141888" angle="-16.348778" scalex="1" scaley="0.9999999" skewx="-0.02599229" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-92.74583" posy="-15.203091" angle="0.52077824" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-277.42722" posy="-17.1317" angle="-56.676243" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-271.2121" posy="-15.386469" angle="2.274948" skewx="0.00000025117797" skewy="-0.00000025117797" z="12" scalex="1.6995393" scaley="1.6995393" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="25">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="102.213936" posy="-42.439636" angle="62.874897" scalex="0.99999994" scaley="0.99999994" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -573,6 +618,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="3.787346" posy="-48.421993" angle="-6.5400214" scalex="1" scaley="0.99999994" skewx="-0.025990153" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-95.0582" posy="-40.04602" angle="11.800972" scalex="0.99999994" scaley="0.99999994" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-275.79474" posy="-78.06238" angle="-45.396046" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-270.04105" posy="-75.13513" angle="13.555142" skewx="0" skewy="0" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="26">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="98.10858" posy="-44.873703" angle="51.47195" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -587,6 +633,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="-1.0238953" posy="-42.7072" angle="12.479469" scalex="1" scaley="0.9999999" skewx="-0.025988873" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-96.59124" posy="-67.71287" angle="22.174349" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-267.52838" posy="-137.65166" angle="-35.022675" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-262.3958" posy="-133.73624" angle="23.928516" skewx="0" skewy="0" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="27">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="91.171616" posy="-49.564552" angle="59.636433" scalex="0.99999994" scaley="0.99999994" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -601,6 +648,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="-5.999481" posy="-26.186642" angle="19.100046" scalex="1" scaley="1" skewx="-0.025990577" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-97.9327" posy="-62.16944" angle="27.234766" scalex="1" scaley="1" skewx="-0.0000017075473" skewy="0.0000017075473" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-262.03455" posy="-146.91335" angle="-29.962252" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1.0000001" scaley="1.0000001" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-257.26733" posy="-142.56046" angle="28.988935" skewx="0" skewy="0" z="12" scalex="1.6995393" scaley="1.6995393" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="28">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="86.24356" posy="-51.47908" angle="65.8317" scalex="1" scaley="1" skewx="0.0000017075473" skewy="-0.0000017075473" z="0" alpha="1" framespan="1"></sprite>
@@ -615,6 +663,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="-8.287605" posy="-17.623657" angle="20.260658" scalex="1" scaley="0.99999994" skewx="-0.025988871" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-99.809555" posy="-55.122124" angle="32.793438" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-254.931" posy="-155.36324" angle="-24.403582" skewx="0" skewy="0" type="MovieClip" z="11" scalex="0.99999994" scaley="0.99999994" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-250.60785" posy="-150.56905" angle="34.547607" skewx="0" skewy="0" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="29">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="82.45371" posy="-53.406593" angle="70.86795" scalex="0.9999999" scaley="0.9999999" skewx="0.0000017075475" skewy="-0.0000017075475" z="0" alpha="1" framespan="1"></sprite>
@@ -629,6 +678,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="-5.3360214" posy="-5.159603" angle="22.92367" scalex="1" scaley="0.9999999" skewx="-0.025988873" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-96.205345" posy="-47.47906" angle="40.2902" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-236.9224" posy="-167.10207" angle="-16.90682" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1.0000002" scaley="1.0000002" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-233.26169" posy="-161.7848" angle="42.04437" skewx="0" skewy="0" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="30" label="eat">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="79.19301" posy="-54.349533" angle="74.961914" scalex="1" scaley="1" skewx="0.0000017075473" skewy="-0.0000017075473" z="0" alpha="1" framespan="1"></sprite>
@@ -643,6 +693,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="-1.2501678" posy="4.805847" angle="23.803436" scalex="1" scaley="0.99999994" skewx="-0.025993994" skewy="0.0000017075473" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-92.86285" posy="-39.45804" angle="48.101242" scalex="0.9999998" scaley="0.9999998" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-216.01672" posy="-177.09549" angle="-9.095777" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-213.11264" posy="-171.33006" angle="49.85541" skewx="-0.0000020094235" skewy="0.0000020094235" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="31">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="78.87175" posy="-54.409378" angle="75.3463" scalex="1.0000001" scaley="1.0000001" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -657,6 +708,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="-0.69473267" posy="5.455345" angle="25.082542" scalex="1" scaley="0.9999999" skewx="-0.025990581" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-91.799934" posy="-40.619423" angle="54.451187" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-198.97543" posy="-191.03336" angle="-2.7458305" skewx="0.00000021344341" skewy="-0.00000021344341" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-196.72684" posy="-184.98212" angle="56.205353" skewx="0" skewy="0" z="12" scalex="1.6995394" scaley="1.6995394" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="32">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="78.571526" posy="-54.460117" angle="75.701935" scalex="0.9999999" scaley="0.9999999" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -671,6 +723,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="-0.1544342" posy="6.0433197" angle="26.33133" scalex="1" scaley="0.9999999" skewx="-0.025990581" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-90.863174" posy="-41.812584" angle="61.763393" scalex="1" scaley="1" skewx="-0.0000017075473" skewy="0.0000017075473" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-178.02298" posy="-204.64413" angle="4.5663757" skewx="0" skewy="0" type="MovieClip" z="11" scalex="0.9999999" scaley="0.9999999" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-176.56285" posy="-198.35591" angle="63.51757" skewx="0.0000040188465" skewy="-0.0000040188465" z="12" scalex="1.6995395" scaley="1.6995395" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="33">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="78.29066" posy="-54.50308" angle="76.03145" scalex="0.99999994" scaley="0.99999994" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
@@ -685,6 +738,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="0.3708191" posy="6.5754013" angle="27.553547" scalex="0.99999994" scaley="0.9999999" skewx="-0.025990581" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-90.04577" posy="-43.081264" angle="69.979774" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-153.04034" posy="-216.6976" angle="12.78276" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-152.49387" posy="-210.26523" angle="71.73395" skewx="0" skewy="0" z="12" scalex="1.6995395" scaley="1.6995395" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="34">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="78.02775" posy="-54.539368" angle="76.33701" scalex="1.0000001" scaley="1.0000001" skewx="0.00000085377354" skewy="-0.00000085377354" z="0" alpha="1" framespan="1"></sprite>
@@ -699,6 +753,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="0.8810425" posy="7.056389" angle="28.752436" scalex="0.99999994" scaley="0.99999994" skewx="-0.025987165" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-89.31314" posy="-44.469707" angle="78.8842" scalex="1.0000002" scaley="1.0000002" skewx="0.0000034150937" skewy="-0.0000034150937" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-124.675026" posy="-225.74431" angle="21.687174" skewx="-0.0000017075471" skewy="0.0000017075471" type="MovieClip" z="11" scalex="1.0000001" scaley="1.0000001" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-125.13077" posy="-219.3049" angle="80.63837" skewx="0.0000020094237" skewy="-0.0000020094237" z="12" scalex="1.6995393" scaley="1.6995393" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="35">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="77.78162" posy="-54.569923" angle="76.62051" scalex="1" scaley="1" skewx="0.0000017075473" skewy="-0.0000017075473" z="0" alpha="1" framespan="1"></sprite>
@@ -713,6 +768,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="1.3762741" posy="7.4902763" angle="29.930716" scalex="0.99999994" scaley="0.9999999" skewx="-0.02599229" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-88.602554" posy="-46.00498" angle="88.0991" scalex="0.9999999" scaley="0.9999999" skewx="0.0000032016517" skewy="-0.0000032016517" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-94.47914" posy="-230.60295" angle="30.902079" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-95.960205" posy="-224.31961" angle="89.853264" skewx="-0.0000032653131" skewy="0.0000032653131" z="12" scalex="1.6995395" scaley="1.6995395" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="36">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="77.55127" posy="-54.595535" angle="76.88353" scalex="0.99999994" scaley="0.99999994" skewx="0.0000017075475" skewy="-0.0000017075475" z="0" alpha="1" framespan="1"></sprite>
@@ -727,6 +783,7 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="1.8564911" posy="7.8804665" angle="31.090738" scalex="1" scaley="1.0000001" skewx="-0.02599399" skewy="0" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-87.83947" posy="-47.68184" angle="97.16173" scalex="0.99999994" scaley="0.99999994" skewx="0.000003415095" skewy="-0.000003415095" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-64.56593" posy="-230.90106" angle="39.964703" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-67.01822" posy="-224.92944" angle="98.9159" skewx="0.000003014136" skewy="-0.000003014136" z="12" scalex="1.6995392" scaley="1.6995392" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="37">
 			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="77.335884" posy="-54.616886" angle="77.127426" scalex="1" scaley="1" skewx="0.00000085377366" skewy="-0.00000085377366" z="0" alpha="1" framespan="1"></sprite>
@@ -741,20 +798,22 @@
 			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="2.3217163" posy="8.229771" angle="32.234497" scalex="0.9999999" scaley="0.9999999" skewx="-0.02599229" skewy="0.0000017075475" z="9" alpha="1" framespan="1"></sprite>
 			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-86.963135" posy="-49.463516" angle="105.65235" scalex="1" scaley="1" skewx="-0.0000017075473" skewy="0.0000017075473" z="10" alpha="1" framespan="1"></sprite>
 			<refpoint name="refAntMouth" posx="-36.892796" posy="-227.23839" angle="48.455338" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="1"></refpoint>
+			<subsequence name="tongue" posx="-40.19989" posy="-221.6943" angle="107.406525" skewx="-0.0000020094233" skewy="0.0000020094233" z="12" scalex="1.6995397" scaley="1.6995397" alpha="1" framespan="1"></subsequence>
 		</frame>
 		<frame num="38" label="xxx">
-			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="77.335884" posy="-54.616886" angle="77.127426" scalex="1" scaley="1" skewx="0.00000085377366" skewy="-0.00000085377366" z="0" alpha="1" framespan="7"></sprite>
-			<sprite type="frontlegR" spritename="tiles_frontlegR.png" instancename="instance1" posx="9.075268" posy="67.616425" angle="26.84323" scalex="0.999998" scaley="-1.0409477" skewx="-0.0000065615104" skewy="-0.0000017075507" z="1" alpha="1" framespan="7"></sprite>
-			<sprite type="frontlegR_copy" spritename="tiles_frontlegR_copy.png" instancename="instance2" posx="5.8387566" posy="58.041447" angle="14.408066" scalex="0.99999994" scaley="-1.0409446" skewx="-0.00000656153" skewy="-0.00000085377377" z="2" alpha="1" framespan="7"></sprite>
-			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance3" posx="96.80856" posy="-1.9870286" angle="-12.587507" scalex="1.0000001" scaley="-1.0409493" skewx="0.0000106624375" skewy="0" z="3" alpha="1" framespan="7"></sprite>
-			<sprite type="frontlegR" spritename="tiles_frontlegR.png" instancename="instance4" posx="-8.406128" posy="-12.07233" angle="63.92353" scalex="0.9999995" scaley="0.9999995" skewx="0.0000017075481" skewy="-0.0000017075481" z="4" alpha="1" framespan="7"></sprite>
-			<sprite type="frontlegR_copy" spritename="tiles_frontlegR_copy.png" instancename="instance5" posx="8.70515" posy="-12.178528" angle="38.311863" scalex="0.9999999" scaley="0.9999999" skewx="0.000003415095" skewy="-0.000003415095" z="5" alpha="1" framespan="7"></sprite>
-			<sprite type="tail_copy" spritename="tiles_tail_copy.png" instancename="instance6" posx="113.481895" posy="-83.15048" angle="25.698484" scalex="1" scaley="1" skewx="0" skewy="0" z="6" alpha="1" framespan="7"></sprite>
-			<sprite type="tail" spritename="tiles_tail.png" instancename="instance7" posx="103.360756" posy="-30.712542" angle="-5.9744325" scalex="1" scaley="1" skewx="0" skewy="0" z="7" alpha="1" framespan="7"></sprite>
-			<sprite type="body" spritename="tiles_body.png" instancename="bodyback" posx="6.976961" posy="21.316832" angle="-32.62092" scalex="1.0000063" scaley="1.0000074" skewx="-0.026010877" skewy="0" z="8" alpha="1" framespan="7"></sprite>
-			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="2.3217163" posy="8.229771" angle="32.234497" scalex="0.9999999" scaley="0.9999999" skewx="-0.02599229" skewy="0.0000017075475" z="9" alpha="1" framespan="7"></sprite>
-			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-86.963135" posy="-49.463516" angle="105.65235" scalex="1" scaley="1" skewx="-0.0000017075473" skewy="0.0000017075473" z="10" alpha="1" framespan="7"></sprite>
-			<refpoint name="refAntMouth" posx="-36.892796" posy="-227.23839" angle="48.455338" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="7"></refpoint>
+			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="77.335884" posy="-54.616886" angle="77.127426" scalex="1" scaley="1" skewx="0.00000085377366" skewy="-0.00000085377366" z="0" alpha="1" framespan="11"></sprite>
+			<sprite type="frontlegR" spritename="tiles_frontlegR.png" instancename="instance1" posx="9.075268" posy="67.616425" angle="26.84323" scalex="0.999998" scaley="-1.0409477" skewx="-0.0000065615104" skewy="-0.0000017075507" z="1" alpha="1" framespan="11"></sprite>
+			<sprite type="frontlegR_copy" spritename="tiles_frontlegR_copy.png" instancename="instance2" posx="5.8387566" posy="58.041447" angle="14.408066" scalex="0.99999994" scaley="-1.0409446" skewx="-0.00000656153" skewy="-0.00000085377377" z="2" alpha="1" framespan="11"></sprite>
+			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance3" posx="96.80856" posy="-1.9870286" angle="-12.587507" scalex="1.0000001" scaley="-1.0409493" skewx="0.0000106624375" skewy="0" z="3" alpha="1" framespan="11"></sprite>
+			<sprite type="frontlegR" spritename="tiles_frontlegR.png" instancename="instance4" posx="-8.406128" posy="-12.07233" angle="63.92353" scalex="0.9999995" scaley="0.9999995" skewx="0.0000017075481" skewy="-0.0000017075481" z="4" alpha="1" framespan="11"></sprite>
+			<sprite type="frontlegR_copy" spritename="tiles_frontlegR_copy.png" instancename="instance5" posx="8.70515" posy="-12.178528" angle="38.311863" scalex="0.9999999" scaley="0.9999999" skewx="0.000003415095" skewy="-0.000003415095" z="5" alpha="1" framespan="11"></sprite>
+			<sprite type="tail_copy" spritename="tiles_tail_copy.png" instancename="instance6" posx="113.481895" posy="-83.15048" angle="25.698484" scalex="1" scaley="1" skewx="0" skewy="0" z="6" alpha="1" framespan="11"></sprite>
+			<sprite type="tail" spritename="tiles_tail.png" instancename="instance7" posx="103.360756" posy="-30.712542" angle="-5.9744325" scalex="1" scaley="1" skewx="0" skewy="0" z="7" alpha="1" framespan="11"></sprite>
+			<sprite type="body" spritename="tiles_body.png" instancename="bodyback" posx="6.976961" posy="21.316832" angle="-32.62092" scalex="1.0000063" scaley="1.0000074" skewx="-0.026010877" skewy="0" z="8" alpha="1" framespan="11"></sprite>
+			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="2.3217163" posy="8.229771" angle="32.234497" scalex="0.9999999" scaley="0.9999999" skewx="-0.02599229" skewy="0.0000017075475" z="9" alpha="1" framespan="11"></sprite>
+			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-86.963135" posy="-49.463516" angle="105.65235" scalex="1" scaley="1" skewx="-0.0000017075473" skewy="0.0000017075473" z="10" alpha="1" framespan="11"></sprite>
+			<refpoint name="refAntMouth" posx="-36.892796" posy="-227.23839" angle="48.455338" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="11"></refpoint>
+			<subsequence name="tongue" posx="-40.19989" posy="-221.6943" angle="107.406525" skewx="-0.0000020094233" skewy="0.0000020094233" z="12" scalex="1.6995397" scaley="1.6995397" alpha="1" framespan="11"></subsequence>
 		</frame>
 		<frame num="39"></frame>
 		<frame num="40"></frame>
@@ -762,20 +821,7 @@
 		<frame num="42"></frame>
 		<frame num="43"></frame>
 		<frame num="44"></frame>
-		<frame num="45">
-			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance0" posx="109.61249" posy="-18.75061" angle="-5.6122575" scalex="1" scaley="1" skewx="-0.00000042688683" skewy="0.00000042688683" z="0" alpha="1" framespan="4"></sprite>
-			<sprite type="frontlegR" spritename="tiles_frontlegR.png" instancename="instance1" posx="25.875658" posy="49.895344" angle="4.4095945" scalex="0.99999815" scaley="-1.0409478" skewx="-0.000009432171" skewy="0" z="1" alpha="1" framespan="4"></sprite>
-			<sprite type="frontlegR_copy" spritename="tiles_frontlegR_copy.png" instancename="instance2" posx="13.693094" posy="38.327667" angle="-16.164091" scalex="1" scaley="-1.0409445" skewx="-0.000006561531" skewy="0" z="2" alpha="1" framespan="4"></sprite>
-			<sprite type="rearlegr" spritename="tiles_rearlegr.png" instancename="instance3" posx="111.06285" posy="31.797321" angle="7.0733013" scalex="1" scaley="-1.0409491" skewx="0.000008201877" skewy="0" z="3" alpha="1" framespan="4"></sprite>
-			<sprite type="frontlegR" spritename="tiles_frontlegR.png" instancename="instance4" posx="4.5996056" posy="-40.643772" angle="2.639159" scalex="0.9999996" scaley="0.9999996" skewx="0" skewy="0" z="4" alpha="1" framespan="4"></sprite>
-			<sprite type="frontlegR_copy" spritename="tiles_frontlegR_copy.png" instancename="instance5" posx="2.451006" posy="-38.33689" angle="0.016201636" scalex="0.99999994" scaley="0.99999994" skewx="0" skewy="0" z="5" alpha="1" framespan="4"></sprite>
-			<sprite type="tail_copy" spritename="tiles_tail_copy.png" instancename="instance6" posx="140.53925" posy="5.6408386" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="6" alpha="1" framespan="4"></sprite>
-			<sprite type="tail" spritename="tiles_tail.png" instancename="instance7" posx="139.28198" posy="6.1519165" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="7" alpha="1" framespan="4"></sprite>
-			<sprite type="body" spritename="tiles_body.png" instancename="bodyback" posx="29.834202" posy="4.139348" angle="-0.16068092" scalex="1.0000062" scaley="1.000007" skewx="-0.02600879" skewy="-0.000000013340131" z="8" alpha="1" framespan="4"></sprite>
-			<sprite type="body_copy" spritename="tiles_body_copy.png" instancename="bodyfore" posx="26.863586" posy="4.829315" angle="0" scalex="1" scaley="1" skewx="-0.025990088" skewy="0" z="9" alpha="1" framespan="4"></sprite>
-			<sprite type="anthead" spritename="tiles_anthead.png" instancename="instance8" posx="-71.516174" posy="0.48442078" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="10" alpha="1" framespan="4"></sprite>
-			<refpoint name="refAntMouth" posx="-181.87242" posy="-286.53705" angle="0" skewx="0" skewy="0" type="MovieClip" z="11" scalex="1" scaley="1" framespan="4"></refpoint>
-		</frame>
+		<frame num="45"></frame>
 		<frame num="46"></frame>
 		<frame num="47"></frame>
 		<frame num="48"></frame>
@@ -1874,6 +1920,73 @@
 			<sprite type="speakersymbol" spritename="tiles_speakersymbol.png" instancename="instance0" posx="0" posy="0" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
 		</frame>
 	</sequence>
+	<sequence name="tongue">
+		<frame num="1"></frame>
+		<frame num="2" label="grab1">
+			<sprite type="tonguespr_1" spritename="tiles_tonguespr_1.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="3">
+			<sprite type="tonguespr_2" spritename="tiles_tonguespr_2.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="4">
+			<sprite type="tonguespr_3" spritename="tiles_tonguespr_3.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="5">
+			<sprite type="tonguespr_4" spritename="tiles_tonguespr_4.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="6">
+			<sprite type="tonguespr_5" spritename="tiles_tonguespr_5.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="7">
+			<sprite type="tonguespr_6" spritename="tiles_tonguespr_6.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="8">
+			<sprite type="tonguespr_7" spritename="tiles_tonguespr_7.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="9">
+			<sprite type="tonguespr_8" spritename="tiles_tonguespr_8.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="10">
+			<sprite type="tonguespr_9" spritename="tiles_tonguespr_9.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="11">
+			<sprite type="tonguespr_10" spritename="tiles_tonguespr_10.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="12" label="grab2">
+			<sprite type="tonguespr_11" spritename="tiles_tonguespr_11.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="13">
+			<sprite type="tonguespr_12" spritename="tiles_tonguespr_12.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="14">
+			<sprite type="tonguespr_13" spritename="tiles_tonguespr_13.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="15">
+			<sprite type="tonguespr_14" spritename="tiles_tonguespr_14.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="16">
+			<sprite type="tonguespr_15" spritename="tiles_tonguespr_15.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="17">
+			<sprite type="tonguespr_16" spritename="tiles_tonguespr_16.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="18">
+			<sprite type="tonguespr_17" spritename="tiles_tonguespr_17.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="19">
+			<sprite type="tonguespr_18" spritename="tiles_tonguespr_18.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="20">
+			<sprite type="tonguespr_19" spritename="tiles_tonguespr_19.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="21">
+			<sprite type="tonguespr_20" spritename="tiles_tonguespr_20.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="22">
+			<sprite type="tonguespr_21" spritename="tiles_tonguespr_21.png" instancename="instance0" posx="-2.1269245" posy="0.42509055" angle="0" scalex="1" scaley="1" skewx="0" skewy="0" z="0" alpha="1" framespan="1"></sprite>
+		</frame>
+		<frame num="23"></frame>
+	</sequence>
 	<ik>
 		<skeleton sequence="anteater">
 			<chain id="1" name="body" links="2" preferccw="1" rootlocked="0" x="-84.56018" y="-3.6654053" tipx="90.55643" tipy="-2.7361202" parent="" parentjoint="0" offsetx="0" offsety="0">
@@ -1913,6 +2026,7 @@
 			<bind chain="1" bone="upper" target="bodyfore" posx="88.10837" posy="2.5615737" angle="-2.0324588" scalex="1" scaley="0.99999994" skewx="-0.025990153" skewy="0"></bind>
 			<bind chain="4" bone="link0" target="instance8" posx="-6.0252686" posy="-1.560764" angle="-179.65898" scalex="1" scaley="1" skewx="0" skewy="0"></bind>
 			<bind chain="4" bone="link0" target="refAntMouth" posx="178.66129" posy="-0.21155548" angle="123.14401" scalex="1" scaley="1" skewx="0" skewy="0"></bind>
+			<bind chain="4" bone="link0" target="tongue" posx="172.4407" posy="-1.9372802" angle="-177.9048" scalex="1.6995394" scaley="1.6995394" skewx="0.00000037676693" skewy="-0.00000037676693"></bind>
 		</skeleton>
 	</ik>
 </stuff>
