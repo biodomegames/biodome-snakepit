@@ -10,8 +10,9 @@ import {
 	neighbor,
 } from "./hex.js"
 import { Easing, newTween } from "../dome/Tween.js"
-import { SLITHER_AMP, SLITHER_WAVE, wiggleTrail } from "./slitherWave.js"
+import { SLITHER_AMP, SLITHER_WAVE, wiggleRateForCells, wiggleScaleForCells, wiggleTrail } from "./slitherWave.js"
 import { paintSnakeBody } from "./snakeDraw.js"
+import { durationScaleForLevel } from "./pace.js"
 import * as sfx from "./sfx.js"
 
 const TILE_SIZE = 36 // center → vertex in px
@@ -34,11 +35,13 @@ export class BoardView extends Container {
 	 * @param {{
 	 *   getTube?: () => any,
 	 *   onSnakeClick?: (snakeId: number) => void,
+	 *   level?: number,
 	 * }} hooks
 	 */
 	constructor(hooks = {}) {
 		super()
 		this.hooks = hooks
+		this.pace = durationScaleForLevel(hooks.level ?? 1)
 		this.hexSize = TILE_SIZE
 		this.boardRadius = 4
 		/** @type {{ q: number, r: number }[]} */
@@ -46,25 +49,34 @@ export class BoardView extends Container {
 		/** @type {Set<string>} */
 		this._boardKeys = new Set()
 		this.boardLayer = new Container()
+		// Grass, rocks, and pit snakes share one Y-sorted ground layer.
 		this.decorLayer = new Container()
 		this.decorLayer.sortableChildren = true
-		this.snakeLayer = new Container()
+		this.snakeLayer = this.decorLayer
 		this.fxLayer = new Container()
 		this.dock = new AntDock({
 			getTube: () => this.hooks.getTube?.(),
+			getUi: () => this.hooks.getUi?.(),
 			onAntDied: () => this.hooks.onAntDied?.() === true,
 			onAntGameOver: () => this.hooks.onAntGameOver?.(),
+			onStateChange: () => this.hooks.onDockStateChange?.(),
+			pace: this.pace,
+			groundLayer: this.decorLayer,
 		})
 		this.addChild(this.boardLayer)
+		// Lane sticks behind rim grass and rocks.
+		this.addChild(this.dock.stickLayer)
 		this.addChild(this.decorLayer)
-		this.addChild(this.snakeLayer)
 		this.addChild(this.fxLayer)
+		// Ant queue stays above grass; escaped snakes live in decorLayer.
 		this.addChild(this.dock)
 
 		/** @type {Map<number, { root: Container, g: Graphics, face: any, snake: any }>} */
 		this.snakeGfx = new Map()
 		/** @type {Set<number>} */
 		this.animatingIds = new Set()
+		/** @type {any[]} rim grass movieclips that can react to snakes */
+		this.grassTufts = []
 		this.eventMode = "static"
 		this.on("pointertap", (e) => this._onTap(e))
 	}
@@ -175,18 +187,19 @@ export class BoardView extends Container {
 
 	/**
 	 * @param {import('./level.js').LevelSession} session
+	 * @param {{ antColors?: number[], unlockedLanes?: number, parked?: object[] } | null} [saved]
 	 */
-	setSession(session) {
+	setSession(session, saved = null) {
 		this.session = session
 		this.boardRadius = session.boardRadius
 		this.boardCells = session.boardCells || session.board?.cells || []
 		this._boardKeys = new Set(this.boardCells.map(hexKey))
 		this._rebuildBoard()
-		this.dock.setup(session, this.boardPixelSize(), this.hexSize)
+		this.dock.setup(session, this.boardPixelSize(), this.hexSize, saved)
 		this._rebuildDecor()
 		this._rebuildRocks()
 		this.redrawSnakes()
-		this.dock.setup(session, this.boardPixelSize(), this.hexSize)
+		if (saved?.parked?.length) this.dock.restoreParked(saved.parked)
 	}
 
 	_rebuildBoard() {
@@ -278,6 +291,19 @@ export class BoardView extends Container {
 					mc.setFrame(frame)
 					mc.stop?.()
 					mc.scale.set((this.hexSize * 1.7 * scale) / 40)
+					const anim = this._grassAnimOf(mc)
+					mc._grassAnim = anim
+					mc._trodden = false
+					if (anim) {
+						anim.eventMode = "none"
+						anim.interactiveChildren = false
+						anim.looping = false
+						anim.framerate = 40
+						// Idle upright: start of tread when authored, else first frame.
+						if (anim.framelabels?.tread != null) anim.setFrame(anim.framelabels.tread.s)
+						else anim.setFrame(0)
+						anim.stop?.()
+					}
 					return mc
 				}
 			} catch {
@@ -297,6 +323,25 @@ export class BoardView extends Container {
 		return g
 	}
 
+	/** Nested tuft clip on the current grass frame (grassanim1, …). */
+	_grassAnimOf(grassMc) {
+		if (!grassMc) return null
+		for (const child of grassMc.children || []) {
+			if (child?.visible && typeof child.playLabel === "function") return child
+		}
+		for (const key of Object.keys(grassMc.spritecache || {})) {
+			const child = grassMc.spritecache[key]
+			if (child?.visible && typeof child.playLabel === "function") return child
+		}
+		return null
+	}
+
+	_playGrassLabel(anim, label) {
+		if (!anim?.framelabels || anim.framelabels[label] == null) return
+		anim.looping = false
+		anim.playLabel(label)
+	}
+
 	/**
 	 * Drop tufts that would sit on the screen the camera is showing right now.
 	 * Keeps grass at or above the top edge so the next pit doesn't blink tufts
@@ -308,14 +353,20 @@ export class BoardView extends Container {
 		const topWorld = (0 - (cam?.y ?? 0)) / scale
 		const reach = this.hexSize * 0.75
 		for (const child of [...this.decorLayer.children]) {
-			if (child.isRock) continue
+			if (!child.isGrass) continue
 			const bottom = this.y + child.y + reach
 			if (bottom > topWorld) this.decorLayer.removeChild(child)
+		}
+		if (this.grassTufts?.length) {
+			this.grassTufts = this.grassTufts.filter((g) => g.parent === this.decorLayer)
 		}
 	}
 
 	_rebuildDecor() {
-		this.decorLayer.removeChildren()
+		for (const child of [...this.decorLayer.children]) {
+			if (child.isGrass) this.decorLayer.removeChild(child)
+		}
+		this.grassTufts = []
 		if (!this.session) return
 		const reach = this.hexSize * 1.05
 		const lanes = this.dock?.layoutBox
@@ -338,10 +389,70 @@ export class BoardView extends Container {
 			const grass = this._makeGrassSprite(c.q, c.r, scale)
 			grass.position.set(x, y)
 			grass.zIndex = y
+			grass.isGrass = true
 			if (scatter.u < 0.5) grass.scale.x *= -1
 			grass.alpha = 0.82 + scatter.w * 0.18
 			this.decorLayer.addChild(grass)
+			this.grassTufts.push(grass)
 		}
+	}
+
+	/**
+	 * Flatten tufts under a snake (tread) and spring them back (bounce) when clear.
+	 * Nested clips without those labels are left alone.
+	 */
+	tickGrass() {
+		const tufts = this.grassTufts
+		if (!tufts?.length) return
+		const bodies = this._snakeBodySamples()
+		if (!bodies.length) {
+			for (const grass of tufts) this._setGrassTrodden(grass, false)
+			return
+		}
+		const rad = this.hexSize * 0.7
+		const rad2 = rad * rad
+		for (const grass of tufts) {
+			const gx = grass.x
+			const gy = grass.y
+			let hit = false
+			for (const pts of bodies) {
+				for (const p of pts) {
+					const dx = p.x - gx
+					const dy = p.y - gy
+					if (dx * dx + dy * dy <= rad2) {
+						hit = true
+						break
+					}
+				}
+				if (hit) break
+			}
+			this._setGrassTrodden(grass, hit)
+		}
+	}
+
+	_setGrassTrodden(grass, trodden) {
+		if (!grass || !!grass._trodden === !!trodden) return
+		grass._trodden = !!trodden
+		const anim = grass._grassAnim || this._grassAnimOf(grass)
+		grass._grassAnim = anim
+		if (trodden) this._playGrassLabel(anim, "tread")
+		else this._playGrassLabel(anim, "bounce")
+	}
+
+	/** Body polylines for pit snakes and dock snakes in this view. */
+	_snakeBodySamples() {
+		/** @type {{x:number,y:number}[][]} */
+		const out = []
+		for (const entry of this.snakeGfx.values()) {
+			const pts = entry.root?._bodyPts
+			if (pts?.length) out.push(pts)
+		}
+		for (const child of this.decorLayer.children) {
+			if (!child.isDockSnake) continue
+			const pts = child._bodyPts
+			if (pts?.length) out.push(pts)
+		}
+		return out
 	}
 
 	_rebuildRocks() {
@@ -418,7 +529,8 @@ export class BoardView extends Container {
 			root.addChild(g)
 			const face = this._makeFace()
 			if (face) root.addChild(face)
-			this._paintSnake(g, face, snake.cells, snake.dir, snake.color, 1)
+			root.isSnake = true
+			root.snakeId = snake.id
 			root.eventMode = "static"
 			root.cursor = "pointer"
 			root.on("pointertap", (e) => {
@@ -427,7 +539,29 @@ export class BoardView extends Container {
 			})
 			this.snakeGfx.set(snake.id, { root, g, face, snake })
 			this.snakeLayer.addChild(root)
+			this._paintSnake(g, face, snake.cells, snake.dir, snake.color, 1)
 		}
+	}
+
+	/** Head tip in BoardView-local px for a living snake. */
+	snakeHeadLocal(snakeId) {
+		const entry = this.snakeGfx.get(snakeId)
+		if (entry?.face?.visible) return { x: entry.face.x, y: entry.face.y }
+		const snake = this.session?.snakes?.find((s) => s.id === snakeId)
+		if (!snake?.cells?.length) return null
+		return this._headPos(hexToPixel(snake.cells[0], this.hexSize), snake.dir)
+	}
+
+	/** Southernmost body Y, matching grass zIndex = base y. */
+	_applySnakeDepth(root, pathPts) {
+		if (!root) return
+		let maxY = -Infinity
+		for (const p of pathPts || []) {
+			if (p.y > maxY) maxY = p.y
+		}
+		if (!Number.isFinite(maxY)) maxY = 0
+		root.zIndex = maxY + (root.snakeId ?? 0) * 0.01
+		root._bodyPts = pathPts
 	}
 
 	/** Head sits on the facing hex edge (not cell center). */
@@ -597,6 +731,7 @@ export class BoardView extends Container {
 			face.position.set(head.x, head.y)
 			face.rotation = headAng
 		}
+		this._applySnakeDepth(face?.parent || g.parent, pathPts)
 	}
 
 	_paintSnake(g, face, cells, dir, color, alpha) {
@@ -636,7 +771,7 @@ export class BoardView extends Container {
 		let pts = slice.pts
 		let headAng = slice.headAng
 		if (slither && slither.amp > 0.5) {
-			const waved = wiggleTrail(pts, slither.amp, slither.phase, this.hexSize)
+			const waved = wiggleTrail(pts, slither.amp, slither.phase, this.hexSize, slither.wave)
 			if (waved) {
 				pts = waved.pts
 				headAng = waved.headAng
@@ -782,10 +917,11 @@ export class BoardView extends Container {
 			}
 			this.animatingIds.add(snake.id)
 			const { root, g, face } = entry
-			const stepDur = opts.bump ? 0.09 : 0.1
+			const stepDur = (opts.bump ? 0.09 : 0.1) * this.pace
 			const stepPx = this.hexSize * Math.sqrt(3)
-			const wave = this.hexSize * SLITHER_WAVE
-			const ampFull = this.hexSize * SLITHER_AMP
+			const bodyCells = steps[0]?.length || snake.cells?.length || 2
+			const wave = (this.hexSize * SLITHER_WAVE) / wiggleRateForCells(bodyCells)
+			const ampFull = this.hexSize * SLITHER_AMP * wiggleScaleForCells(bodyCells)
 			const phase0 = snake.id * 1.7
 			const endU = Math.max(0, steps.length - 1)
 			const slitherAt = (u) => {
@@ -795,6 +931,7 @@ export class BoardView extends Container {
 				return {
 					amp: ampFull * inn * out,
 					phase: phase0 + ((u * stepPx) / wave) * Math.PI * 2,
+					wave,
 				}
 			}
 
@@ -829,7 +966,7 @@ export class BoardView extends Container {
 						const k = Math.abs(t - t0) / span
 						const amp = ampFull * Math.sin(Math.PI * Math.min(1, Math.max(0, k))) * 0.7
 						const phase = phase0 + ((t * stepPx) / wave) * Math.PI * 2
-						this._paintSlide(g, face, from, to, snake.dir, snake.color, t, 1, { amp, phase })
+						this._paintSlide(g, face, from, to, snake.dir, snake.color, t, 1, { amp, phase, wave })
 					}
 					newTween(proxy, { t: t1 }, dur)
 						.ease(ease)

@@ -1,6 +1,7 @@
 import { TransDef } from "./dome/ui.js"
 import { DialogSettings } from "./dialogsettings.js"
 import { TubesList } from "./data_tubelist.js"
+import watchAdIcon from "../g/icon-watchad.svg"
 
 export const DialogDefinitions = {
 	TubeDefinitions: TubesList,
@@ -84,6 +85,113 @@ export const DialogDefinitions = {
 			pos: { x: 0, y: 140 },
 			width: 220,
 			height: 56,
+		},
+	},
+
+	/** Locked dock lane: watch a rewarded ad to unlock. */
+	unlockLane: {
+		_setup: {
+			halign: "center",
+			valign: "center",
+			appear: TransDef.FADE,
+			disappear: TransDef.FADE,
+			appearSound: true,
+			disappearSound: true,
+			aspectScaleFactor: {
+				minAspect: 0.4,
+				minScale: 0.95,
+				maxAspect: 1.4,
+				maxScale: 0.75,
+			},
+		},
+		panel: {
+			type: "mine_dialog_raised",
+			width: 560,
+			height: 440,
+			sizeRef: true,
+			blockClicks: true,
+		},
+		closebut: {
+			type: "mine_closebutton",
+			res: "close",
+			text: "",
+			closeDialog: true,
+			usePos: 1,
+			trans: { x: 230, y: -170, a: 0, sx: 0.7, sy: 0.7 },
+		},
+		title: {
+			type: "h2_title",
+			text: "Watch ad to unlock lane",
+			usePos: "absolute",
+			// Sit below the close button so the title never covers it.
+			pos: { x: 0, y: -70 },
+		},
+		watchad: {
+			type: "button_watchad",
+			res: "watchad",
+			closeDialog: true,
+			usePos: "absolute",
+			pos: { x: 0, y: 90 },
+			width: 420,
+			height: 160,
+			image: {
+				source: watchAdIcon,
+				scale: 0.55,
+				align: "center",
+			},
+		},
+	},
+
+	/** Refill ant lives with a rewarded ad. */
+	refillLives: {
+		_setup: {
+			halign: "center",
+			valign: "center",
+			appear: TransDef.FADE,
+			disappear: TransDef.FADE,
+			appearSound: true,
+			disappearSound: true,
+			aspectScaleFactor: {
+				minAspect: 0.4,
+				minScale: 0.95,
+				maxAspect: 1.4,
+				maxScale: 0.75,
+			},
+		},
+		panel: {
+			type: "mine_dialog_raised",
+			width: 560,
+			height: 440,
+			sizeRef: true,
+			blockClicks: true,
+		},
+		closebut: {
+			type: "mine_closebutton",
+			res: "close",
+			text: "",
+			closeDialog: true,
+			usePos: 1,
+			trans: { x: 230, y: -170, a: 0, sx: 0.7, sy: 0.7 },
+		},
+		title: {
+			type: "h2_title",
+			text: "get 2 ants",
+			usePos: "absolute",
+			pos: { x: 0, y: -70 },
+		},
+		watchad: {
+			type: "button_watchad",
+			res: "watchad",
+			closeDialog: true,
+			usePos: "absolute",
+			pos: { x: 0, y: 90 },
+			width: 420,
+			height: 160,
+			image: {
+				source: watchAdIcon,
+				scale: 0.55,
+				align: "center",
+			},
 		},
 	},
 

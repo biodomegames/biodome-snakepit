@@ -1,8 +1,15 @@
 import { Container, Graphics, Rectangle, Sprite, Texture } from "pixi.js"
 import { Easing, newTween } from "../dome/Tween.js"
 import { solutionAntColors, laneCountForSnakes } from "./snake.js"
-import { SLITHER_AMP, SLITHER_WAVE, pointOnTrail, wiggleTrail } from "./slitherWave.js"
+import {
+	antModeForLevel,
+	applyAntDifficulty,
+	lockedLaneCountForLevel,
+} from "./difficulty.js"
+import { SLITHER_AMP, SLITHER_WAVE, pointOnTrail, wiggleRateForCells, wiggleScaleForCells, wiggleTrail } from "./slitherWave.js"
 import { paintSnakeBody, shadeForNormal } from "./snakeDraw.js"
+import { adManager } from "../system/ads.js"
+import watchAdIcon from "../../g/icon-watchad.svg"
 import * as sfx from "./sfx.js"
 
 const STICK_H = 7
@@ -10,31 +17,51 @@ const LANE_H = 46
 const ANT_SCALE = 0.52
 /** Screen pixels from the ant's origin down to the shadow. */
 const ANT_SHADOW_DROP = 4
-/** How far below the old seat the ant stands on a snake. */
-const ANT_SEAT_DROP = 3
+/** Screen Y nudge on a parked snake. Negative sits higher toward the body middle. */
+const ANT_SEAT_DROP = -4
 
 /**
  * Lane stack + ant queue in pit/world space (BoardView local pixels).
  * Sticks separate horizontal lanes. Escaped snakes path around the pit
  * into the topmost free lane; matching ants board the back; a full snake leaves.
+ * When the ant queue is empty, any remaining parked snakes auto-exit.
  */
 export class AntDock extends Container {
-	constructor({ getTube, onAntDied, onAntGameOver } = {}) {
+	constructor({
+		getTube,
+		getUi,
+		onAntDied,
+		onAntGameOver,
+		onStateChange,
+		pace = 1,
+		groundLayer = null,
+	} = {}) {
 		super()
 		this.getTube = getTube
+		this.getUi = getUi
 		this.onAntDied = onAntDied
 		this.onAntGameOver = onAntGameOver
+		this.onStateChange = onStateChange
+		this.pace = pace
 		this.eventMode = "passive"
 		this.interactiveChildren = true
 
 		this.stickLayer = new Container()
+		this.stickLayer.eventMode = "none"
 		this.antLayer = new Container()
 		// Passive so the front ant can take a click; the layer itself does not.
 		this.antLayer.eventMode = "passive"
-		this.snakeLayer = new Container()
-		this.addChild(this.stickLayer)
-		this.addChild(this.snakeLayer)
+		this.lockLayer = new Container()
+		this.lockLayer.eventMode = "passive"
+		this.lockLayer.interactiveChildren = true
+		// Escaped snakes share BoardView's Y-sorted ground layer with grass/rocks.
+		this.groundLayer = groundLayer
+		this.snakeLayer = groundLayer || new Container()
+		this._dockSnakeSeq = 0
+		// stickLayer is parented by BoardView under the grass/rocks.
+		if (!groundLayer) this.addChild(this.snakeLayer)
 		this.addChild(this.antLayer)
+		this.addChild(this.lockLayer)
 
 		/** @type {{ clip: any, color: number, boarding?: boolean }[]} */
 		this.ants = []
@@ -44,6 +71,8 @@ export class AntDock extends Container {
 		this.pending = []
 		this._busy = 0
 		this._boarding = false
+		/** Ants mid-walk from the queue onto a parked snake. */
+		this._inflightBoard = 0
 		/** @type {any[]} */
 		this._parked = []
 		this._eating = false
@@ -60,10 +89,28 @@ export class AntDock extends Container {
 		this._laneW = 200
 		this._seg = 18
 		this._thick = 16
+		/** @type {Container[]} */
+		this._lockOverlays = []
+		this._adBusy = false
+		this._level = 1
+		/** @type {any} */
+		this._unlockDialog = null
 	}
 
 	isIdle() {
 		return this._busy === 0 && this.pending.length === 0 && this.lanes.every((l) => !l.occupied)
+	}
+
+	/**
+	 * True when no snake is mid-slither into/out of a lane.
+	 * Parked snakes waiting for ants are considered stable.
+	 */
+	isStableForSave() {
+		if (this.pending.length) return false
+		if (this._parked.some((s) => s.leaving)) return false
+		const occupied = this.lanes.filter((l) => l.occupied).length
+		const stableParked = this._parked.filter((s) => !s.leaving).length
+		return occupied === stableParked
 	}
 
 	waitUntilIdle() {
@@ -87,35 +134,57 @@ export class AntDock extends Container {
 		for (const a of this.ants) a.clip?.parent?.removeChild(a.clip)
 		this.ants = []
 		this.lanes = []
+		this._clearLockOverlays()
 		this.stickLayer.removeChildren()
-		this.snakeLayer.removeChildren()
+		for (const child of [...this.snakeLayer.children]) {
+			if (child.isDockSnake) child.parent?.removeChild(child)
+		}
 		this.antLayer.removeChildren()
 		this.layoutBox = null
 		this._busy = 0
 		this._boarding = false
+		this._inflightBoard = 0
 		this._eating = false
 		this._parked = []
+		this._adBusy = false
 		this._anteaterClip?.parent?.removeChild(this._anteaterClip)
 		this._anteaterClip = null
 		this._flushIdle()
 	}
 
+	_clearLockOverlays() {
+		for (const overlay of this._lockOverlays) {
+			overlay.parent?.removeChild(overlay)
+		}
+		this._lockOverlays = []
+		this.lockLayer?.removeChildren()
+		if (this._unlockDialog) {
+			const ui = this.getUi?.()
+			const open = this._unlockDialog
+			this._unlockDialog = null
+			ui?.closeDialog?.(open)
+		}
+	}
+
 	/**
-	 * @param {{ snakes: { color: number, cells: unknown[] }[], seed?: number }} session
+	 * @param {{ snakes: { color: number, cells: unknown[] }[], seed?: number, level?: number, board?: any, rocks?: any[] }} session
 	 * @param {{ cx:number, cy:number, w:number, h:number }} pit
 	 * @param {number} hexSize
+	 * @param {{ antColors?: number[], unlockedLanes?: number } | null} [saved]
 	 */
-	setup(session, pit, hexSize = 36) {
+	setup(session, pit, hexSize = 36, saved = null) {
 		this.clear()
 		if (!session?.snakes?.length || !pit) return
 		this.pit = pit
 		this.hexSize = hexSize
+		this._level = Math.max(1, session.level | 0)
 		this._thick = hexSize * 0.72
 		this._laneW = Math.max(140, pit.w)
 		this._left = pit.cx - this._laneW / 2
 
 		const snakes = session.snakes
 		const laneCount = laneCountForSnakes(snakes.length)
+		const lockCount = Math.min(laneCount, lockedLaneCountForLevel(this._level))
 		const pitTop = pit.cy - pit.h / 2
 		const gap = hexSize * 0.85
 		const stackH = laneCount * LANE_H + (laneCount + 1) * STICK_H
@@ -129,10 +198,31 @@ export class AntDock extends Container {
 		this.lanes = []
 		for (let i = 0; i < laneCount; i++) {
 			const y = stackTop + STICK_H + i * (STICK_H + LANE_H) + LANE_H / 2
-			this.lanes.push({ y, occupied: false })
+			const locked = lockCount > 0 && i >= laneCount - lockCount
+			this.lanes.push({ y, occupied: false, locked })
 		}
+		let unlocked = Math.max(0, saved?.unlockedLanes | 0)
+		for (let i = this.lanes.length - 1; i >= 0 && unlocked > 0; i--) {
+			if (!this.lanes[i].locked) continue
+			this.lanes[i].locked = false
+			unlocked--
+		}
+		this._buildLockOverlays()
 
-		const colors = solutionAntColors(snakes, session.board, session.rocks || [])
+		const rocks = session.rocks || []
+		const colors = Array.isArray(saved?.antColors)
+			? saved.antColors.slice()
+			: applyAntDifficulty(
+					antModeForLevel(this._level),
+					solutionAntColors(snakes, session.board, rocks),
+					{
+						snakes,
+						board: session.board,
+						rocks,
+						laneCount,
+						seed: session.seed,
+					},
+				)
 
 		const tube = this.getTube?.()
 		const antY = stackTop - 16
@@ -167,6 +257,58 @@ export class AntDock extends Container {
 			minY: antY - 18,
 			maxY: stackBottom + pad,
 		}
+
+		if (lockCount > 0) adManager.loadRewarded?.(() => {})
+	}
+
+	getAntColors() {
+		return this.ants.map((a) => a.color)
+	}
+
+	getUnlockedLaneCount() {
+		const expected = lockedLaneCountForLevel(this._level)
+		if (expected <= 0) return 0
+		const stillLocked = this.lanes.filter((l) => l.locked).length
+		return Math.max(0, expected - stillLocked)
+	}
+
+	getParkedSnapshot() {
+		return this._parked
+			.filter((s) => !s.leaving && s.lane)
+			.map((s) => ({
+				color: s.color,
+				capacity: s.capacity | 0,
+				filled: Math.max(s.arrived | 0, s.reserved | 0),
+				laneIndex: this.lanes.indexOf(s.lane),
+			}))
+			.filter((p) => p.laneIndex >= 0)
+	}
+
+	/**
+	 * Re-create parked dock snakes after a reload (no entry animation).
+	 * @param {object[]} list
+	 */
+	restoreParked(list) {
+		if (!Array.isArray(list) || !list.length) return
+		for (const snap of list) {
+			const lane = this.lanes[snap.laneIndex]
+			if (!lane || lane.occupied) continue
+			if (lane.locked) {
+				lane.locked = false
+				if (lane.lockOverlay) {
+					lane.lockOverlay.parent?.removeChild(lane.lockOverlay)
+					this._lockOverlays = this._lockOverlays.filter((o) => o !== lane.lockOverlay)
+					lane.lockOverlay = null
+				}
+			}
+			this._spawnParkedAtRest(lane, snap)
+		}
+		// Safety net if kickBoard was skipped (e.g. already boarding).
+		this._maybeAutoExitParked()
+	}
+
+	_notifyStateChange() {
+		this.onStateChange?.()
 	}
 
 	/** Tint named ant sprites. The clip itself stays white so the colors are not multiplied. */
@@ -254,7 +396,7 @@ export class AntDock extends Container {
 	}
 
 	topFreeLane() {
-		return this.lanes.find((l) => !l.occupied) ?? null
+		return this.lanes.find((l) => !l.occupied && !l.locked) ?? null
 	}
 
 	hasFreeLane() {
@@ -267,6 +409,81 @@ export class AntDock extends Container {
 		if (!lane) return null
 		lane.occupied = true
 		return lane
+	}
+
+	_buildLockOverlays() {
+		this._clearLockOverlays()
+		for (const lane of this.lanes) {
+			if (!lane.locked) continue
+			const overlay = new Container()
+			overlay.eventMode = "static"
+			overlay.cursor = "pointer"
+			overlay.hitArea = new Rectangle(this._left, lane.y - LANE_H / 2, this._laneW, LANE_H)
+
+			const dim = new Graphics()
+			dim.roundRect(this._left + 4, lane.y - LANE_H / 2 + 2, this._laneW - 8, LANE_H - 4, 8)
+			dim.fill({ color: 0x0d1f0d, alpha: 0.62 })
+			dim.stroke({ width: 2, color: 0x33a12d, alpha: 0.85 })
+			dim.eventMode = "none"
+			overlay.addChild(dim)
+
+			const icon = new Sprite(Texture.from(watchAdIcon))
+			icon.anchor.set(0.5)
+			const iconSize = Math.min(44, LANE_H - 4)
+			icon.width = iconSize
+			icon.height = iconSize
+			icon.position.set(this._left + this._laneW / 2, lane.y)
+			icon.eventMode = "none"
+			overlay.addChild(icon)
+
+			overlay.on("pointertap", (e) => {
+				e.stopPropagation()
+				this._openUnlockLaneDialog(lane, overlay)
+			})
+			this.lockLayer.addChild(overlay)
+			this._lockOverlays.push(overlay)
+			lane.lockOverlay = overlay
+		}
+	}
+
+	_openUnlockLaneDialog(lane, overlay) {
+		if (!lane?.locked || this._adBusy || this._unlockDialog) return
+		const ui = this.getUi?.()
+		if (!ui?.displayDialog) {
+			// No UI shell — still allow unlock via rewarded flow.
+			this._playUnlockAd(lane, overlay)
+			return
+		}
+		this._unlockDialog = ui.displayDialog("unlockLane", {}, (res, dialog) => {
+			if (dialog?.isClosing || dialog?.isClosed) {
+				if (this._unlockDialog === dialog) this._unlockDialog = null
+			}
+			if (res === "watchad") this._playUnlockAd(lane, overlay)
+		})
+	}
+
+	_playUnlockAd(lane, overlay) {
+		if (!lane?.locked || this._adBusy) return
+		this._adBusy = true
+		adManager.showRewarded((ok) => {
+			this._adBusy = false
+			if (!ok) return
+			this._unlockLane(lane, overlay)
+		})
+	}
+
+	_unlockLane(lane, overlay) {
+		if (!lane) return
+		lane.locked = false
+		const node = overlay || lane.lockOverlay
+		if (node) {
+			node.parent?.removeChild(node)
+			this._lockOverlays = this._lockOverlays.filter((o) => o !== node)
+		}
+		lane.lockOverlay = null
+		this._notifyStateChange()
+		this._takeNextPending()
+		this._flushIdle()
 	}
 
 	/**
@@ -315,6 +532,9 @@ export class AntDock extends Container {
 			} catch {
 				face = null
 			}
+			root.isSnake = true
+			root.isDockSnake = true
+			root.snakeId = 1000 + this._dockSnakeSeq++
 			this.snakeLayer.addChild(root)
 			/** @type {{ clip: any, fromTail: number }[]} */
 			const riderList = []
@@ -331,26 +551,31 @@ export class AntDock extends Container {
 				waveFrom: 0,
 				waveTo: 0,
 				wavePhase: Math.random() * Math.PI * 2,
+				wiggleScale: wiggleScaleForCells(job.capacity || 2),
+				wiggleRate: wiggleRateForCells(job.capacity || 2),
+				lane,
 			}
 			const paint = (headDist) => {
 				state.headDist = headDist
 				const slice = this._sliceBack(state.dense, state.cum, headDist, state.bodyLen)
-				const amp = this._travelAmp(headDist, state.waveFrom, state.waveTo)
-				const phase = state.wavePhase + (headDist / (this.hexSize * SLITHER_WAVE)) * Math.PI * 2
+				const amp = this._travelAmp(headDist, state.waveFrom, state.waveTo, state.wiggleScale)
+				const wave = (this.hexSize * SLITHER_WAVE) / (state.wiggleRate || 1)
+				const phase = state.wavePhase + (headDist / wave) * Math.PI * 2
 				let pts = slice.pts
 				let headAng = slice.headAng
-				const waved = wiggleTrail(pts, amp, phase, this.hexSize)
+				const waved = wiggleTrail(pts, amp, phase, this.hexSize, wave)
 				if (waved) {
 					pts = waved.pts
 					headAng = waved.headAng
 				}
 				this._stroke(g, face, pts, headAng, state.color, state.thick)
+				this._applySnakeDepth(root, pts)
 				for (const r of riderList) {
 					const behind = Math.max(0, state.bodyLen - r.fromTail)
 					if (waved) {
 						const seat = pointOnTrail(pts, behind, state.bodyLen)
-						// Same side as the old lane lift when the body runs to the left of the head.
-						const lift = state.thick * 0.15
+						// Keep riders near the stroke centerline (middle of the body).
+						const lift = state.thick * 0.02
 						r.clip.position.set(
 							seat.x - Math.sin(seat.ang) * lift,
 							seat.y + Math.cos(seat.ang) * lift + ANT_SEAT_DROP,
@@ -360,7 +585,7 @@ export class AntDock extends Container {
 					} else {
 						const d = headDist - state.bodyLen + r.fromTail
 						const p = this._pointAt(state.dense, state.cum, d)
-						r.clip.position.set(p.x, p.y - state.thick * 0.2 + ANT_SEAT_DROP)
+						r.clip.position.set(p.x, p.y + ANT_SEAT_DROP)
 					}
 					this._shadeAnt(r.clip)
 				}
@@ -403,13 +628,15 @@ export class AntDock extends Container {
 				state.arrived = 0
 				state.leaving = false
 				state.laneY = lane.y
+				state.lane = lane
 				state.root = root
 				state.riderLayer = riders
 				state.paint = paint
 				const hit = this._armLaneHit(state)
 				this._parked.push(state)
-				this._kickBoard()
-				await new Promise((resolve) => {
+				this._notifyStateChange()
+				// finish must exist before kickBoard — empty queues auto-exit immediately.
+				const waitFinish = new Promise((resolve) => {
 					state.finish = () => {
 						if (state.leaving) return
 						state.leaving = true
@@ -417,6 +644,8 @@ export class AntDock extends Container {
 						resolve()
 					}
 				})
+				this._kickBoard()
+				await waitFinish
 				this._parked = this._parked.filter((s) => s !== state)
 				sfx.play("snakeComplete")
 				sfx.loopAdd("slither")
@@ -434,10 +663,171 @@ export class AntDock extends Container {
 				root.parent?.removeChild(root)
 				lane.occupied = false
 				this._bumpBusy(-1)
+				this._notifyStateChange()
 				this._takeNextPending()
 			}
 		}
 		run()
+	}
+
+	/**
+	 * Place a snake already parked in a lane (used when restoring a save).
+	 * @param {{ y:number, occupied:boolean, locked?:boolean }} lane
+	 * @param {{ color:number, capacity:number, filled?:number }} snap
+	 */
+	_spawnParkedAtRest(lane, snap) {
+		const capacity = Math.max(1, snap.capacity | 0)
+		const filled = Math.max(0, Math.min(capacity, snap.filled | 0))
+		lane.occupied = true
+		this._bumpBusy(1)
+		const root = new Container()
+		const g = new Graphics()
+		const riders = new Container()
+		root.addChild(g)
+		root.addChild(riders)
+		let face = null
+		try {
+			face = this.getTube?.()?.getMovieClip?.("snakeFace")
+			if (face) {
+				face.eventMode = "none"
+				face.scale.set((this.hexSize * 0.7) / 44)
+				root.addChild(face)
+			}
+		} catch {
+			face = null
+		}
+		root.isSnake = true
+		root.isDockSnake = true
+		root.snakeId = 1000 + this._dockSnakeSeq++
+		this.snakeLayer.addChild(root)
+		/** @type {{ clip: any, fromTail: number, rotOffset?: number }[]} */
+		const riderList = []
+		const bodyLen = Math.max(this.hexSize * 0.45, capacity * this.hexSize * 0.55)
+		const y = lane.y
+		const rightX = this._left + this._laneW
+		const nose = { x: rightX, y }
+		const tip = { x: rightX - bodyLen, y }
+		const dense = this._densify([nose, tip], this.hexSize * 0.55)
+		const cum = this._cum(dense)
+		const stopDist = cum[cum.length - 1] || bodyLen
+		const state = {
+			g,
+			face,
+			riders: riderList,
+			color: snap.color,
+			thick: this._thick,
+			bodyLen,
+			dense,
+			cum,
+			headDist: stopDist,
+			waveFrom: stopDist,
+			waveTo: stopDist,
+			wavePhase: Math.random() * Math.PI * 2,
+			wiggleScale: wiggleScaleForCells(capacity),
+			wiggleRate: wiggleRateForCells(capacity),
+			lane,
+			laneY: y,
+			capacity,
+			reserved: filled,
+			arrived: filled,
+			leaving: false,
+			root,
+			riderLayer: riders,
+		}
+		const paint = (headDist) => {
+			state.headDist = headDist
+			const slice = this._sliceBack(state.dense, state.cum, headDist, state.bodyLen)
+			const amp = this._travelAmp(headDist, state.waveFrom, state.waveTo, state.wiggleScale)
+			const wave = (this.hexSize * SLITHER_WAVE) / (state.wiggleRate || 1)
+			const phase = state.wavePhase + (headDist / wave) * Math.PI * 2
+			let pts = slice.pts
+			let headAng = slice.headAng
+			const waved = wiggleTrail(pts, amp, phase, this.hexSize, wave)
+			if (waved) {
+				pts = waved.pts
+				headAng = waved.headAng
+			}
+			this._stroke(g, face, pts, headAng, state.color, state.thick)
+			this._applySnakeDepth(root, pts)
+			for (const r of riderList) {
+				const behind = Math.max(0, state.bodyLen - r.fromTail)
+				if (waved) {
+					const seat = pointOnTrail(pts, behind, state.bodyLen)
+					const lift = state.thick * 0.02
+					r.clip.position.set(
+						seat.x - Math.sin(seat.ang) * lift,
+						seat.y + Math.cos(seat.ang) * lift + ANT_SEAT_DROP,
+					)
+					if (r.rotOffset == null) r.rotOffset = Math.PI - seat.ang
+					r.clip.rotation = seat.ang + r.rotOffset
+				} else {
+					const d = headDist - state.bodyLen + r.fromTail
+					const p = this._pointAt(state.dense, state.cum, d)
+					r.clip.position.set(p.x, p.y + ANT_SEAT_DROP)
+				}
+				this._shadeAnt(r.clip)
+			}
+		}
+		state.paint = paint
+		paint(stopDist)
+
+		const tube = this.getTube?.()
+		for (let i = 0; i < filled; i++) {
+			const clip = tube?.getMovieClip?.("ant")
+			if (!clip) break
+			clip.eventMode = "none"
+			clip.interactiveChildren = false
+			clip.scale.set(ANT_SCALE)
+			clip.looping = false
+			if (clip.framelabels?.idle != null) clip.setFrame?.("idle")
+			else clip.setFrame?.(0)
+			this._tintAnt(clip, snap.color)
+			this._attachAntShadow(clip)
+			riders.addChild(clip)
+			const seatD = this._seatDist(state, i, capacity)
+			const tailD = Math.max(0, state.headDist - state.bodyLen)
+			riderList.push({
+				clip,
+				fromTail: seatD - tailD,
+				rotOffset: Math.PI,
+			})
+		}
+		paint(stopDist)
+
+		const hit = this._armLaneHit(state)
+		this._parked.push(state)
+		// finish must exist before kickBoard — restored empty-queue snakes auto-exit here.
+		const waitFinish = new Promise((resolve) => {
+			state.finish = () => {
+				if (state.leaving) return
+				state.leaving = true
+				hit.eventMode = "none"
+				resolve()
+			}
+		})
+		this._kickBoard()
+		;(async () => {
+			try {
+				await waitFinish
+				this._parked = this._parked.filter((s) => s !== state)
+				sfx.play("snakeComplete")
+				sfx.loopAdd("slither")
+				await this._slitherOut(state, paint)
+				sfx.loopRemove("slither")
+				sfx.play("snakeLeave")
+			} catch (err) {
+				console.error("restored lane dock failed", err)
+			} finally {
+				sfx.loopRemove("slither")
+				for (const r of riderList) r.clip?.parent?.removeChild(r.clip)
+				this._parked = this._parked.filter((s) => s !== state)
+				root.parent?.removeChild(root)
+				lane.occupied = false
+				this._bumpBusy(-1)
+				this._notifyStateChange()
+				this._takeNextPending()
+			}
+		})()
 	}
 
 	/**
@@ -734,10 +1124,22 @@ export class AntDock extends Container {
 		}
 	}
 
+	/** Southernmost body Y, same convention as pit snakes vs rim grass. */
+	_applySnakeDepth(root, pathPts) {
+		if (!root) return
+		let maxY = -Infinity
+		for (const p of pathPts || []) {
+			if (p.y > maxY) maxY = p.y
+		}
+		if (!Number.isFinite(maxY)) maxY = 0
+		root.zIndex = maxY + (root.snakeId ?? 0) * 0.01
+		root._bodyPts = pathPts
+	}
+
 	_slither(paint, fromDist, toDist) {
 		const travel = Math.abs(toDist - fromDist)
-		const speed = (this.hexSize * Math.sqrt(3)) / 0.11
-		const dur = Math.max(0.25, travel / speed)
+		const speed = (this.hexSize * Math.sqrt(3)) / (0.11 * this.pace)
+		const dur = Math.max(0.25 * this.pace, travel / speed)
 		return new Promise((resolve) => {
 			const proxy = { d: fromDist }
 			newTween(proxy, { d: toDist }, dur)
@@ -780,14 +1182,14 @@ export class AntDock extends Container {
 		while (!this._eating && this.ants.length && this._parked.some((s) => !s.leaving && s.reserved < s.capacity)) {
 			const front = this.ants[0]
 			if (front.dying) {
-				await this._delay(0.05)
+				await this._delay(0.05 * this.pace)
 				continue
 			}
 			const snake = this._parked.find(
 				(s) => !s.leaving && s.color === front.color && s.reserved < s.capacity,
 			)
 			if (!snake) {
-				await this._delay(0.1)
+				await this._delay(0.1 * this.pace)
 				continue
 			}
 			this.ants.shift()
@@ -795,7 +1197,16 @@ export class AntDock extends Container {
 			snake.reserved++
 			this._sendAnt(front, snake, seatIndex)
 			this._advanceQueue()
-			await this._delay(0.1)
+			await this._delay(0.1 * this.pace)
+		}
+		this._maybeAutoExitParked()
+	}
+
+	/** Once every ant has left the queue (and finished walking on), flush leftover lane snakes. */
+	_maybeAutoExitParked() {
+		if (this._eating || this.ants.length || this._inflightBoard > 0) return
+		for (const s of [...this._parked]) {
+			if (!s.leaving) s.finish?.()
 		}
 	}
 
@@ -812,9 +1223,12 @@ export class AntDock extends Container {
 		clip.eventMode = "none"
 		clip.cursor = null
 		clip.hitArea = null
+		// Ride with the snake in the ground layer so grass can cover both.
+		state.riderLayer?.addChild(clip)
 		const seatD = this._seatDist(state, seatIndex, state.capacity)
 		const spot = this._pointAt(state.dense, state.cum, seatD)
-		const seat = { x: spot.x, y: state.laneY - state.thick * 0.12 + ANT_SEAT_DROP }
+		const seat = { x: spot.x, y: state.laneY + ANT_SEAT_DROP }
+		this._inflightBoard++
 		const run = async () => {
 			this._beginAntStep(ant)
 			try {
@@ -836,11 +1250,14 @@ export class AntDock extends Container {
 				state.arrived++
 				sfx.play("antSit")
 				state.paint?.(state.headDist)
+				this._notifyStateChange()
 				if (!state.leaving && state.arrived >= state.capacity) state.finish?.()
 			} catch (err) {
 				console.error("ant walk failed", err)
 			} finally {
 				this._endAntStep(ant)
+				this._inflightBoard = Math.max(0, this._inflightBoard - 1)
+				this._maybeAutoExitParked()
 			}
 		}
 		run()
@@ -863,7 +1280,7 @@ export class AntDock extends Container {
 			this._shadeAnt(ant.clip)
 			this._beginAntStep(ant)
 			this._playWalk(ant.clip)
-			ant.crawl = newTween(ant.clip, { x, y: this._antY }, 0.045)
+			ant.crawl = newTween(ant.clip, { x, y: this._antY }, 0.045 * this.pace)
 				.ease(Easing.linear)
 				.onDone(() => {
 					ant.crawl = null
@@ -896,7 +1313,7 @@ export class AntDock extends Container {
 		})
 	}
 
-	/** Squash the front ant into the dead frame, then the queue steps up. */
+	/** Play the dead sequence, fade out, then the queue steps up. */
 	_killFrontAnt() {
 		const ant = this.ants[0]
 		if (!ant || ant.dying || this._eating) return
@@ -912,7 +1329,7 @@ export class AntDock extends Container {
 		clip.cursor = null
 		clip.removeAllListeners?.("pointertap")
 		const fatal = this.onAntDied?.() === true
-		this._playSquish(clip, ant.color).finally(() => {
+		this._playDead(clip, ant.color).finally(() => {
 			const i = this.ants.indexOf(ant)
 			if (i >= 0) this.ants.splice(i, 1)
 			clip.parent?.removeChild(clip)
@@ -926,25 +1343,21 @@ export class AntDock extends Container {
 		})
 	}
 
-	_playSquish(clip, color) {
-		const baseX = clip.scale.x || ANT_SCALE
-		const baseY = Math.abs(clip.scale.y) || ANT_SCALE
-		const drop = Math.abs(baseY) * 18
+	_playDead(clip, color) {
 		return new Promise((resolve) => {
-			clip.stop?.()
 			clip.looping = false
-			newTween(clip, { y: clip.y + drop }, 0.14).ease(Easing.inQuad)
-			newTween(clip.scale, { x: baseX * 1.4, y: baseY * 0.32 }, 0.14)
-				.ease(Easing.inQuad)
-				.onDone(() => {
-					clip.scale.set(baseX, baseY)
-					if (clip.framelabels?.dead != null) clip.setFrame("dead")
-					else clip.setFrame?.(Math.max(0, (clip.data?.length ?? 1) - 1))
-					this._tintAnt(clip, color)
-					this._delay(0.28).then(() => {
-						newTween(clip, { alpha: 0 }, 0.16).ease(Easing.inQuad).onDone(resolve)
-					})
-				})
+			const fadeOut = () => {
+				this._tintAnt(clip, color)
+				newTween(clip, { alpha: 0 }, 0.3).ease(Easing.inQuad).onDone(resolve)
+			}
+			if (clip.framelabels?.dead != null) {
+				clip.playLabel("dead", fadeOut)
+				this._tintAnt(clip, color)
+			} else {
+				clip.stop?.()
+				clip.setFrame?.(Math.max(0, (clip.data?.length ?? 1) - 1))
+				fadeOut()
+			}
 		})
 	}
 
@@ -952,27 +1365,32 @@ export class AntDock extends Container {
 		const head = this._pointAt(state.dense, state.cum, state.headDist)
 		const tail = this._pointAt(state.dense, state.cum, Math.max(0, state.headDist - state.bodyLen))
 		const gap = state.bodyLen / Math.max(capacity, 1)
-		const along = Math.min(state.bodyLen * 0.92, (index + 0.45) * gap)
-		// Ants enter from the right edge and walk left, so seats run from that edge inward.
-		if (head.x >= tail.x) return state.headDist - along
-		return Math.max(0, state.headDist - state.bodyLen) + along
+		// Fill left → right on screen: first ant sits farthest left, last nearest the
+		// right-hand entry so later ants never walk over already-seated ones.
+		const alongFromLeft = Math.min(state.bodyLen * 0.92, (index + 0.45) * gap)
+		if (head.x <= tail.x) {
+			// Head is on the left — leftmost seats are near the head.
+			return state.headDist - alongFromLeft
+		}
+		// Tail is on the left — leftmost seats are near the tail.
+		return Math.max(0, state.headDist - state.bodyLen) + alongFromLeft
 	}
 
 	/** A short step forward, then down until level with the lane, then left onto the seat. */
 	async _walkForwardDownLeft(clip, seat, laneY) {
-		const speed = this.hexSize * 8
+		const speed = (this.hexSize * 8) / this.pace
 		const fwd = Math.max(16, this.hexSize * 0.5)
 		clip.rotation = 0
 		this._shadeAnt(clip)
-		await this._tweenPos(clip, clip.x + fwd, clip.y, Math.max(0.04, fwd / speed))
+		await this._tweenPos(clip, clip.x + fwd, clip.y, Math.max(0.04 * this.pace, fwd / speed))
 		clip.rotation = Math.PI / 2
 		this._shadeAnt(clip)
 		const drop = Math.abs(laneY - clip.y)
-		await this._tweenPos(clip, clip.x, laneY, Math.max(0.05, drop / speed))
+		await this._tweenPos(clip, clip.x, laneY, Math.max(0.05 * this.pace, drop / speed))
 		clip.rotation = Math.PI
 		this._shadeAnt(clip)
 		const span = Math.hypot(seat.x - clip.x, seat.y - clip.y)
-		await this._tweenPos(clip, seat.x, seat.y, Math.max(0.05, span / speed))
+		await this._tweenPos(clip, seat.x, seat.y, Math.max(0.05 * this.pace, span / speed))
 	}
 
 	_tweenPos(node, x, y, dur) {
@@ -1023,8 +1441,8 @@ export class AntDock extends Container {
 	}
 
 	/** Sideways sway while travelling; zero at the start and end of a path so parked snakes sit straight. */
-	_travelAmp(headDist, from, to) {
-		const full = this.hexSize * SLITHER_AMP
+	_travelAmp(headDist, from, to, scale = 1) {
+		const full = this.hexSize * SLITHER_AMP * scale
 		const span = Math.abs(to - from)
 		if (span < 1) return 0
 		const fade = Math.min(this.hexSize * 2.4, span * 0.45)
@@ -1117,7 +1535,7 @@ export class AntDock extends Container {
 
 	_playWalk(clip) {
 		clip.looping = true
-		clip.framerate = 28
+		clip.framerate = 28 / this.pace
 		if (clip.framelabels?.walk != null) clip.playLabel("walk")
 		else if (clip.data?.length > 1) clip.playRange(1, clip.data.length - 1)
 	}
@@ -1134,7 +1552,7 @@ export class AntDock extends Container {
 	}
 
 	/**
-	 * Walk in from the right, eat leftover ants, leave to the right.
+	 * Walk in from the right, dip to eat leftover ants into refAntMouth, exit left.
 	 * Does nothing when the queue is empty.
 	 * @param {import('pixi.js').Container} layer screen-space parent (HUD)
 	 */
@@ -1171,7 +1589,8 @@ export class AntDock extends Container {
 			clip.eventMode = "none"
 			clip.interactiveChildren = false
 			clip.alpha = 1
-			const scale = 2.7
+			clip.interpolate = true
+			const scale = 1.35
 			clip.scale.set(scale)
 			const w = window.getRenderWidth?.() ?? 1024
 			const h = window.getRenderHeight?.() ?? 768
@@ -1180,19 +1599,29 @@ export class AntDock extends Container {
 			clip.position.set(off, y)
 			layer.addChildAt(clip, 0)
 			this._anteaterClip = clip
-			this._playWalk(clip)
+			this._playAnteaterWalk(clip)
 			startAnteaterWalk()
-			await this._tweenPos(clip, w * 0.5, y, 1.15)
+			await this._tweenPos(clip, w * 0.5, y, 1.15 * this.pace)
 			if (!clip.parent) return
 			stopAnteaterWalk()
-			this._playEat(clip)
-			await Promise.all([this._vanishAnts(leftovers), this._delay(0.75)])
+
+			// Dip down to eat pose.
+			await this._playClipLabel(clip, "goeat", { framerate: 24 / this.pace })
 			if (!clip.parent) return
+
+			await this._eatAntsWithHead(clip, layer, leftovers)
+			if (!clip.parent) return
+
 			sfx.play("gulp")
-			clip.scale.x = -Math.abs(clip.scale.x)
-			this._playWalk(clip)
+			// Stand back up from the eat pose, then walk off left (art faces left — no flip).
+			const goeatEnd = clip.framelabels?.goeat?.e
+			if (goeatEnd != null) await this._playClipToFrame(clip, goeatEnd)
+			if (!clip.parent) return
+			await this._playClipLabel(clip, "goeat", { reverse: true, framerate: 24 / this.pace })
+			if (!clip.parent) return
+			this._playAnteaterWalk(clip)
 			startAnteaterWalk()
-			await this._tweenPos(clip, off, y, 1.05)
+			await this._tweenPos(clip, -off, y, 1.05 * this.pace)
 		} catch (err) {
 			console.error("anteater failed", err)
 			this._dropAnts(leftovers)
@@ -1206,11 +1635,153 @@ export class AntDock extends Container {
 		}
 	}
 
-	_playEat(clip) {
+	_playAnteaterWalk(clip) {
 		clip.looping = true
-		clip.framerate = 8
-		if (clip.framelabels?.eat != null) clip.playLabel("eat")
-		else clip.playRange?.(Math.max(0, (clip.data?.length ?? 1) - 4), (clip.data?.length ?? 1) - 1)
+		clip.framerate = 56 / this.pace
+		clip.interpolate = true
+		if (clip.framelabels?.walk != null) clip.playLabel("walk")
+		else if (clip.data?.length > 1) clip.playRange(1, clip.data.length - 1)
+	}
+
+	/**
+	 * @param {any} clip
+	 * @param {string} label
+	 * @param {{ reverse?: boolean, framerate?: number }} [opts]
+	 */
+	_playClipLabel(clip, label, opts = {}) {
+		return new Promise((resolve) => {
+			if (clip.framelabels?.[label] == null) {
+				resolve()
+				return
+			}
+			clip.looping = false
+			if (opts.framerate != null) clip.framerate = opts.framerate
+			clip.playLabel(label, resolve, !!opts.reverse)
+		})
+	}
+
+	/** Animate the clip timeline to an absolute frame index. */
+	_playClipToFrame(clip, target) {
+		return new Promise((resolve) => {
+			const cur = clip.curframe | 0
+			const dest = target | 0
+			if (cur === dest) {
+				clip.setFrame?.(dest)
+				resolve()
+				return
+			}
+			clip.looping = false
+			clip.playRange(cur, dest, resolve, dest < cur)
+		})
+	}
+
+	_eatLabelRange(clip) {
+		const fl = clip.framelabels?.eat
+		if (!fl) return null
+		const s = fl.s | 0
+		const e = fl.e | 0
+		if (e < s) return null
+		return { s, e }
+	}
+
+	_randomEatFrame(clip, avoid = -1) {
+		const range = this._eatLabelRange(clip)
+		if (!range) return clip.curframe | 0
+		const count = range.e - range.s + 1
+		if (count <= 1) return range.s
+		let frame = range.s + Math.floor(Math.random() * count)
+		if (frame === avoid && count > 1) {
+			frame = range.s + ((frame - range.s + 1) % count)
+		}
+		return frame
+	}
+
+	/** Mouth tip in `layer` local space (tracks the current anteater pose). */
+	_mouthLocal(clip, layer) {
+		const mouth = clip.getRefPoint?.("refAntMouth")
+		if (!mouth) {
+			return { x: clip.x - Math.abs(clip.scale.x) * 200, y: clip.y }
+		}
+		const g = mouth.toGlobal({ x: 0, y: 0 })
+		return layer.toLocal(g)
+	}
+
+	/**
+	 * Pose head on random eat frames; suck ants into the mouth in small staggered batches.
+	 * @param {any} clip
+	 * @param {import('pixi.js').Container} layer
+	 * @param {{ clip: any }[]} ants
+	 */
+	async _eatAntsWithHead(clip, layer, ants) {
+		const queue = ants.slice()
+		const total = queue.length
+		if (!total) return
+		clip.framerate = 18 / this.pace
+		let fatal = false
+		let lastFrame = -1
+		while (queue.length && clip.parent) {
+			const maxBatch = Math.min(queue.length, Math.max(1, Math.ceil(total / 3)))
+			const batchSize = 1 + Math.floor(Math.random() * maxBatch)
+			const batch = queue.splice(0, batchSize)
+			const pose = this._randomEatFrame(clip, lastFrame)
+			lastFrame = pose
+			await this._playClipToFrame(clip, pose)
+			if (!clip.parent) break
+			await Promise.all(
+				batch.map((ant, i) =>
+					this._delay(i * 0.06 * this.pace).then(async () => {
+						if (this.onAntDied?.() === true) fatal = true
+						await this._flyAntToMouth(ant, clip, layer)
+					}),
+				),
+			)
+		}
+		if (fatal) this.onAntGameOver?.()
+	}
+
+	/**
+	 * Reparent the ant into HUD space and tween it into refAntMouth.
+	 * @param {{ clip: any }} ant
+	 * @param {any} anteater
+	 * @param {import('pixi.js').Container} layer
+	 */
+	_flyAntToMouth(ant, anteater, layer) {
+		const aClip = ant.clip
+		if (!aClip?.parent) return Promise.resolve()
+		this._stopWalk(aClip)
+		const global = aClip.parent.toGlobal(aClip.position)
+		const start = layer.toLocal(global)
+		layer.addChild(aClip)
+		aClip.position.set(start.x, start.y)
+		aClip.eventMode = "none"
+		sfx.play("chomp")
+		const fromX = start.x
+		const fromY = start.y
+		const fromSx = aClip.scale.x || ANT_SCALE
+		const fromSy = aClip.scale.y || ANT_SCALE
+		const dur = 0.28 * this.pace
+		/** Shrink/fade only in the last portion of the flight. */
+		const swallowFrom = 0.72
+		return new Promise((resolve) => {
+			const proxy = { t: 0 }
+			newTween(proxy, { t: 1 }, dur)
+				.ease(Easing.inQuad)
+				.onUpdate(() => {
+					const mouth = this._mouthLocal(anteater, layer)
+					const t = proxy.t
+					aClip.position.set(fromX + (mouth.x - fromX) * t, fromY + (mouth.y - fromY) * t)
+					const swallow =
+						t <= swallowFrom ? 0 : (t - swallowFrom) / Math.max(0.001, 1 - swallowFrom)
+					const s = 1 - swallow * 0.85
+					aClip.scale.set(fromSx * s, fromSy * s)
+					aClip.alpha = 1 - swallow * 0.85
+					aClip.rotation += 0.35
+				})
+				.onDone(() => {
+					aClip.parent?.removeChild(aClip)
+					resolve()
+				})
+		})
 	}
 
 	_dropAnts(ants) {
@@ -1218,28 +1789,5 @@ export class AntDock extends Container {
 			ant.crawl?.stop?.()
 			ant.clip?.parent?.removeChild(ant.clip)
 		}
-	}
-
-	async _vanishAnts(ants) {
-		await Promise.all(
-			ants.map((ant, i) =>
-				this._delay(i * 0.07).then(
-					() =>
-						new Promise((resolve) => {
-							const clip = ant.clip
-							if (!clip?.parent) {
-								resolve()
-								return
-							}
-							this._stopWalk(clip)
-							sfx.play("chomp")
-							newTween(clip, { alpha: 0 }, 0.16).onDone(() => {
-								clip.parent?.removeChild(clip)
-								resolve()
-							})
-						}),
-				),
-			),
-		)
 	}
 }

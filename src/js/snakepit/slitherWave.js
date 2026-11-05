@@ -6,6 +6,30 @@ export const SLITHER_AMP = 0.42
 /** Distance along the path for one full side-to-side cycle, as a fraction of hex size. */
 export const SLITHER_WAVE = 5.5
 
+/** Body cells that still use the full sideways sway. Shorter snakes ease down. */
+const FULL_WIGGLE_CELLS = 5
+/** Fraction of the full sway kept by a 1-cell snake. */
+const SHORT_WIGGLE = 0.15
+
+/** 1 for a long snake, down toward {@link SHORT_WIGGLE} for a short one. */
+export function wiggleScaleForCells(cellCount) {
+	const n = Math.max(1, cellCount | 0)
+	const t = Math.min(1, Math.max(0, (n - 1) / (FULL_WIGGLE_CELLS - 1)))
+	const s = t * t * (3 - 2 * t)
+	return SHORT_WIGGLE + (1 - SHORT_WIGGLE) * s
+}
+
+/** How many times faster a 1-cell snake cycles the sway. Long snakes stay at 1. */
+const FAST_WIGGLE = 2.75
+
+/** 1 for a long snake, up toward {@link FAST_WIGGLE} for a short one. */
+export function wiggleRateForCells(cellCount) {
+	const n = Math.max(1, cellCount | 0)
+	const t = Math.min(1, Math.max(0, (n - 1) / (FULL_WIGGLE_CELLS - 1)))
+	const s = t * t * (3 - 2 * t)
+	return FAST_WIGGLE + (1 - FAST_WIGGLE) * s
+}
+
 function waveLen(hexSize) {
 	return Math.max(24, hexSize * SLITHER_WAVE)
 }
@@ -18,11 +42,12 @@ function waveLen(hexSize) {
  * @param {number} amp
  * @param {number} headPhase radians; advances as the head travels
  * @param {number} hexSize
+ * @param {number} [waveLenPx] cycle length; shorter cycles wiggle faster
  * @returns {{ pts: {x:number,y:number}[], headAng: number } | null}
  */
-export function wiggleTrail(pts, amp, headPhase, hexSize) {
+export function wiggleTrail(pts, amp, headPhase, hexSize, waveLenPx) {
 	if (!pts || pts.length < 2 || !(amp > 0.5)) return null
-	const wave = waveLen(hexSize)
+	const wave = waveLenPx > 0 ? waveLenPx : waveLen(hexSize)
 	const maxSeg = wave / 10
 	/** @type {{x:number,y:number}[]} */
 	const dense = [pts[0]]

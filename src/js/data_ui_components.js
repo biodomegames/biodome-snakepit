@@ -286,6 +286,31 @@ export const UIComponentDefinitions = {
 		soundup: [UISounds.clickup1],
 
 	},
+	/** Big green CTA used by the unlock-lane rewarded-ad dialog (icon only, no label). */
+	button_watchad: {
+		type: ComponentTypes.BUTTON9SLICE,
+		textoffset: { up: {x:0, y:0},
+					  hover: {x:0, y:0},
+					  down: {x:0, y:4}},
+
+		defaultwidth: 420,
+		defaultheight: 150,
+
+		up: [
+			{source: button_frame, left: 90, right: 90, top: 90, bottom: 90, offx:0, offy:0},
+			{source: mine_button_green, left: 90, right: 90, top: 90, bottom: 90, alpha: 1, offx:0, offy:0},
+		],
+		hover: [
+			{source: button_frame, left: 90, right: 90, top: 90, bottom: 90, offx:0, offy:0},
+			{source: mine_button_green, left: 90, right: 90, top: 90, bottom: 90, alpha: 1, offx:0, offy:0, scale: 1.01},
+		],
+		down: [
+			{source: button_frame, left: 90, right: 90, top: 90, bottom: 90, offx:0, offy:0},
+			{source: mine_button_green, left: 90, right: 90, top: 90, bottom: 90, alpha: 1, offx:0, offy:0, scale: .97},
+		],
+		sounddown: [UISounds.clickdown1],
+		soundup: [UISounds.clickup1],
+	},
 	button_mainred: {
 		//type: "button",
 		type: ComponentTypes.BUTTON9SLICE,
@@ -952,7 +977,27 @@ export const UIComponentDefinitions = {
 				alpha: .5
 			},
 		}),
-	},	
+	},
+	h2_title: {
+		type: ComponentTypes.TEXT,
+		style: new TextStyle({
+			align: "center",
+			fontFamily: "Chewy, Helvetica, Arial, sans",
+			fontSize: 46,
+			fontWeight: 800,
+			fill: 0xf2ffe0,
+			stroke: { color: "#9B5018", width: 5, join: "round" },
+			wordWrap: true,
+			wordWrapWidth: 400,
+			dropShadow: {
+				color: "#000000",
+				blur: 4,
+				angle: Math.PI / 3,
+				distance: 5,
+				alpha: 0.45,
+			},
+		}),
+	},
 	h1_mine: {
 		//type: "text",
 		type: ComponentTypes.TEXT,

@@ -69,6 +69,8 @@ export class GameShell extends Container {
 						.catch((e) => console.error("Batch screenshots failed", e))
 				} else if (ev.key == "d") {
 					showDialogDebug(this)
+				} else if (ev.key == "a") {
+					this.gameplay?.debugTriggerAnteater?.()
 				} else if (ev.key == "u" || (ev.key == "U" && ev.shiftKey)) {
 					this.ui.dumpActiveDialogNames()
 				} else if (ev.key == "o") {

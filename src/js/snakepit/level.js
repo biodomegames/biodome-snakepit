@@ -105,6 +105,42 @@ export class LevelSession {
 		return this.snakes.every((s) => s.escaped)
 	}
 
+	serializeSnakes() {
+		return this.snakes.map((s) => ({
+			id: s.id,
+			color: s.color,
+			dir: s.dir | 0,
+			escaped: !!s.escaped,
+			cells: (s.cells || []).map((c) => ({ q: c.q | 0, r: c.r | 0 })),
+		}))
+	}
+
+	/**
+	 * Overlay a saved snake snapshot onto the seeded level.
+	 * Board/rocks stay from generation; snake cells/dirs/escaped are restored.
+	 * @param {object[]} saved
+	 */
+	applySnakeState(saved) {
+		if (!Array.isArray(saved) || !saved.length) return
+		const byId = new Map()
+		for (const snap of saved) {
+			if (snap && snap.id != null) byId.set(snap.id, snap)
+		}
+		for (const snake of this.snakes) {
+			const snap = byId.get(snake.id)
+			if (!snap) continue
+			snake.dir = snap.dir | 0
+			if (snap.color != null) snake.color = snap.color
+			snake.escaped = !!snap.escaped
+			snake.cells = snake.escaped
+				? []
+				: (snap.cells || []).map((c) => ({ q: c.q | 0, r: c.r | 0 }))
+		}
+		this.escapedCount = this.snakes.filter((s) => s.escaped).length
+		this.moving.clear()
+		this._emit()
+	}
+
 	_emit() {
 		this.onChange?.(this)
 	}

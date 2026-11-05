@@ -1,4 +1,4 @@
-import { Container, Graphics, Sprite, Text, TextStyle, Texture } from "pixi.js"
+import { Container, Graphics, Rectangle, Sprite, Text, TextStyle, Texture } from "pixi.js"
 import { boardHas } from "./snakepit/board.js"
 import { BoardView } from "./snakepit/boardView.js"
 import { LevelSession } from "./snakepit/level.js"
@@ -10,7 +10,15 @@ import {
 } from "./snakepit/progress.js"
 import { Easing, newTween } from "./dome/Tween.js"
 import { createTitleLogo } from "./snakepit/titleLogo.js"
+import { durationScaleForLevel } from "./snakepit/pace.js"
 import { FlowerFountain } from "./snakepit/flowerFountain.js"
+import { canEscape } from "./snakepit/snake.js"
+import {
+	livesRefillAmount,
+	shouldShowLivesRefill,
+} from "./snakepit/difficulty.js"
+import { adManager } from "./system/ads.js"
+import watchAdIcon from "../g/icon-watchad.svg"
 import * as sfx from "./snakepit/sfx.js"
 
 /** After game over, resume around this pit (or level 1 if not there yet). */
@@ -22,11 +30,10 @@ const RESTART_LEVEL = 3
  */
 const FLOOR_GRASS_OVERLAP = 0.22
 
-/** Deaths that end the level: 10% of that level's ants, rounded up. */
-function antDeathLimit(total) {
-	if (total <= 0) return Infinity
-	return Math.ceil(total / 10)
-}
+/** Ant lives shown under the logo. Squash or anteater eats cost one each. */
+const ANT_LIVES = 5
+const LIFE_SPRITE = "tiles_antLifeSprite.png"
+const LIFE_LOST_ALPHA = 0.22
 
 /**
  * Snakepit play session: hex snake-escape board + HUD + pit progression.
@@ -72,14 +79,35 @@ export class Game extends Container {
 		this.transitioning = false
 		this._awaitingDockClear = false
 		this.gameOver = false
-		this.deadAnts = 0
-		this.antTotal = 0
+		this.antLives = ANT_LIVES
+		/** @type {import('pixi.js').Sprite[]} */
+		this.lifeSprites = []
+		/** @type {import('pixi.js').Container | null} */
+		this.lifeIcons = null
 		/** @type {import('./dome/movieclip.js').MovieClip | null} */
 		this.gameOverSign = null
 		/** @type {Container | null} */
 		this.restartBtn = null
 		this.cam = { x: 0, y: 0, scale: 1 }
 		this.levelIndex = 1
+		/** Level-1 finger hint: at most two snakes. */
+		/** @type {number[]} */
+		this._ftueHintedIds = []
+		/** @type {number | null} */
+		this._ftueTargetId = null
+		/** @type {any} */
+		this._ftueFinger = null
+		/** @type {import('pixi.js').Text | null} */
+		this.levelLabel = null
+		/** @type {import('pixi.js').Container | null} */
+		this.livesRefillBtn = null
+		/** @type {any} */
+		this._livesRefillDialog = null
+		this._livesRefillBusy = false
+		this._persistBound = false
+		this._onVisibilityPersist = () => {
+			if (document.visibilityState === "hidden") this._persistRun()
+		}
 	}
 
 	get session() {
@@ -142,11 +170,16 @@ export class Game extends Container {
 		this._clearGameOverUi()
 		this._clearWorld()
 		this._ensureLogo()
-		this._spawnPit(this.levelIndex, prog.seed || undefined, 0)
+		this._ensureLifeIcons()
+		this._ensureLevelLabel()
+		this.antLives = prog.lives != null ? prog.lives : ANT_LIVES
+		this._refreshLifeIcons()
+		this._spawnPit(this.levelIndex, prog.seed || undefined, 0, prog)
 		this._focusActivePit(false)
 		this.resize()
 		this._playLogoIntro()
 		this.showSettingsButton()
+		this._bindPersistOnHide()
 	}
 
 	resetProgressAndRestart() {
@@ -156,10 +189,37 @@ export class Game extends Container {
 		this._clearGameOverUi()
 		this._clearWorld()
 		this._ensureLogo()
-		this._spawnPit(this.levelIndex, prog.seed, 0)
+		this._ensureLifeIcons()
+		this._ensureLevelLabel()
+		this.antLives = ANT_LIVES
+		this._refreshLifeIcons()
+		this._spawnPit(this.levelIndex, prog.seed, 0, null)
 		this._focusActivePit(false)
 		this.resize()
 		this._playLogoIntro()
+	}
+
+	_bindPersistOnHide() {
+		if (this._persistBound) return
+		this._persistBound = true
+		document.addEventListener("visibilitychange", this._onVisibilityPersist)
+		window.addEventListener("pagehide", this._onVisibilityPersist)
+	}
+
+	_persistRun() {
+		const pit = this.activePit
+		if (!pit?.session || this.gameOver) return
+		// Never snapshot mid-slither — a reload would drop the moving snake.
+		if (pit.session.anyMoving()) return
+		if (pit.view.anyAnimating?.()) return
+		if (!pit.view.dock.isStableForSave()) return
+		saveProgress(this.levelIndex, pit.session.seed, {
+			lives: this.antLives,
+			snakes: pit.session.serializeSnakes(),
+			antColors: pit.view.dock.getAntColors(),
+			unlockedLanes: pit.view.dock.getUnlockedLaneCount(),
+			parked: pit.view.dock.getParkedSnapshot(),
+		})
 	}
 
 	_ensureLogo() {
@@ -242,12 +302,157 @@ export class Game extends Container {
 		const layout = this._logoLayout(settled)
 		logo.position.set(layout.x, layout.y)
 		logo.scale.set(layout.scale)
+		this._layoutLifeIcons()
+	}
+
+	_ensureLifeIcons() {
+		if (this.lifeIcons) return this.lifeIcons
+		const row = new Container()
+		row.eventMode = "none"
+		row.interactiveChildren = false
+		/** @type {Sprite[]} */
+		const sprites = []
+		for (let i = 0; i < ANT_LIVES; i++) {
+			const spr = new Sprite(Texture.from(LIFE_SPRITE))
+			spr.anchor.set(0.5)
+			spr.eventMode = "none"
+			row.addChild(spr)
+			sprites.push(spr)
+		}
+		this.hud.addChild(row)
+		this.lifeIcons = row
+		this.lifeSprites = sprites
+		this._refreshLifeIcons()
+		return row
+	}
+
+	_resetAntLives() {
+		this.antLives = ANT_LIVES
+		this._refreshLifeIcons()
+		this._persistRun()
+	}
+
+	_refreshLifeIcons() {
+		const left = Math.max(0, this.antLives | 0)
+		for (let i = 0; i < this.lifeSprites.length; i++) {
+			this.lifeSprites[i].alpha = i < left ? 1 : LIFE_LOST_ALPHA
+		}
+		this._refreshLivesRefillBtn()
+	}
+
+	_ensureLivesRefillBtn() {
+		if (this.livesRefillBtn) return this.livesRefillBtn
+		const btn = new Container()
+		btn.eventMode = "static"
+		btn.cursor = "pointer"
+		btn.visible = false
+		const icon = new Sprite(Texture.from(watchAdIcon))
+		icon.anchor.set(0.5)
+		icon.eventMode = "none"
+		btn.addChild(icon)
+		btn._icon = icon
+		btn.on("pointertap", (e) => {
+			e.stopPropagation()
+			this._openLivesRefillDialog()
+		})
+		this.hud.addChild(btn)
+		this.livesRefillBtn = btn
+		return btn
+	}
+
+	_refreshLivesRefillBtn() {
+		const btn = this._ensureLivesRefillBtn()
+		const show = !this.gameOver && shouldShowLivesRefill(this.antLives)
+		btn.visible = show
+		if (show) adManager.loadRewarded?.(() => {})
+		this._layoutLifeIcons()
+	}
+
+	_openLivesRefillDialog() {
+		if (this.gameOver || this._livesRefillBusy || this._livesRefillDialog) return
+		if (!shouldShowLivesRefill(this.antLives)) return
+		const ui = this.hooks.getUi?.()
+		if (!ui?.displayDialog) {
+			this._playLivesRefillAd()
+			return
+		}
+		this._livesRefillDialog = ui.displayDialog("refillLives", {}, (res, dialog) => {
+			if (dialog?.isClosing || dialog?.isClosed) {
+				if (this._livesRefillDialog === dialog) this._livesRefillDialog = null
+			}
+			if (res === "watchad") this._playLivesRefillAd()
+		})
+	}
+
+	_playLivesRefillAd() {
+		if (this.gameOver || this._livesRefillBusy) return
+		if (!shouldShowLivesRefill(this.antLives)) return
+		this._livesRefillBusy = true
+		adManager.showRewarded((ok) => {
+			this._livesRefillBusy = false
+			if (!ok) return
+			this.antLives = Math.min(ANT_LIVES, (this.antLives | 0) + livesRefillAmount())
+			this._refreshLifeIcons()
+			this._persistRun()
+		})
+	}
+
+	_layoutLifeIcons() {
+		this._ensureLifeIcons()
+		const logo = this.logo
+		const spr = this.lifeSprites[0]
+		if (!spr) return
+		const naturalW = Math.max(1, spr.texture?.width || 33)
+		const naturalH = Math.max(1, spr.texture?.height || 29)
+		const scale = Math.min(1.35, Math.max(0.85, (this._layoutMetrics().w / 520) * 1.1))
+		const gap = naturalW * scale + 8
+		const n = this.lifeSprites.length
+		const livesLeft = Math.max(0, this.antLives | 0)
+		const showRefill = !this.gameOver && shouldShowLivesRefill(this.antLives)
+		const btn = this._ensureLivesRefillBtn()
+		btn.visible = showRefill
+		const totalW = (n - 1) * gap
+		const cx = logo?.x ?? this._layoutMetrics().w / 2
+		const logoBottom = logo
+			? logo.y + ((logo.layoutHeight || 150) * (logo.scale?.y || 1)) / 2
+			: this._logoLayout(true).bottom
+		const y = logoBottom + 10 + (naturalH * scale) / 2
+		const left = cx - totalW / 2
+		for (let i = 0; i < n; i++) {
+			const s = this.lifeSprites[i]
+			s.scale.set(scale)
+			s.position.set(left + i * gap, y)
+		}
+		if (showRefill) {
+			// Sit over the first ghosted life — keep the SVG square (no stretch).
+			const firstGhost = Math.min(livesLeft, n - 1)
+			const coverH = naturalH * scale * 1.15
+			const iconTexW = Math.max(1, btn._icon?.texture?.width || 200)
+			const iconTexH = Math.max(1, btn._icon?.texture?.height || 200)
+			const iconScale = coverH / iconTexH
+			btn._icon.scale.set(iconScale)
+			const iconW = iconTexW * iconScale
+			const iconH = iconTexH * iconScale
+			// Sit above the ghosted lives so they stay visible underneath.
+			btn.position.set(left + firstGhost * gap, y - iconH * 0.55)
+			const hitPad = 6
+			btn.hitArea = new Rectangle(
+				-iconW / 2 - hitPad,
+				-iconH / 2 - hitPad,
+				iconW + hitPad * 2,
+				iconH + hitPad * 2,
+			)
+		}
 	}
 
 	_playLogoIntro() {
 		const logo = this._ensureLogo()
 		sfx.play("logo")
-		if (!logo) return
+		this._ensureLifeIcons()
+		if (!logo) {
+			this._layoutLifeIcons()
+			return
+		}
 		const from = this._logoLayout(false)
 		const to = this._logoLayout(true)
 		this.logoSettled = false
@@ -255,6 +460,7 @@ export class Game extends Container {
 		logo.alpha = 1
 		logo.position.set(from.x, from.y)
 		logo.scale.set(from.scale)
+		this._layoutLifeIcons()
 		const proxy = { t: 0 }
 		newTween(proxy, { t: 1 }, 0.95)
 			.ease(Easing.outCubic)
@@ -263,12 +469,14 @@ export class Game extends Container {
 				logo.scale.set(from.scale + (to.scale - from.scale) * t)
 				logo.x = from.x + (to.x - from.x) * t
 				logo.y = from.y + (to.y - from.y) * t
+				this._layoutLifeIcons()
 			})
 			.onDone(() => {
 				logo.scale.set(to.scale)
 				logo.position.set(to.x, to.y)
 				this.logoSettled = true
 				this.logoIntroPlaying = false
+				this._layoutLifeIcons()
 			})
 	}
 
@@ -297,26 +505,161 @@ export class Game extends Container {
 		return steps.slice(0, Math.min(steps.length, 2))
 	}
 
-	_spawnPit(level, seed, worldY) {
+	_spawnPit(level, seed, worldY, saved = null) {
 		const session = new LevelSession({ level, seed })
+		if (saved?.snakes) session.applySnakeState(saved.snakes)
 		const view = new BoardView({
 			getTube: () => window.alltubes?.tiles,
+			getUi: () => this.hooks.getUi?.(),
+			level,
 			onSnakeClick: (id) => this._onSnakeClick(id),
 			onAntDied: () => this._onAntDied(),
 			onAntGameOver: () => this._triggerGameOver(this.activePit),
+			onDockStateChange: () => this._persistRun(),
 		})
-		view.setSession(session)
-		this.deadAnts = 0
-		this.antTotal = view.dock.ants.length
+		view.setSession(session, saved)
 		const bounds = view.boardPixelSize()
 		view.position.set(-bounds.cx, worldY - bounds.cy)
 		this.world.addChild(view)
 		const pit = { view, session, level, worldY }
 		this.pitStack.push(pit)
 		this.activePit = pit
+		this._updateLevelLabel()
 		this.resize()
-		saveProgress(level, session.seed)
+		this._persistRun()
+		// Restored clears (board empty, leftover lane snakes) never went through
+		// escape → advance; kick that path so auto-exit can finish the level.
+		if (session.isWon()) void this._maybeAdvanceAfterClear(pit)
+		if (level === 1) this._beginFtue()
+		else this._clearFtue()
 		return pit
+	}
+
+	_ensureLevelLabel() {
+		if (this.levelLabel) return this.levelLabel
+		const label = new Text({
+			text: String(this.levelIndex || 1),
+			style: new TextStyle({
+				fontFamily: "Chewy, Helvetica, Arial, sans",
+				fontSize: 64,
+				fontWeight: "800",
+				fill: 0xf2ffe0,
+				stroke: { color: "#336633", width: 7, join: "round" },
+			}),
+		})
+		label.anchor.set(0, 0)
+		label.eventMode = "none"
+		this.hud.addChild(label)
+		this.levelLabel = label
+		this._layoutLevelLabel()
+		return label
+	}
+
+	_updateLevelLabel() {
+		const label = this._ensureLevelLabel()
+		label.text = String(this.levelIndex || 1)
+		this._layoutLevelLabel()
+	}
+
+	_layoutLevelLabel() {
+		const label = this.levelLabel
+		if (!label) return
+		label.position.set(22, 18)
+	}
+
+	_clearFtue() {
+		const finger = this._ftueFinger
+		this._ftueFinger = null
+		this._ftueTargetId = null
+		finger?.stop?.()
+		finger?.parent?.removeChild(finger)
+	}
+
+	_beginFtue() {
+		this._clearFtue()
+		this._ftueHintedIds = []
+		this._showFtueFinger()
+	}
+
+	/** Snakes that can exit now, in solution order (latest-placed / highest id first). */
+	_ftueCandidates() {
+		const session = this.activePit?.session
+		const live = session?.snakes
+		if (!live?.length) return []
+		const hinted = new Set(this._ftueHintedIds)
+		const snakes = live.map((s) =>
+			hinted.has(s.id) || s.escaped
+				? { ...s, escaped: true, cells: [] }
+				: s,
+		)
+		return snakes
+			.filter(
+				(s) =>
+					!s.escaped &&
+					s.cells?.length &&
+					canEscape(s, snakes, session.board, session.rocks),
+			)
+			.sort((a, b) => b.id - a.id)
+	}
+
+	_showFtueFinger() {
+		if (this.levelIndex !== 1 || this.gameOver) {
+			this._clearFtue()
+			return
+		}
+		if (this._ftueHintedIds.length >= 2) {
+			this._clearFtue()
+			return
+		}
+		const view = this.activePit?.view
+		const target = this._ftueCandidates()[0]
+		if (!view || !target) {
+			this._clearFtue()
+			return
+		}
+		const tube = window.alltubes?.tiles
+		let finger = this._ftueFinger
+		if (!finger || finger.parent !== view.fxLayer) {
+			finger?.parent?.removeChild(finger)
+			finger = tube?.getMovieClip?.("ftuefingertapmc")
+			if (!finger) return
+			finger.eventMode = "none"
+			finger.interactiveChildren = false
+			finger.scale.set(0.9)
+			view.fxLayer.addChild(finger)
+			this._ftueFinger = finger
+		}
+		this._ftueTargetId = target.id
+		finger.visible = true
+		finger.alpha = 1
+		finger.looping = true
+		if (finger.framelabels?.loop != null) finger.playLabel("loop")
+		else finger.play?.()
+		this._layoutFtueFinger()
+	}
+
+	_layoutFtueFinger() {
+		const finger = this._ftueFinger
+		const id = this._ftueTargetId
+		const view = this.activePit?.view
+		if (!finger || id == null || !view) return
+		const head = view.snakeHeadLocal(id)
+		if (!head) {
+			finger.visible = false
+			return
+		}
+		finger.visible = true
+		finger.position.set(head.x, head.y)
+	}
+
+	_onFtueSnakeTapped(snakeId) {
+		if (this._ftueTargetId == null || snakeId !== this._ftueTargetId) return
+		this._ftueHintedIds.push(snakeId)
+		if (this._ftueHintedIds.length >= 2) {
+			this._clearFtue()
+			return
+		}
+		this._showFtueFinger()
 	}
 
 	_layoutMetrics() {
@@ -332,7 +675,8 @@ export class Game extends Container {
 		if (logoW > 0 && logoH > 0) {
 			const scale = Math.min(Math.max(160, w - 112), 520) / logoW
 			const logoBottom = 14 + logoH * scale + 6
-			top = Math.max(topHud, logoBottom + 16)
+			const livesH = 40
+			top = Math.max(topHud, logoBottom + livesH + 12)
 		}
 		const availW = Math.max(1, w - padX * 2)
 		const availH = Math.max(1, h - top - botHud - padY * 2)
@@ -377,7 +721,7 @@ export class Game extends Container {
 		return new Promise((resolve) => {
 			const from = { ...this.cam }
 			const proxy = { t: 0 }
-			newTween(proxy, { t: 1 }, 0.85)
+			newTween(proxy, { t: 1 }, 0.85 * durationScaleForLevel(this.levelIndex))
 				.ease(Easing.inOutCubic)
 				.onUpdate(() => {
 					const t = proxy.t
@@ -404,6 +748,7 @@ export class Game extends Container {
 
 		const result = session.tryEscape(snakeId)
 		if (!result) return
+		this._onFtueSnakeTapped(snakeId)
 
 		if (result.kind === "escaped") {
 			const lane = view.dock.reserveLane()
@@ -436,6 +781,8 @@ export class Game extends Container {
 				if (!handedOff) sfx.loopRemove("slither")
 			}
 			session.endMove(snakeId)
+			// Save only after dock parks (onDockStateChange); skip mid-slither.
+			this._persistRun()
 			// Wait until every in-flight escape on this pit finishes — otherwise
 			// parallel clears can advance multiple levels at once.
 			await this._maybeAdvanceAfterClear(pit)
@@ -453,13 +800,17 @@ export class Game extends Container {
 			if (travels) sfx.loopRemove("slither")
 		}
 		session.endMove(snakeId)
+		this._persistRun()
 	}
 
-	/** @returns {boolean} true when this death reaches 10% of the level's ants */
+	/** @returns {boolean} true when the last ant life is spent */
 	_onAntDied() {
 		if (this.gameOver) return false
-		this.deadAnts++
-		return this.deadAnts >= antDeathLimit(this.antTotal)
+		if (this.antLives <= 0) return true
+		this.antLives--
+		this._refreshLifeIcons()
+		this._persistRun()
+		return this.antLives <= 0
 	}
 
 	_clearGameOverUi() {
@@ -478,6 +829,14 @@ export class Game extends Container {
 		sfx.play("gameOver")
 		this.gameOver = true
 		this.transitioning = true
+		saveProgress(this.levelIndex, pit?.session?.seed, null)
+		if (this._livesRefillDialog) {
+			const ui = this.hooks.getUi?.()
+			const open = this._livesRefillDialog
+			this._livesRefillDialog = null
+			ui?.closeDialog?.(open)
+		}
+		this._refreshLivesRefillBtn()
 		pit.view.eventMode = "none"
 		pit.view.interactiveChildren = false
 
@@ -557,12 +916,25 @@ export class Game extends Container {
 		this.levelIndex = restartLevel
 		this.gameOver = false
 		this.transitioning = false
+		this.antLives = ANT_LIVES
+		this._refreshLifeIcons()
 		this._clearGameOverUi()
 		this._clearWorld()
-		saveProgress(restartLevel, seed)
-		this._spawnPit(restartLevel, seed, 0)
+		saveProgress(restartLevel, seed, null)
+		this._spawnPit(restartLevel, seed, 0, null)
 		this._focusActivePit(false)
 		this.resize()
+	}
+
+	/** Debug: force the anteater to eat every ant currently in the queue. */
+	debugTriggerAnteater() {
+		const dock = this.activePit?.view?.dock
+		if (!dock || this.gameOver) return
+		if (!dock.hasLeftoverAnts()) {
+			console.log("Anteater: no ants in queue")
+			return
+		}
+		void dock.playAnteater(this.hud)
 	}
 
 	async _maybeAdvanceAfterClear(pit) {
@@ -635,6 +1007,8 @@ export class Game extends Container {
 	tick(dt) {
 		this.flowers?.tick(dt)
 		if (this.logo?.isSnakeTitle) this.logo.tick(dt)
+		for (const pit of this.pitStack) pit.view?.tickGrass?.()
+		this._layoutFtueFinger()
 		if (this.gameOver) return
 		if (this._critterIn == null) this._critterIn = 8
 		this._critterIn -= dt
@@ -724,7 +1098,10 @@ export class Game extends Container {
 		if (this.activePit && !this.transitioning && !this.gameOver) this._focusActivePit(false)
 		if (this.logo && !this.logoIntroPlaying) {
 			this._applyLogoLayout(this.logoSettled)
+		} else {
+			this._layoutLifeIcons()
 		}
 		this._layoutRestartButton()
+		this._layoutLevelLabel()
 	}
 }

@@ -8,9 +8,14 @@ export var alltubes = {}
 /**
  * Flash writes a rotation as `angle` plus a matching skew. Anima writes `angle` alone
  * with skew 0. Keep that angle. Only drop it when the skew is a real shear.
+ *
+ * Anima IK often leaves a tiny residual skew (~0.02°) that does not match the angle.
+ * Treating that as shear zeroed the real rotation and flattened bendy bodies.
  */
 function resolveFlashRotation(sprite) {
 	const eps = 0.0001
+	/** ~0.5° — below this, skew is noise; keep rotation. */
+	const shearEps = 0.01
 	const negMatch =
 		Math.abs(-sprite.rotation - sprite.skewX) < eps && Math.abs(-sprite.rotation - sprite.skewY) < eps
 	const posMatch =
@@ -20,7 +25,12 @@ function resolveFlashRotation(sprite) {
 		sprite.skewY = 0
 		return
 	}
-	if (Math.abs(sprite.skewX) >= eps || Math.abs(sprite.skewY) >= eps) sprite.rotation = 0
+	if (Math.abs(sprite.skewX) < shearEps && Math.abs(sprite.skewY) < shearEps) {
+		sprite.skewX = 0
+		sprite.skewY = 0
+		return
+	}
+	sprite.rotation = 0
 }
 
 export class FlashTube {

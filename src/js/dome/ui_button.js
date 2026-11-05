@@ -187,20 +187,8 @@ export class UIButton extends Container
 			img.anchor.set(0.5)
 			
 			this.image = img
-			if (!img || !this.text) return
-			try {
-				var totWidth = img.width 
-				totWidth += this.text.width
-				
-			} catch (error) {
-				console.error("Error calculating total width: ", error, this.def, this.dialog)
-				return
-			}
-			
-			
-			img.x = -totWidth/2 + img.width/2
-			this.text.x = totWidth/2 - this.text.width/2
-			this.refreshTextAndImagePos(this.compDef.textoffset?.hover, this.compDef.textoffset?.hover?.scale, this.def.image?.align, this.def.image?.scale)
+			if (!img) return
+			this.refreshTextAndImagePos(this.compDef.textoffset?.up, this.compDef.textoffset?.up?.scale, this.def.image?.align, this.def.image?.scale)
 			
 			//console.log("Image loaded: ", texture)
 			//img.texture = texture

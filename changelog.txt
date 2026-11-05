@@ -1,3 +1,10 @@
+------- Version 0.5.0 (Build 55) -------
+
+## 2026-11-02 (monday)
+-  Play the rendered sound set in play and menus, and ship the tiles-tube art with the title logo. (Tobias)
+-  Co-authored-by: Cursor <cursoragent@cursor.com>
+
+
 ------- Version 0.5.0 (Build 53) -------
 
 ## 2026-10-30 (friday)
