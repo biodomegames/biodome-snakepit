@@ -7,6 +7,8 @@ import { newTween } from "./dome/Tween.js"
 import { BIODOME_MUSIC_HOWL_FLAG } from "./soundlibrary.js"
 
 const MUSIC_VOLUME = .25
+/** Silence between the end of a track and the next play. */
+const MUSIC_RESTART_PAUSE_SEC = 15
 
 const TRACKS = [music]
 
@@ -26,7 +28,8 @@ export function getMusicAssetsForPreload() {
 export class MusicManager	
 {
 	curMusic = undefined
-	playNextSong = -1
+	/** performance.now() when the next track should start; 0 = not waiting. */
+	playNextAt = 0
 	
 	constructor()
 	{
@@ -87,6 +90,7 @@ export class MusicManager
 			this.generatePlaylist()
 		}
 		var mus = this.playlist.shift()
+		this.playNextAt = 0
 		this.music = new Howl({
 			src: [mus],
 			html5: false,
@@ -102,11 +106,10 @@ export class MusicManager
 				}.bind(this));
 				}.bind(this),
 			onplay: () => {
-				//console.log("PLAYING MUSIC")
-				this.playNextSong = 2
+				this.playNextAt = 0
 			},
 			onend: () => {
-				//console.log("ENDING MUSIC")
+				this.playNextAt = performance.now() + MUSIC_RESTART_PAUSE_SEC * 1000
 			},
 		});
 		this.music[BIODOME_MUSIC_HOWL_FLAG] = true
@@ -117,19 +120,12 @@ export class MusicManager
 
 	slowTick()
 	{
-		if ( this.curMusic)
+		if (this.curMusic && this.playNextAt > 0 && performance.now() >= this.playNextAt)
 		{
-			//console.log("TIK ", this.curMusic.playing())
-			if (!this.curMusic.playing() && this.playNextSong > 0)
-			{
-				this.playNextSong --
-				if (this.playNextSong == 0)
-				{
-					this.createMusic()
-				}
-			}
+			this.playNextAt = 0
+			this.createMusic()
 		}
-		newTween(this, {}, 3).onDone(()=>{
+		newTween(this, {}, 1).onDone(()=>{
 			this.slowTick()
 		})
 	}

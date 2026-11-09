@@ -107,8 +107,10 @@ export class Game extends Container {
 		/** @type {any} */
 		this._resetConfirmDialog = null
 		this._persistBound = false
+		/** @type {ReturnType<typeof setTimeout> | null} */
+		this._persistTimer = null
 		this._onVisibilityPersist = () => {
-			if (document.visibilityState === "hidden") this._persistRun()
+			if (document.visibilityState === "hidden") this._persistRun(true)
 		}
 	}
 
@@ -221,7 +223,28 @@ export class Game extends Container {
 		window.addEventListener("pagehide", this._onVisibilityPersist)
 	}
 
-	_persistRun() {
+	/**
+	 * Snapshot the run into biodata. Routine calls are coalesced; pass true to flush now
+	 * (tab hide / pagehide).
+	 * @param {boolean} [immediate]
+	 */
+	_persistRun(immediate = false) {
+		if (immediate) {
+			if (this._persistTimer != null) {
+				clearTimeout(this._persistTimer)
+				this._persistTimer = null
+			}
+			this._flushPersist()
+			return
+		}
+		if (this._persistTimer != null) return
+		this._persistTimer = setTimeout(() => {
+			this._persistTimer = null
+			this._flushPersist()
+		}, 2500)
+	}
+
+	_flushPersist() {
 		const pit = this.activePit
 		if (!pit?.session || this.gameOver) return
 		// Never snapshot mid-slither — a reload would drop the moving snake.
@@ -690,10 +713,11 @@ export class Game extends Container {
 	_layoutMetrics() {
 		const w = window.getRenderWidth?.() ?? this.app?.screen?.width ?? 800
 		const h = window.getRenderHeight?.() ?? this.app?.screen?.height ?? 600
-		const topHud = 112
-		const botHud = 36
+		// Keep pit snakes/tiles clear of notch / home-indicator reach zones on phones.
+		const topHud = 128
+		const botHud = 64
 		const padX = Math.max(8, Math.min(18, w * 0.03))
-		const padY = 8
+		const padY = 20
 		let top = topHud
 		const logoW = this.logo?.layoutWidth || 0
 		const logoH = this.logo?.layoutHeight || 0
@@ -701,7 +725,7 @@ export class Game extends Container {
 			const scale = Math.min(Math.max(160, w - 112), 520) / logoW
 			const logoBottom = 14 + logoH * scale + 6
 			const livesH = 40
-			top = Math.max(topHud, logoBottom + livesH + 12)
+			top = Math.max(topHud, logoBottom + livesH + 20)
 		}
 		const availW = Math.max(1, w - padX * 2)
 		const availH = Math.max(1, h - top - botHud - padY * 2)
@@ -932,7 +956,7 @@ export class Game extends Container {
 	_layoutRestartButton() {
 		if (!this.restartBtn) return
 		const { w, h } = this._layoutMetrics()
-		this.restartBtn.position.set(w / 2, h - 52)
+		this.restartBtn.position.set(w / 2, h - 72)
 	}
 
 	_restartAfterGameOver() {

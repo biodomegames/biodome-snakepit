@@ -4,6 +4,9 @@ const KEY_LEVEL = "SnakepitLevel"
 const KEY_SEED = "SnakepitLevelSeed"
 const KEY_RUN = "SnakepitRun"
 
+/** Skip identical writes — bdata compares objects by reference. */
+let lastSavedJson = ""
+
 function randomSeed() {
 	return (Math.floor(Math.random() * 0xffffffff) >>> 0)
 }
@@ -66,21 +69,26 @@ export function saveProgress(level, seed, run = null) {
 	const bdata = window.bdata
 	if (!bdata?.set) return
 	const lvl = Math.max(1, level | 0)
-	bdata.set(KEY_LEVEL, lvl)
-	if (seed != null) bdata.set(KEY_SEED, seed >>> 0)
-	if (run == null) {
-		bdata.set(KEY_RUN, null)
-		return
-	}
-	bdata.set(KEY_RUN, {
-		level: lvl,
-		seed: seed >>> 0,
-		lives: Math.max(0, run.lives | 0),
-		snakes: run.snakes || [],
-		antColors: run.antColors || [],
-		unlockedLanes: Math.max(0, run.unlockedLanes | 0),
-		parked: run.parked || [],
-	})
+	const seedVal = seed != null ? seed >>> 0 : null
+	const runVal =
+		run == null
+			? null
+			: {
+					level: lvl,
+					seed: seedVal >>> 0,
+					lives: Math.max(0, run.lives | 0),
+					snakes: run.snakes || [],
+					antColors: run.antColors || [],
+					unlockedLanes: Math.max(0, run.unlockedLanes | 0),
+					parked: run.parked || [],
+				}
+	const json = JSON.stringify({ level: lvl, seed: seedVal, run: runVal })
+	if (json === lastSavedJson) return
+	lastSavedJson = json
+	// One storage write: mutate in memory, then persist on the last key.
+	bdata.set(KEY_LEVEL, lvl, false)
+	if (seedVal != null) bdata.set(KEY_SEED, seedVal, false)
+	bdata.set(KEY_RUN, runVal)
 }
 
 export function resetProgress() {

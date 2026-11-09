@@ -45,9 +45,9 @@ export const DialogDefinitions = {
 			alignOffset: { x: 18, y: 140 },
 			aspectScaleFactor: {
 				minAspect: 0.4,
-				minScale: 0.95,
+				minScale: 1.5,
 				maxAspect: 1.4,
-				maxScale: 0.65,
+				maxScale: 0.7,
 			},
 			controller: DialogSettings,
 		},
@@ -99,7 +99,7 @@ export const DialogDefinitions = {
 			disappearSound: true,
 			aspectScaleFactor: {
 				minAspect: 0.4,
-				minScale: 1.35,
+				minScale: 1.75,
 				maxAspect: 1.4,
 				maxScale: 1.1,
 			},
