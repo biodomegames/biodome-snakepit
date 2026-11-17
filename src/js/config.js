@@ -2,7 +2,7 @@ export var Config =
 {
 	projectName: "Snakepit",
 	version: "0.5.0",
-	build: 56,
+	build: 62,
 
 	getVersionString: function()
 	{

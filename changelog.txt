@@ -1,3 +1,20 @@
+------- Version 0.5.0 (Build 61) -------
+
+## 2026-11-09 (monday)
+-  Debounce run saves, pause 15s between music loops, and enlarge settings on narrow screens. (Tobias)
+-  Also give the pit a bit more top/bottom safe padding so play stays clear of phone chrome.
+-  Co-authored-by: Cursor <cursoragent@cursor.com>
+
+
+------- Version 0.5.0 (Build 57) -------
+
+## 2026-11-05 (thursday)
+-  Play random tongue grab1/grab2 licks while the anteater eats leftover ants. (Tobias)
+-  Co-authored-by: Cursor <cursoragent@cursor.com>
+-  Polish settings/ad dialogs on tube art, prune unused UI/SFX assets, and show interstitials every 3 levels unless a rewarded ad resets the streak. (Tobias)
+-  Co-authored-by: Cursor <cursoragent@cursor.com>
+
+
 ------- Version 0.5.0 (Build 56) -------
 
 ## 2026-11-05 (thursday)

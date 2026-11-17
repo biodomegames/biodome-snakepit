@@ -1,0 +1,106 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="cartoony-ant">
+  <style>
+    .cartoony-ant {
+      /* Base grey palette — override these variables to tint */
+      --ant-base: #e2e2e2;    /* Main body/leg color */
+      --ant-shade: #c6c6c6;   /* Shading/highlight color */
+      --ant-outline: #a0a0a0; /* Lineart/outline color */
+      --ant-detail: #888888;  /* Eyes/antenna knobs */
+    }
+    .base-fill { fill: var(--ant-base); }
+    .base-stroke { stroke: var(--ant-base); }
+    .shade-fill { fill: var(--ant-shade); }
+    .outline-stroke { stroke: var(--ant-outline); }
+    .detail-fill { fill: var(--ant-detail); }
+    .outline-stroke, .base-stroke {
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+
+  <defs>
+    <!-- Clip paths to keep shading perfectly contained to body segments -->
+    <clipPath id="head-clip">
+      <ellipse cx="100" cy="45" rx="28" ry="25" />
+    </clipPath>
+    <clipPath id="thorax-clip">
+      <ellipse cx="100" cy="85" rx="18" ry="22" />
+    </clipPath>
+    <clipPath id="abdomen-clip">
+      <ellipse cx="100" cy="153" rx="40" ry="45" />
+    </clipPath>
+  </defs>
+
+  <!-- Legs (under body, outline first then base fill for stroke outline effect) -->
+  <g class="legs">
+    <!-- Leg outlines -->
+    <g class="outline-stroke" fill="none" stroke-width="10">
+      <path d="M82 75 Q65 58 58 62" />   <!-- Front left -->
+      <path d="M118 75 Q135 58 142 62" /> <!-- Front right -->
+      <path d="M82 85 Q55 85 48 95" />    <!-- Middle left -->
+      <path d="M118 85 Q145 85 152 95" /> <!-- Middle right -->
+      <path d="M82 95 Q65 115 58 115" />  <!-- Back left -->
+      <path d="M118 95 Q135 115 142 115" /><!-- Back right -->
+    </g>
+    <!-- Leg base color -->
+    <g class="base-stroke" fill="none" stroke-width="8">
+      <path d="M82 75 Q65 58 58 62" />
+      <path d="M118 75 Q135 58 142 62" />
+      <path d="M82 85 Q55 85 48 95" />
+      <path d="M118 85 Q145 85 152 95" />
+      <path d="M82 95 Q65 115 58 115" />
+      <path d="M118 95 Q135 115 142 115" />
+    </g>
+  </g>
+
+  <!-- Main body base (head, thorax, petiole waist, abdomen) -->
+  <g class="body-base">
+    <ellipse cx="100" cy="45" rx="28" ry="25" class="base-fill outline-stroke" stroke-width="2" /> <!-- Head -->
+    <ellipse cx="100" cy="85" rx="18" ry="22" class="base-fill outline-stroke" stroke-width="2" /> <!-- Thorax -->
+    <rect x="95" y="105" width="10" height="18" rx="4" class="base-fill outline-stroke" stroke-width="2" /> <!-- Petiole waist -->
+    <ellipse cx="100" cy="153" rx="40" ry="45" class="base-fill outline-stroke" stroke-width="2" /> <!-- Abdomen -->
+  </g>
+
+  <!-- Soft shading (top-left light source) -->
+  <g class="shading shade-fill" stroke="none">
+    <!-- Head shading -->
+    <g clip-path="url(#head-clip)">
+      <ellipse cx="106" cy="53" rx="28" ry="25" />
+    </g>
+    <!-- Thorax shading + head shadow -->
+    <g clip-path="url(#thorax-clip)">
+      <ellipse cx="105" cy="93" rx="18" ry="22" />
+      <ellipse cx="100" cy="68" rx="15" ry="7" /> <!-- Shadow from head -->
+    </g>
+    <!-- Abdomen shading + thorax shadow -->
+    <g clip-path="url(#abdomen-clip)">
+      <ellipse cx="107" cy="161" rx="40" ry="45" />
+      <ellipse cx="100" cy="115" rx="12" ry="10" /> <!-- Shadow from thorax/waist -->
+    </g>
+  </g>
+
+  <!-- Antennae -->
+  <g class="antennae">
+    <!-- Antenna outlines -->
+    <g class="outline-stroke" fill="none" stroke-width="6">
+      <path d="M92 25 C82 10 70 5 65 12" />
+      <path d="M108 25 C118 10 130 5 135 12" />
+    </g>
+    <!-- Antenna base color -->
+    <g class="base-stroke" fill="none" stroke-width="4">
+      <path d="M92 25 C82 10 70 5 65 12" />
+      <path d="M108 25 C118 10 130 5 135 12" />
+    </g>
+    <!-- Antenna knobs -->
+    <g class="detail-fill">
+      <circle cx="65" cy="12" r="4" />
+      <circle cx="135" cy="12" r="4" />
+    </g>
+  </g>
+
+  <!-- Eyes (visible from top view) -->
+  <g class="eyes detail-fill">
+    <circle cx="80" cy="40" r="4" />
+    <circle cx="120" cy="40" r="4" />
+  </g>
+</svg>

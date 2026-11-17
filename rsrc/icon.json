@@ -1,0 +1,14 @@
+{
+  "frames": {},
+  "meta": {
+    "app": "Anima",
+    "format": "RGBA8888",
+    "image": "icon.png",
+    "scale": "1",
+    "size": {
+      "h": 1,
+      "w": 1
+    },
+    "version": "1.0"
+  }
+}
