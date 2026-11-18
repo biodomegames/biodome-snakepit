@@ -84,3 +84,12 @@ Listen in `src/js/gameevents.js` consumers and play a Howl from `src/js/soundlib
 - `src/js/gameShell.js` — preload, music, options menu. It preloads every entry in `TubeDefinitions`.
 
 UI click sounds are `src/s/ui-button-down.mp3` and `src/s/ui-button-up.mp3`. Toggle sounds are `ui-toggle-on.mp3` and `ui-toggle-off.mp3`. Music is `src/s/music.mp3`, played by `MusicManager` in `src/js/music.js`. Sound and music are stored on biodata as `Sound` and `Music`. `setSfxMuted` mutes effects and leaves music playing.
+
+## Playtest feedback
+
+Testers comment on builds at `https://biodomegames.com/feedback/?game=<slug>` (`slug` from `scripts/project-identity.json`; `<slug>-dev` for the dev build). The **Feedback** button at the top of the options (debug) menu opens it too. Each comment carries the build number, a screenshot, and game state from `src/js/system/feedbackprobe.js`.
+
+- `npm run feedback` (`biodome-feedback pull`) writes `feedback/FEEDBACK.md`, with screenshots in `feedback/shots/`. That file contains the instructions for working through the items. When done, write `feedback/RESULTS.json` (`[{ "id", "status": "fixed|wontfix|question|open", "note" }]`).
+- `npm run feedback:push` reports the results back to the testers. Run it after building, so fixed items show the new build number.
+- **State for testers' comments:** call `FeedbackProbe.provide("name", () => ({ ...plain JSON }))` for any state a tester might comment on (level, score, current screen, dialog, mode). For key moments, call `FeedbackProbe.mark("event", data)`. Providers must be cheap and return plain data, not Pixi objects. When you add a feature or a new kind of state, extend the providers so the next comment about it shows that state.
+

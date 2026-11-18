@@ -16,7 +16,7 @@
     "publicUrl": "https://biodomegames.com/snakepit"
   },
   "deployDev": {
-    "remoteRoot": "www.biodomegames.com/snakepit-dev",
+    "remoteRoot": "www/biodomegames.com/snakepit-dev",
     "publicUrl": "https://biodomegames.com/snakepit-dev"
   },
   "termsInfo": {

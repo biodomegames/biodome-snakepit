@@ -32,7 +32,10 @@
     "install:android": "adb install -r builds/android-debug.apk",
     "install:android:release": "adb install -r builds/android-release.apk",
     "clean:builds": "node -e \"import('fs').then(fs=>{fs.rmSync('builds',{recursive:true,force:true});fs.mkdirSync('builds')})\"",
-    "update-changelog": "node scripts/update-changelog.cjs"
+    "update-changelog": "node scripts/update-changelog.cjs",
+    "feedback": "biodome-feedback pull",
+    "feedback:push": "biodome-feedback push",
+    "feedback:link": "biodome-feedback link"
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^5.4.3",

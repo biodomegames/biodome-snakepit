@@ -1,5 +1,9 @@
 
 import '../../style.css'
+// Installs first so startup errors are captured for playtest feedback.
+import { FeedbackProbe } from './system/feedbackprobe.js'
+import { Config } from './config.js'
+FeedbackProbe.init({ version: Config.version, build: Config.build })
 
 
 import { mainPixi } from './mainpixi.js';

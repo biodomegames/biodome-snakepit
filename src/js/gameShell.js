@@ -19,6 +19,7 @@ import { NewVersion } from "./system/newversion.js"
 import { MusicManager, getMusicAssetsForPreload } from "./music.js"
 import { setSfxMuted } from "./soundlibrary.js"
 import { adManager } from "./system/ads.js"
+import { FeedbackProbe } from "./system/feedbackprobe.js"
 
 const productionmode = import.meta.env.MODE
 
@@ -152,6 +153,11 @@ export class GameShell extends Container {
 
 	initOptionsMenu() {
 		if (!Config.optionsMenuAvailable || !optionsMenu) return
+
+		// Only on biodomegames.com builds (not FRVR / app stores / inside the feedback page)
+		if (FeedbackProbe.feedbackUrl()) {
+			optionsMenu.addButtonToOptionsMenu("Feedback", () => FeedbackProbe.openFeedback())
+		}
 
 		optionsMenu.addLabelToOptionsMenu("Game version: " + Config.getVersionString())
 		optionsMenu.addLabelToOptionsMenu("Platform: " + this.main.platform)

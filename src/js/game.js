@@ -18,6 +18,7 @@ import {
 	shouldShowLivesRefill,
 } from "./snakepit/difficulty.js"
 import { adManager } from "./system/ads.js"
+import { FeedbackProbe } from "./system/feedbackprobe.js"
 import watchAdIcon from "../g/icon-watchad.svg"
 import * as sfx from "./snakepit/sfx.js"
 
@@ -112,6 +113,23 @@ export class Game extends Container {
 		this._onVisibilityPersist = () => {
 			if (document.visibilityState === "hidden") this._persistRun(true)
 		}
+		// Game state attached to playtest comments (see feedbackprobe.js).
+		FeedbackProbe.provide("run", () => {
+			const session = this.session
+			return {
+				level: this.levelIndex,
+				seed: session?.seed,
+				antLives: this.antLives,
+				gameOver: this.gameOver,
+				transitioning: this.transitioning,
+				settingsOpen: !!this.settingsDialog,
+				snakesTotal: session?.snakes?.length,
+				snakesEscaped: session?.escapedCount,
+				snakesMoving: session?.moving?.size,
+				pitsStacked: this.pitStack.length,
+				ftueActive: this._ftueTargetId != null,
+			}
+		})
 	}
 
 	get session() {
@@ -553,6 +571,7 @@ export class Game extends Container {
 	}
 
 	_spawnPit(level, seed, worldY, saved = null) {
+		FeedbackProbe.mark("pit_spawn", { level, resumed: !!saved })
 		const session = new LevelSession({ level, seed })
 		if (saved?.snakes) session.applySnakeState(saved.snakes)
 		const view = new BoardView({
@@ -856,6 +875,7 @@ export class Game extends Container {
 	/** @returns {boolean} true when the last ant life is spent */
 	_onAntDied() {
 		if (this.gameOver) return false
+		FeedbackProbe.mark("ant_died", { livesBefore: this.antLives })
 		if (this.antLives <= 0) return true
 		this.antLives--
 		this._refreshLifeIcons()
@@ -960,6 +980,7 @@ export class Game extends Container {
 	}
 
 	_restartAfterGameOver() {
+		FeedbackProbe.mark("restart_after_game_over", { level: this.levelIndex })
 		sfx.play("restart")
 		const restartLevel = this.levelIndex >= RESTART_LEVEL ? RESTART_LEVEL : 1
 		const seed = (Math.floor(Math.random() * 0xffffffff) >>> 0)
