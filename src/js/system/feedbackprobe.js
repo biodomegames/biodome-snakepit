@@ -98,7 +98,34 @@ export const FeedbackProbe = {
 		options = { ...options, ...opts }
 		if (options.app) globalThis.__PIXI_APP__ = options.app
 		FeedbackProbe.install()
+		FeedbackProbe.reloadIfStale()
 		return FeedbackProbe
+	},
+
+	/**
+	 * On biodomegames.com: if the server has a newer build than the one running (a phone kept an
+	 * old cached index.html), reload once at ?b=<newest>, an address no cache has. Guarded per build
+	 * in sessionStorage so it can never loop. Not on FRVR, Cordova or localhost.
+	 */
+	async reloadIfStale() {
+		try {
+			if (window.cordova || options.build == null) return
+			const host = location.hostname
+			if (host !== "biodomegames.com" && !host.endsWith(".biodomegames.com")) return
+			const dir = location.pathname.replace(/[^/]*$/, "")
+			const res = await fetch(dir + "changelog.txt?nocache=" + Date.now(), { cache: "no-store" })
+			if (!res.ok) return
+			const m = (await res.text()).match(/\(Build\s+(\d+)\)/i)
+			const latest = m ? Number(m[1]) : 0
+			if (!(latest > Number(options.build))) return
+			const guard = "bfb.reloadedFor:" + dir
+			if (sessionStorage.getItem(guard) === String(latest)) return
+			sessionStorage.setItem(guard, String(latest))
+			console.warn(`[FeedbackProbe] running b${options.build}, server has b${latest}; reloading`)
+			const url = new URL(location.href)
+			url.searchParams.set("b", String(latest))
+			location.replace(url.toString())
+		} catch (e) { /* offline, no changelog, storage blocked: just keep running */ }
 	},
 
 	/** Register a function returning JSON-able state. Re-registering a name replaces it. */

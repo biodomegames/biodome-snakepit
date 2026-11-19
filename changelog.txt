@@ -1,3 +1,11 @@
+------- Version 0.5.0 (Build 67) -------
+
+## 2026-11-18 (wednesday)
+-  Add playtest feedback: options-menu Feedback button, FeedbackProbe state, AGENTS.md section (Tobias)
+-  Includes other pending work-in-progress changes in the working tree.
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+
 ------- Version 0.5.0 (Build 63) -------
 
 ## 2026-11-17 (tuesday)
