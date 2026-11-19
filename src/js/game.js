@@ -492,7 +492,10 @@ export class Game extends Container {
 		if (!spr) return
 		const naturalW = Math.max(1, spr.isFallbackSprite ? spr.texture?.width || 33 : this._lifeSize.w)
 		const naturalH = Math.max(1, spr.isFallbackSprite ? spr.texture?.height || 29 : this._lifeSize.h)
-		const scale = Math.min(0.85, Math.max(0.5, (this._layoutMetrics().w / 520) * 0.7))
+		// Aim for an on-screen icon height (CSS px) so lives stay readable on phones
+		// (a plain width ratio shrank them to ~16px tall at 375 wide).
+		const targetH = Math.min(36, Math.max(28, this._layoutMetrics().w * 0.075))
+		const scale = targetH / naturalH
 		const gap = naturalW * scale + 8
 		const n = this.lifeSprites.length
 		const livesLeft = Math.max(0, this.antLives | 0)
