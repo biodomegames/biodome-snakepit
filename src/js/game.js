@@ -1,6 +1,7 @@
 import { Assets, Container, Graphics, Rectangle, Sprite, Text, TextStyle, Texture } from "pixi.js"
 import { boardHas } from "./snakepit/board.js"
 import { BoardView } from "./snakepit/boardView.js"
+import { ANT_SCALE } from "./snakepit/antDock.js"
 import { LevelSession } from "./snakepit/level.js"
 import {
 	loadProgress,
@@ -485,6 +486,19 @@ export class Game extends Container {
 		})
 	}
 
+	/** Unscaled length (local bounds width) of the lane `ant` clip, measured once. */
+	_antLocalLength() {
+		if (this._antLen) return this._antLen
+		const clip = window.alltubes?.tiles?.getMovieClip?.("ant")
+		if (!clip) return 100
+		if (clip.framelabels?.idle != null) clip.setFrame("idle")
+		const w = clip.getLocalBounds?.()?.width || 100
+		clip.stop?.()
+		clip.destroy?.({ children: true })
+		this._antLen = w
+		return w
+	}
+
 	_layoutLifeIcons() {
 		this._ensureLifeIcons()
 		const logo = this.logo
@@ -492,9 +506,10 @@ export class Game extends Container {
 		if (!spr) return
 		const naturalW = Math.max(1, spr.isFallbackSprite ? spr.texture?.width || 33 : this._lifeSize.w)
 		const naturalH = Math.max(1, spr.isFallbackSprite ? spr.texture?.height || 29 : this._lifeSize.h)
-		// Aim for an on-screen icon height (CSS px) so lives stay readable on phones
-		// (a plain width ratio shrank them to ~16px tall at 375 wide).
-		const targetH = Math.min(36, Math.max(28, this._layoutMetrics().w * 0.075))
+		// Lives stand upright. Make them as tall as a lane ant is long on screen,
+		// so they follow the camera zoom. Keep at least 28px so they stay readable.
+		const antLen = this._antLocalLength() * ANT_SCALE * (this.cam?.scale || 1)
+		const targetH = Math.min(64, Math.max(28, antLen))
 		const scale = targetH / naturalH
 		const gap = naturalW * scale + 8
 		const n = this.lifeSprites.length
@@ -803,6 +818,8 @@ export class Game extends Container {
 	_applyCam() {
 		this.boardRoot.scale.set(this.cam.scale)
 		this.boardRoot.position.set(this.cam.x, this.cam.y)
+		// Life icons match the lane ants' on-screen size, which follows the zoom.
+		if (this.lifeSprites.length) this._layoutLifeIcons()
 	}
 
 	_focusActivePit(animate) {

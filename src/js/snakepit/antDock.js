@@ -14,7 +14,7 @@ import * as sfx from "./sfx.js"
 
 const STICK_H = 7
 const LANE_H = 46
-const ANT_SCALE = 0.52
+export const ANT_SCALE = 0.52
 /** Screen pixels from the ant's origin down to the shadow. */
 const ANT_SHADOW_DROP = 4
 /** Screen Y nudge on a parked snake. Negative sits higher toward the body middle. */
