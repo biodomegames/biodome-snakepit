@@ -69,7 +69,7 @@ export class BoardView extends Container {
 		this.addChild(this.dock.stickLayer)
 		this.addChild(this.decorLayer)
 		this.addChild(this.fxLayer)
-		// Ant queue stays above grass; escaped snakes live in decorLayer.
+		// Queued ants and escaped snakes live in decorLayer, Y-sorted with grass.
 		this.addChild(this.dock)
 
 		/** @type {Map<number, { root: Container, g: Graphics, face: any, snake: any }>} */
@@ -906,7 +906,7 @@ export class BoardView extends Container {
 	 * Animate discrete hex steps by sliding along the tile/edge path (not lerping joints).
 	 * @param {import('./snake.js').Snake} snake
 	 * @param {import('./hex.js').Hex[][]} steps
-	 * @param {{ bump?: boolean }} opts
+	 * @param {{ bump?: boolean, handoff?: boolean, stepDur?: number }} opts
 	 */
 	playSteps(snake, steps, opts = {}) {
 		return new Promise((resolve) => {
@@ -918,7 +918,7 @@ export class BoardView extends Container {
 			}
 			this.animatingIds.add(snake.id)
 			const { root, g, face } = entry
-			const stepDur = (opts.bump ? 0.09 : 0.1) * this.pace
+			const stepDur = (opts.stepDur ?? (opts.bump ? 0.09 : 0.1)) * this.pace
 			const stepPx = this.hexSize * Math.sqrt(3)
 			const bodyCells = steps[0]?.length || snake.cells?.length || 2
 			const wave = (this.hexSize * SLITHER_WAVE) / wiggleRateForCells(bodyCells)

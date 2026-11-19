@@ -2,7 +2,7 @@ export var Config =
 {
 	projectName: "Snakepit",
 	version: "0.5.0",
-	build: 67,
+	build: 68,
 
 	getVersionString: function()
 	{
@@ -28,6 +28,8 @@ export var Config =
 	//<debug>
 	// @ts-ignore
 	admobUseTestIds: true,
+	/** Debug only: replace real ads with an "INTERSTITIAL" / "REWARDED AD" dialog + OK button. */
+	debugAdStandIn: true,
 	//</debug>
 
 	interstitialAfterEveryNthLevel: 3,

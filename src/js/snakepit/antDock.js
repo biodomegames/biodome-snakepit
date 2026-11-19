@@ -230,7 +230,7 @@ export class AntDock extends Container {
 		const antY = stackTop - 16
 		const right = this._left + this._laneW - 8
 		// Wider than the ant graphic so neighbors don't overlap. The line grows to the left.
-		const antGap = colors.length <= 1 ? 0 : hexSize * 1.15
+		const antGap = colors.length <= 1 ? 0 : hexSize * 1.4
 		this._antGap = antGap
 		this._antRight = right
 		this._antY = antY
@@ -247,7 +247,9 @@ export class AntDock extends Container {
 			this._attachAntShadow(clip)
 			// Queue front is index 0, standing at the right. The rest extend left.
 			clip.position.set(right - i * antGap, antY)
-			this.antLayer.addChild(clip)
+			// Y-sorted with grass/rocks so tufts in front of the line cover the ants.
+			clip.zIndex = antY
+			;(this.groundLayer || this.antLayer).addChild(clip)
 			this.ants.push({ clip, color: colors[i] })
 		}
 		this._armFrontClick()

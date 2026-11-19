@@ -20,6 +20,9 @@ import { MusicManager, getMusicAssetsForPreload } from "./music.js"
 import { setSfxMuted } from "./soundlibrary.js"
 import { adManager } from "./system/ads.js"
 import { FeedbackProbe } from "./system/feedbackprobe.js"
+//<debug>
+import { VideoRecorder } from "./system/videorecorder.js"
+//</debug>
 
 const productionmode = import.meta.env.MODE
 
@@ -176,6 +179,12 @@ export class GameShell extends Container {
 		optionsMenu.addButtonToOptionsMenu("Device info", () => {
 			this.showDeviceInfo()
 		})
+		//<debug>
+		optionsMenu.addButtonToOptionsMenu("Record video", () => {
+			this.videoRecorder ||= new VideoRecorder(this.app, { fileStem: Config.projectName.toLowerCase() })
+			this.videoRecorder.openDialog()
+		})
+		//</debug>
 		optionsMenu.addButtonToOptionsMenu("Test interstitial", () => {
 			adManager.loadInterstitial(() => {
 				adManager.showInterstitial(() => {})

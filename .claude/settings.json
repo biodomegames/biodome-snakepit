@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__anima__list_elements",
+      "mcp__anima__get_status",
+      "mcp__anima__list_timeline",
+      "Bash(ffprobe *)",
+      "mcp__anima__list_library",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__read_console_messages",
+      "Bash(sips -g *)",
+      "Bash(unzip -p *)",
+      "Bash(unzip -Z1 *)",
+      "mcp__anima__get_selection",
+      "Bash(unzip -l *)"
+    ]
+  }
+}

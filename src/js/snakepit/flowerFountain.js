@@ -1,7 +1,7 @@
 import { Container } from "pixi.js"
 
-const BURST_COUNT = 36
-const BURST_SPREAD = 0.5
+const BURST_COUNT = 56
+const BURST_SPREAD = 0.6
 
 /**
  * Pooled `flowers` movieclips. Each clip is parked on one frame, so the
@@ -32,15 +32,15 @@ export class FlowerFountain {
 	 * @param {number} reach how high the tallest flowers should climb, in px
 	 */
 	burst(x, y, reach) {
-		const height = Math.max(140, reach || 220)
+		const height = Math.max(200, (reach || 220) * 1.35)
 		const count = BURST_COUNT
 		for (let i = 0; i < count; i++) {
 			this.queue.push({
-				x: x + (Math.random() - 0.5) * height * 0.55,
+				x: x + (Math.random() - 0.5) * height * 0.6,
 				y: y + Math.random() * 16,
 				at: this.time + (i / count) * BURST_SPREAD,
 				// Squared so most stay low and a few climb much higher.
-				reach: height * (0.16 + Math.random() ** 2 * 1.2),
+				reach: height * (0.22 + Math.random() ** 2 * 1.45),
 			})
 		}
 	}
@@ -98,7 +98,7 @@ export class FlowerFountain {
 		const frames = Math.max(1, clip.data?.length || 1)
 		clip.setFrame(Math.floor(Math.random() * frames))
 		clip.stop?.()
-		const scale = 0.62 + Math.random() * 0.28
+		const scale = 0.95 + Math.random() * 0.45
 		clip.scale.set((Math.random() < 0.5 ? -1 : 1) * scale, scale)
 		clip.alpha = 1
 		clip.rotation = (Math.random() - 0.5) * 0.6
@@ -106,7 +106,7 @@ export class FlowerFountain {
 		// Same arc, much snappier. About half a second up, then straight back down.
 		const g = Math.max(420, job.reach * 7.5)
 		const speed = Math.sqrt(2 * g * job.reach)
-		const ang = -Math.PI / 2 + (Math.random() - 0.5) * 0.95
+		const ang = -Math.PI / 2 + (Math.random() - 0.5) * 1.05
 		const f = {
 			clip,
 			x: job.x,
@@ -119,7 +119,7 @@ export class FlowerFountain {
 			flutterFreq: 6 + Math.random() * 5,
 			phase: Math.random() * Math.PI * 2,
 			age: 0,
-			life: 1.05 + Math.random() * 0.35,
+			life: 1.15 + Math.random() * 0.4,
 			floor: job.y + 70 + Math.random() * 50,
 		}
 		clip.position.set(f.x, f.y)

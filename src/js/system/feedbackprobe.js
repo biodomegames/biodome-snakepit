@@ -73,6 +73,41 @@ function hookConsole() {
 	})
 }
 
+/**
+ * Recent errors from the game's CrashLogger (window.crashLogger), which keeps them in
+ * localStorage across reloads, so a crash just before the tester reloaded is still attached.
+ * Last 2 hours, this game's folder only, warnings skipped, repeats collapsed.
+ */
+function recentCrashes() {
+	const cl = globalThis.crashLogger
+	if (!cl || typeof cl.getAllCrashLogs !== "function") return undefined
+	let all
+	try { all = cl.getAllCrashLogs() || [] } catch (e) { return undefined }
+	const dirOf = (u) => { try { return new URL(u, location.href).pathname.replace(/[^/]*$/, "") } catch (e) { return "" } }
+	const here = dirOf(location.href)
+	const since = Date.now() - 2 * 60 * 60 * 1000
+	const out = []
+	for (const l of all) {
+		if (!l || !(l.timestampMs >= since) || /warn/i.test(l.type || "")) continue
+		if (l.url && dirOf(l.url) !== here) continue
+		const d = l.data || {}
+		const r = d.reason && typeof d.reason === "object" ? d.reason : null
+		const msg = short(d.message || (r && r.message) || d.reason || l.type, 400)
+		const prev = out.find((x) => x.msg === msg && x.type === l.type)
+		if (prev) { prev.count++; prev.ago = Math.round((Date.now() - l.timestampMs) / 1000); continue }
+		out.push({
+			type: l.type,
+			msg,
+			count: 1,
+			ago: Math.round((Date.now() - l.timestampMs) / 1000),
+			thisSession: l.sessionStart === cl.currentSessionStart,
+			at: d.filename ? `${String(d.filename).split("/").pop()}:${d.lineno}` : undefined,
+			stack: short(d.stack || (r && r.stack) || "", 1500) || undefined,
+		})
+	}
+	return out.slice(-8)
+}
+
 function getApp() {
 	return options.app || globalThis.__PIXI_APP__ || null
 }
@@ -155,12 +190,15 @@ export const FeedbackProbe = {
 			state,
 			runtime: runtimeInfo(),
 			errors: logs.slice(),
+			crashes: recentCrashes(),
 			breadcrumbs: crumbs.slice(),
 		}
-		// Keep under the server limit: drop oldest breadcrumbs, then logs, then state.
+		// Keep under the server limit: drop oldest breadcrumbs, then logs, then crash stacks, then state.
 		while (JSON.stringify(ctx).length > MAX_CONTEXT_BYTES) {
 			if (ctx.breadcrumbs.length) ctx.breadcrumbs.shift()
 			else if (ctx.errors.length) ctx.errors.shift()
+			else if (ctx.crashes && ctx.crashes.some((c) => c.stack)) ctx.crashes.find((c) => c.stack).stack = undefined
+			else if (ctx.crashes && ctx.crashes.length) ctx.crashes.shift()
 			else { ctx.state = "[state too large]"; break }
 		}
 		return ctx

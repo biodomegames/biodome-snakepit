@@ -1,3 +1,12 @@
+------- Version 0.5.0 (Build 68) -------
+
+## 2026-11-19 (thursday)
+-  Reload automatically when a stale cached build is running; include pending build bumps (Tobias)
+-  FeedbackProbe.reloadIfStale(): on biodomegames.com, compare the running build with
+-  changelog.txt (fetched uncached) and reload once at ?b=<newest> if the server is newer.
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+
 ------- Version 0.5.0 (Build 67) -------
 
 ## 2026-11-18 (wednesday)

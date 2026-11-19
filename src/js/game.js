@@ -12,7 +12,8 @@ import { Easing, newTween } from "./dome/Tween.js"
 import { createTitleLogo } from "./snakepit/titleLogo.js"
 import { durationScaleForLevel } from "./snakepit/pace.js"
 import { FlowerFountain } from "./snakepit/flowerFountain.js"
-import { canEscape } from "./snakepit/snake.js"
+import { canEscape, stepForward } from "./snakepit/snake.js"
+import { UIComponentDefinitions } from "./data_ui_components.js"
 import {
 	livesRefillAmount,
 	shouldShowLivesRefill,
@@ -34,6 +35,8 @@ const FLOOR_GRASS_OVERLAP = 0.22
 /** Ant lives shown under the logo. Squash or anteater eats cost one each. */
 const ANT_LIVES = 5
 const LIFE_SPRITE = "tiles_antLifeSprite.png"
+/** `antLife` clip: frame 0 alive, frame 1 dead (ghosted with an X). */
+const LIFE_CLIP = "antLife"
 const LIFE_LOST_ALPHA = 0.22
 
 /**
@@ -81,8 +84,9 @@ export class Game extends Container {
 		this._awaitingDockClear = false
 		this.gameOver = false
 		this.antLives = ANT_LIVES
-		/** @type {import('pixi.js').Sprite[]} */
+		/** @type {any[]} antLife clips (Sprite fallback if the tube lacks it) */
 		this.lifeSprites = []
+		this._lifeSize = { w: 33, h: 29 }
 		/** @type {import('pixi.js').Container | null} */
 		this.lifeIcons = null
 		/** @type {import('./dome/movieclip.js').MovieClip | null} */
@@ -366,14 +370,27 @@ export class Game extends Container {
 		const row = new Container()
 		row.eventMode = "none"
 		row.interactiveChildren = false
-		/** @type {Sprite[]} */
+		/** @type {any[]} */
 		const sprites = []
+		const tube = window.alltubes?.tiles
 		for (let i = 0; i < ANT_LIVES; i++) {
-			const spr = new Sprite(Texture.from(LIFE_SPRITE))
-			spr.anchor.set(0.5)
-			spr.eventMode = "none"
-			row.addChild(spr)
-			sprites.push(spr)
+			let icon = tube?.getMovieClip?.(LIFE_CLIP)
+			if (icon) {
+				icon.stop?.()
+				icon.setFrame(0)
+				if (i === 0) {
+					const b = icon.getLocalBounds?.()
+					if (b?.width && b?.height) this._lifeSize = { w: b.width, h: b.height }
+				}
+			} else {
+				icon = new Sprite(Texture.from(LIFE_SPRITE))
+				icon.anchor.set(0.5)
+				icon.isFallbackSprite = true
+			}
+			icon.eventMode = "none"
+			icon.interactiveChildren = false
+			row.addChild(icon)
+			sprites.push(icon)
 		}
 		this.hud.addChild(row)
 		this.lifeIcons = row
@@ -391,7 +408,13 @@ export class Game extends Container {
 	_refreshLifeIcons() {
 		const left = Math.max(0, this.antLives | 0)
 		for (let i = 0; i < this.lifeSprites.length; i++) {
-			this.lifeSprites[i].alpha = i < left ? 1 : LIFE_LOST_ALPHA
+			const icon = this.lifeSprites[i]
+			const alive = i < left
+			if (icon.isFallbackSprite) icon.alpha = alive ? 1 : LIFE_LOST_ALPHA
+			else {
+				icon.setFrame(alive ? 0 : 1)
+				icon.stop?.()
+			}
 		}
 		this._refreshLivesRefillBtn()
 	}
@@ -467,8 +490,8 @@ export class Game extends Container {
 		const logo = this.logo
 		const spr = this.lifeSprites[0]
 		if (!spr) return
-		const naturalW = Math.max(1, spr.texture?.width || 33)
-		const naturalH = Math.max(1, spr.texture?.height || 29)
+		const naturalW = Math.max(1, spr.isFallbackSprite ? spr.texture?.width || 33 : this._lifeSize.w)
+		const naturalH = Math.max(1, spr.isFallbackSprite ? spr.texture?.height || 29 : this._lifeSize.h)
 		const scale = Math.min(0.85, Math.max(0.5, (this._layoutMetrics().w / 520) * 0.7))
 		const gap = naturalW * scale + 8
 		const n = this.lifeSprites.length
@@ -519,7 +542,7 @@ export class Game extends Container {
 			return
 		}
 		const from = this._logoLayout(false)
-		const to = this._logoLayout(true)
+		let to = this._logoLayout(true)
 		this.logoSettled = false
 		this.logoIntroPlaying = true
 		logo.alpha = 1
@@ -531,17 +554,18 @@ export class Game extends Container {
 			.ease(Easing.outCubic)
 			.onUpdate(() => {
 				const t = proxy.t
+				// The render size can still settle during the intro (resize is skipped
+				// while it plays), so aim at the current target, not the one from the start.
+				to = this._logoLayout(true)
 				logo.scale.set(from.scale + (to.scale - from.scale) * t)
 				logo.x = from.x + (to.x - from.x) * t
 				logo.y = from.y + (to.y - from.y) * t
 				this._layoutLifeIcons()
 			})
 			.onDone(() => {
-				logo.scale.set(to.scale)
-				logo.position.set(to.x, to.y)
 				this.logoSettled = true
 				this.logoIntroPlaying = false
-				this._layoutLifeIcons()
+				this._applyLogoLayout(true)
 			})
 	}
 
@@ -909,6 +933,7 @@ export class Game extends Container {
 		this._refreshLivesRefillBtn()
 		pit.view.eventMode = "none"
 		pit.view.interactiveChildren = false
+		this._exitPitSnakesOffscreen(pit)
 
 		const tube = window.alltubes?.tiles
 		const sign = tube?.getMovieClip?.("gameOver")
@@ -918,7 +943,8 @@ export class Game extends Container {
 			sign.scale.set(1.15)
 			sign.alpha = 1
 			sign.position.set(b.cx, b.cy - b.h * 0.85)
-			pit.view.fxLayer.addChild(sign)
+			// Top of the pit view: in front of lanes, lock overlays and ants.
+			pit.view.addChild(sign)
 			this.gameOverSign = sign
 			await new Promise((resolve) => {
 				const fromY = sign.y
@@ -939,42 +965,116 @@ export class Game extends Container {
 			sfx.play("signThud")
 		}
 
-		this._showRestartButton()
+		this._showRestartButton(sign ? pit.view : null)
 		this.transitioning = false
 	}
 
-	_showRestartButton() {
+	/**
+	 * Game over: every snake still in the pit slides straight out along its
+	 * heading until it is off screen. No lanes, and they pass through each other.
+	 */
+	_exitPitSnakesOffscreen(pit) {
+		const { session, view } = pit
+		const board = session.board
+		const { w, h } = this._layoutMetrics()
+		const camScale = Math.max(0.01, this.cam?.scale || 1)
+		const stepPx = view.hexSize * Math.sqrt(3)
+		const b = view.boardPixelSize()
+		// Far enough from anywhere on the board to clear the whole screen.
+		const reach = Math.hypot(w, h) / camScale + Math.hypot(b.w, b.h)
+		const travel = Math.ceil(reach / stepPx)
+		const waitIdle = async (id) => {
+			for (let i = 0; i < 40 && (view.isAnimating(id) || session.isMoving(id)); i++) {
+				await new Promise((r) => setTimeout(r, 50))
+			}
+		}
+		let running = 0
+		for (const snake of session.snakes) {
+			if (snake.escaped || !snake.cells?.length) continue
+			running++
+			if (running === 1) sfx.loopAdd("slither")
+			const run = async () => {
+				await waitIdle(snake.id)
+				if (snake.escaped || !snake.cells?.length || !view.parent) return
+				const steps = [snake.cells.map((c) => ({ ...c }))]
+				let cells = steps[0]
+				const n = travel + cells.length
+				for (let i = 0; i < n; i++) {
+					// Empty occupancy: other snakes and rocks don't block.
+					const next = stepForward({ ...snake, cells }, new Map(), board)
+					if (!next) break
+					cells = next
+					steps.push(cells.map((c) => ({ ...c })))
+				}
+				await view.playSteps(snake, steps, { stepDur: 0.045 })
+				view.removeSnakeGfx(snake.id)
+			}
+			run().finally(() => {
+				running--
+				if (running === 0) sfx.loopRemove("slither")
+			})
+		}
+	}
+
+	/**
+	 * Text-only "Restart" (settings-panel link style). Sits on the game over sign
+	 * under the title when there is one, otherwise near the bottom of the HUD.
+	 * @param {import('pixi.js').Container | null} pitView
+	 */
+	_showRestartButton(pitView = null) {
 		if (this.restartBtn) return
 		const btn = new Container()
 		btn.eventMode = "static"
 		btn.cursor = "pointer"
-		const bg = new Graphics()
-		bg.roundRect(-90, -28, 180, 56, 14)
-		bg.fill({ color: 0x3d8f55 })
-		bg.stroke({ width: 3, color: 0x1e4a2c })
-		btn.addChild(bg)
-		const label = new Text({
-			text: "Restart",
-			style: new TextStyle({
-				fontFamily: "Arial",
-				fontSize: 28,
-				fontWeight: "bold",
-				fill: 0xffffff,
-			}),
-		})
+		const style = UIComponentDefinitions.linkButtonText?.style?.clone?.() ??
+			new TextStyle({ fontFamily: "Chewy, Helvetica, Arial, sans", fontSize: 42, fontWeight: "800", fill: 0xb0bfc7 })
+		style.wordWrap = false
+		const label = new Text({ text: "Restart", style })
 		label.anchor.set(0.5)
 		btn.addChild(label)
+		btn.hitArea = new Rectangle(-label.width / 2 - 24, -label.height / 2 - 10, label.width + 48, label.height + 20)
+		// Same feel as button_textlink: rest 1px low, lift on hover, press down and shrink.
+		const setState = (state) => {
+			label.y = state === "down" ? 2 : state === "hover" ? 0 : 1
+			label.scale.set(state === "down" ? 0.9 : 1)
+		}
+		setState("up")
+		btn.on("pointerover", () => setState("hover"))
+		btn.on("pointerout", () => setState("up"))
+		btn.on("pointerdown", () => setState("down"))
+		btn.on("pointerupoutside", () => setState("up"))
 		btn.on("pointertap", (e) => {
 			e.stopPropagation()
+			setState("up")
 			this._restartAfterGameOver()
 		})
-		this.hud.addChild(btn)
 		this.restartBtn = btn
+		const sign = this.gameOverSign
+		if (sign && pitView) {
+			// Board art centre is ~(-4, -172) in clip space (~155px tall); "GAME OVER" fills the top
+			// half, so the button sits on the plain wood below it.
+			// Sibling just above the sign (the clip re-adds its own sprites on frame
+			// updates, which could cover a child). The sign has landed and stays put.
+			btn.position.set(sign.x - 4 * sign.scale.x, sign.y - 134 * sign.scale.y)
+			btn.scale.set(sign.scale.x, sign.scale.y)
+			pitView.addChild(btn)
+			// The pit view was made non-interactive for game over; let the sign through.
+			pitView.eventMode = "passive"
+			pitView.interactiveChildren = true
+			for (const child of pitView.children) {
+				if (child !== btn) {
+					child.eventMode = "none"
+					child.interactiveChildren = false
+				}
+			}
+			return
+		}
+		this.hud.addChild(btn)
 		this._layoutRestartButton()
 	}
 
 	_layoutRestartButton() {
-		if (!this.restartBtn) return
+		if (!this.restartBtn || this.restartBtn.parent !== this.hud) return
 		const { w, h } = this._layoutMetrics()
 		this.restartBtn.position.set(w / 2, h - 72)
 	}
