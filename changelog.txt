@@ -1,3 +1,28 @@
+------- Version 0.5.0 (Build 70) -------
+
+## 2026-11-19 (thursday)
+-  Size ant life icons by on-screen height so they stay readable on phones (fb_torcd2d38a61) (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+
+------- Version 0.5.0 (Build 69) -------
+
+## 2026-11-19 (thursday)
+-  Game over polish, ant queue depth, antLife clips, debug video recorder and ad stand-in (Tobias)
+-  - Game over: sign draws in front of the lanes; pit snakes slide straight off
+-  screen (no lanes, no collisions); text-only Restart button on the sign.
+-  - Ant queue is Y-sorted with grass so tufts cover it; wider ant spacing.
+-  - Life icons use the antLife clip (frame 0 alive, frame 1 dead).
+-  - Logo intro retargets every frame so it ends centered if the size settles late.
+-  - Bigger, stronger level-clear flower fountain.
+-  - Copied from starter kit: debug video recorder (options menu) and debug ad
+-  stand-in dialog (Config.debugAdStandIn).
+-  - FeedbackProbe attaches recent CrashLogger errors.
+-  - Project permission allowlist in .claude/settings.json.
+-  - Art updates in the tiles tube; build bump.
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+
 ------- Version 0.5.0 (Build 68) -------
 
 ## 2026-11-19 (thursday)

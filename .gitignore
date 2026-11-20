@@ -75,3 +75,6 @@ builds/*
 *.apk
 *.ipa
 *.aab
+
+# playtest feedback (biodome-feedback)
+feedback/
