@@ -77,6 +77,12 @@ export class Game extends Container {
 		this.hud = new Container()
 		this.addChild(this.hud)
 
+		// Game over sign + restart. Above the HUD so the anteater (HUD) never covers it;
+		// follows the board camera in _applyCam, so it sits on the pit like before.
+		this.signLayer = new Container()
+		this.signLayer.eventMode = "passive"
+		this.addChild(this.signLayer)
+
 		/** @type {import('./dome/movieclip.js').MovieClip | null} */
 		this.logo = null
 		this.logoSettled = false
@@ -852,6 +858,8 @@ export class Game extends Container {
 	_applyCam() {
 		this.boardRoot.scale.set(this.cam.scale)
 		this.boardRoot.position.set(this.cam.x, this.cam.y)
+		this.signLayer.scale.set(this.cam.scale)
+		this.signLayer.position.set(this.cam.x, this.cam.y)
 		// Life icons match the lane ants' on-screen size, which follows the zoom.
 		if (this.lifeSprites.length) this._layoutLifeIcons()
 	}
@@ -992,13 +1000,15 @@ export class Game extends Container {
 		const tube = window.alltubes?.tiles
 		const sign = tube?.getMovieClip?.("gameOver")
 		if (sign) {
-			const b = pit.view.boardPixelSize()
+			// signLayer shares the board camera; offset by the pit view's place in the world.
+			const pb = pit.view.boardPixelSize()
+			const b = { cx: pit.view.x + pb.cx, cy: pit.view.y + pb.cy, h: pb.h }
 			sign.eventMode = "none"
 			sign.scale.set(1.15)
 			sign.alpha = 1
 			sign.position.set(b.cx, b.cy - b.h * 0.85)
-			// Top of the pit view: in front of lanes, lock overlays and ants.
-			pit.view.addChild(sign)
+			// Above the HUD: in front of lanes, ants and the anteater.
+			this.signLayer.addChild(sign)
 			this.gameOverSign = sign
 			await new Promise((resolve) => {
 				const fromY = sign.y
@@ -1019,7 +1029,7 @@ export class Game extends Container {
 			sfx.play("signThud")
 		}
 
-		this._showRestartButton(sign ? pit.view : null)
+		this._showRestartButton(sign ? this.signLayer : null)
 		this.transitioning = false
 	}
 
