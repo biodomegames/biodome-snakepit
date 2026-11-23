@@ -363,6 +363,49 @@ export class BoardView extends Container {
 		}
 	}
 
+	/**
+	 * Does a tuft rooted at (x, y) — leaves reaching up and out — touch any box?
+	 * Boxes are in another space offset by (ox, oy) from this view's local space.
+	 */
+	_tuftHitsBoxes(x, y, scale, boxes, ox, oy) {
+		if (!boxes?.length) return false
+		const hs = this.hexSize
+		const left = x + ox - hs * 0.8 * scale
+		const right = x + ox + hs * 0.8 * scale
+		const top = y + oy - hs * 1.2 * scale
+		const bottom = y + oy + hs * 0.5 * scale
+		for (const b of boxes) {
+			if (right >= b.minX && left <= b.maxX && bottom >= b.minY && top <= b.maxY) return true
+		}
+		return false
+	}
+
+	/** Grass keep-out boxes (lanes, ant walk-in row) in world space. */
+	grassKeepOutWorld() {
+		const boxes = this.dock?.grassKeepOut?.() || []
+		return boxes.map((b) => ({
+			minX: b.minX + this.x,
+			maxX: b.maxX + this.x,
+			minY: b.minY + this.y,
+			maxY: b.maxY + this.y,
+		}))
+	}
+
+	/** Remove this pit's tufts that would cover another pit's lanes or ant row. */
+	cullDecorInWorldBoxes(boxes) {
+		if (!boxes?.length) return
+		for (const child of [...this.decorLayer.children]) {
+			if (!child.isGrass) continue
+			const scale = Math.abs(child.scale.x) / ((this.hexSize * 1.7) / 40)
+			if (this._tuftHitsBoxes(child.x, child.y, scale || 1, boxes, this.x, this.y)) {
+				this.decorLayer.removeChild(child)
+			}
+		}
+		if (this.grassTufts?.length) {
+			this.grassTufts = this.grassTufts.filter((g) => g.parent === this.decorLayer)
+		}
+	}
+
 	_rebuildDecor() {
 		for (const child of [...this.decorLayer.children]) {
 			if (child.isGrass) this.decorLayer.removeChild(child)
@@ -370,23 +413,14 @@ export class BoardView extends Container {
 		this.grassTufts = []
 		if (!this.session) return
 		const reach = this.hexSize * 1.05
-		const lanes = this.dock?.layoutBox
-		const lanePad = this.hexSize * 0.85
+		const keepOut = this.dock?.grassKeepOut?.() || []
 		for (const c of this.session.rimGrass || []) {
 			const scatter = grassScatter(c.q, c.r)
 			const p = hexToPixel(c, this.hexSize)
 			const x = p.x + (scatter.u * 2 - 1) * reach
 			const y = p.y + (scatter.v * 2 - 1) * reach
-			if (
-				lanes &&
-				x >= lanes.minX - lanePad &&
-				x <= lanes.maxX + lanePad &&
-				y >= lanes.minY - lanePad &&
-				y <= lanes.maxY + lanePad
-			) {
-				continue
-			}
 			const scale = 0.7 + scatter.w * 0.55
+			if (this._tuftHitsBoxes(x, y, scale, keepOut, 0, 0)) continue
 			const grass = this._makeGrassSprite(c.q, c.r, scale)
 			grass.position.set(x, y)
 			grass.zIndex = y

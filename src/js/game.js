@@ -805,7 +805,7 @@ export class Game extends Container {
 			const scale = Math.min(Math.max(160, w - 112), 520) / logoW
 			const logoBottom = 14 + logoH * scale + 6
 			const livesH = 40
-			top = Math.max(topHud, logoBottom + livesH + 20)
+			top = Math.max(topHud, logoBottom + livesH + 36)
 		}
 		const availW = Math.max(1, w - padX * 2)
 		const availH = Math.max(1, h - top - botHud - padY * 2)
@@ -1205,6 +1205,11 @@ export class Game extends Container {
 		next.worldY = preciseY
 		next.view.position.set(-nextPit.cx, preciseY - nextPit.cy)
 		next.view.cullDecorOnScreen(this.cam)
+		// The pit below grows grass up into the new pit's lanes and ant row.
+		const keepOut = next.view.grassKeepOutWorld()
+		for (const pit of this.pitStack) {
+			if (pit !== next) pit.view.cullDecorInWorldBoxes(keepOut)
+		}
 
 		sfx.play("climb")
 		// Fade the cleared pit's white lane lines out during the first half of the

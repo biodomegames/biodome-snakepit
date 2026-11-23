@@ -265,6 +265,27 @@ export class AntDock extends Container {
 		if (lockCount > 0) adManager.loadRewarded?.(() => {})
 	}
 
+	/**
+	 * Board-local boxes that grass tufts must stay out of: the lane stack, and
+	 * the ant row running off to the left where the queue walks in.
+	 * @returns {{ minX: number, maxX: number, minY: number, maxY: number }[]}
+	 */
+	grassKeepOut() {
+		const box = this.layoutBox
+		if (!box) return []
+		const out = [box]
+		if (this._antY != null) {
+			const h = this.hexSize || 36
+			out.push({
+				minX: box.minX - h * 40,
+				maxX: box.maxX,
+				minY: this._antY - h * 0.9,
+				maxY: this._antY + h * 0.6,
+			})
+		}
+		return out
+	}
+
 	getAntColors() {
 		return this.ants.map((a) => a.color)
 	}
