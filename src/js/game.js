@@ -1207,6 +1207,16 @@ export class Game extends Container {
 		next.view.cullDecorOnScreen(this.cam)
 
 		sfx.play("climb")
+		// Fade the cleared pit's white lane lines out during the first half of the
+		// pan, so they are gone before the camera settles on the new pit.
+		const prevLines = prev.view.dock?.stickLayer
+		if (prevLines) {
+			newTween(prevLines, { alpha: 0 }, 0.4 * durationScaleForLevel(this.levelIndex))
+				.ease(Easing.outCubic)
+				.onDone(() => {
+					prevLines.visible = false
+				})
+		}
 		await this._focusActivePit(true)
 		if (this.pitStack.length > 2) {
 			const old = this.pitStack.shift()
