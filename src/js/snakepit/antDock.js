@@ -625,6 +625,7 @@ export class AntDock extends Container {
 				}
 			}
 			let slitherHeld = true
+			const freeLane = this._laneFreer(lane)
 			try {
 				const bodyPts = job.bodyPts?.length
 					? job.bodyPts.map((p) => ({ x: p.x, y: p.y }))
@@ -684,7 +685,7 @@ export class AntDock extends Container {
 				sfx.play("snakeComplete")
 				sfx.loopAdd("slither")
 				slitherHeld = true
-				await this._slitherOut(state, paint)
+				await this._slitherOut(state, paint, freeLane)
 				sfx.loopRemove("slither")
 				slitherHeld = false
 				sfx.play("snakeLeave")
@@ -695,13 +696,29 @@ export class AntDock extends Container {
 				for (const r of riderList) r.clip?.parent?.removeChild(r.clip)
 				this._parked = this._parked.filter((s) => s !== state)
 				root.parent?.removeChild(root)
-				lane.occupied = false
+				freeLane()
 				this._bumpBusy(-1)
 				this._notifyStateChange()
 				this._takeNextPending()
 			}
 		}
 		run()
+	}
+
+	/**
+	 * Returns a once-only release for `lane`. Leaving snakes call it when their tail
+	 * clears the lane, and again in cleanup. The guard keeps the cleanup call from
+	 * freeing a lane the next snake has already reserved.
+	 */
+	_laneFreer(lane) {
+		let done = false
+		return () => {
+			if (done) return
+			done = true
+			lane.occupied = false
+			this._notifyStateChange()
+			this._takeNextPending()
+		}
 	}
 
 	/**
@@ -840,13 +857,14 @@ export class AntDock extends Container {
 			}
 		})
 		this._kickBoard()
+		const freeLane = this._laneFreer(lane)
 		;(async () => {
 			try {
 				await waitFinish
 				this._parked = this._parked.filter((s) => s !== state)
 				sfx.play("snakeComplete")
 				sfx.loopAdd("slither")
-				await this._slitherOut(state, paint)
+				await this._slitherOut(state, paint, freeLane)
 				sfx.loopRemove("slither")
 				sfx.play("snakeLeave")
 			} catch (err) {
@@ -856,7 +874,7 @@ export class AntDock extends Container {
 				for (const r of riderList) r.clip?.parent?.removeChild(r.clip)
 				this._parked = this._parked.filter((s) => s !== state)
 				root.parent?.removeChild(root)
-				lane.occupied = false
+				freeLane()
 				this._bumpBusy(-1)
 				this._notifyStateChange()
 				this._takeNextPending()
@@ -1442,7 +1460,11 @@ export class AntDock extends Container {
 		})
 	}
 
-	async _slitherOut(state, paint) {
+	/**
+	 * @param {() => void} [onLaneClear] called once the tail has left the lane's span,
+	 *   so the next escaped snake can take the lane while this one is still leaving.
+	 */
+	async _slitherOut(state, paint, onLaneClear) {
 		const head = this._pointAt(state.dense, state.cum, state.headDist)
 		const ang = head.ang
 		const tailD = Math.max(0, state.headDist - state.bodyLen)
@@ -1473,7 +1495,21 @@ export class AntDock extends Container {
 		const stop = state.cum[state.cum.length - 1] || start
 		state.waveFrom = start
 		state.waveTo = stop
-		await this._slither(paint, start, stop)
+		let clear = onLaneClear
+		const laneL = this._left - this._thick * 0.5
+		const laneR = this._left + this._laneW + this._thick * 0.5
+		const paintOut = (d) => {
+			paint(d)
+			if (!clear) return
+			const tail = this._pointAt(state.dense, state.cum, Math.max(0, d - state.bodyLen))
+			if (tail.x < laneL || tail.x > laneR) {
+				const cb = clear
+				clear = null
+				cb()
+			}
+		}
+		await this._slither(paintOut, start, stop)
+		clear?.()
 	}
 
 	/** Sideways sway while travelling; zero at the start and end of a path so parked snakes sit straight. */
