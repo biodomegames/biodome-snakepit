@@ -90,6 +90,8 @@ export class Game extends Container {
 		this._lifeSize = { w: 33, h: 29 }
 		/** @type {import('pixi.js').Container | null} */
 		this.lifeIcons = null
+		/** @type {Graphics | null} white backing behind the life icons */
+		this.lifePlate = null
 		/** @type {import('./dome/movieclip.js').MovieClip | null} */
 		this.gameOverSign = null
 		/** @type {Container | null} */
@@ -373,6 +375,12 @@ export class Game extends Container {
 		row.interactiveChildren = false
 		/** @type {any[]} */
 		const sprites = []
+		// Semi-transparent white plate so the lives read on a clean backing,
+		// whatever grass or flowers sit under them. Drawn in _layoutLifeIcons.
+		const plate = new Graphics()
+		plate.eventMode = "none"
+		row.addChild(plate)
+		this.lifePlate = plate
 		const tube = window.alltubes?.tiles
 		for (let i = 0; i < ANT_LIVES; i++) {
 			let icon = tube?.getMovieClip?.(LIFE_CLIP)
@@ -528,6 +536,17 @@ export class Game extends Container {
 			const s = this.lifeSprites[i]
 			s.scale.set(scale)
 			s.position.set(left + i * gap, y)
+		}
+		const plate = this.lifePlate
+		if (plate) {
+			const iconW = naturalW * scale
+			const iconH = naturalH * scale
+			const padX = Math.max(8, iconH * 0.3)
+			const padY = Math.max(5, iconH * 0.18)
+			const pw = totalW + iconW + padX * 2
+			const ph = iconH + padY * 2
+			plate.clear()
+			plate.roundRect(cx - pw / 2, y - ph / 2, pw, ph, ph / 2).fill({ color: 0xffffff, alpha: 0.55 })
 		}
 		if (showRefill) {
 			// Sit over the first ghosted life — keep the SVG square (no stretch).
