@@ -34,6 +34,13 @@ function resolveFlashRotation(sprite) {
 }
 
 export class FlashTube {
+	/** `#rrggbb` → 0xRRGGBB; missing or invalid → 0xffffff (no tint). */
+	static parseTint(str) {
+		if (str == null || str === "") return 0xffffff
+		const n = parseInt(String(str).replace(/^#|^0x/i, ""), 16)
+		return Number.isFinite(n) ? n : 0xffffff
+	}
+
     constructor(xmlPath, jsonPath, app) {
         // Store the paths to XML and JSON files
         this.xmlPath = xmlPath;
@@ -49,6 +56,7 @@ export class FlashTube {
 
     // Asynchronous function to initialize loading of both XML and JSON files
     init() {
+		if (this._initPromise) return this._initPromise
 
 		var cleanname = this.xmlPath.replace(/^.*[\\\/]/, '').replace(".xml", "")
 		//console.log("Init called for ", cleanname)
@@ -58,7 +66,7 @@ export class FlashTube {
 		window.alltubes[cleanname] = this
 
 		//console.log("Init called")
-		return Promise.all([this.loadXML(this.xmlPath), this.loadJSON(this.jsonPath)])
+		this._initPromise = Promise.all([this.loadXML(this.xmlPath), this.loadJSON(this.jsonPath)])
 			.then(([xmltext, jsonData]) => {
 				// Assets are loaded, you can process them here
 				//console.log("XML and JSON loaded:", xmlData, jsonData);
@@ -70,6 +78,7 @@ export class FlashTube {
 				this.isReady = true;
 				return { xmlDoc, jsonData };  // Return loaded data to .then() chain
 			});
+		return this._initPromise
         
     }
 
@@ -150,6 +159,7 @@ export class FlashTube {
 						sprite.alpha = 1
 					else
 						sprite.alpha =  Number(frames[j].children[s].getAttribute('a'))
+					sprite.tint = FlashTube.parseTint(frames[j].children[s].getAttribute('tint'))
 
 					if (frames[j].children[s].tagName == "s") {
 						sprite.type = "sprite"
@@ -313,6 +323,8 @@ export class FlashTube {
 						if (aStr == null || aStr === "") aStr = frames[j].children[s].getAttribute("a")
 						sprite.alpha = aStr == null || aStr === "" ? 1 : Number(aStr)
 					}
+					// Instance tint (Anima): `tint="#rrggbb"`, a Pixi multiply tint. Absent = white.
+					sprite.tint = FlashTube.parseTint(frames[j].children[s].getAttribute("tint"))
 					
 					sprite.framespan = Number(frames[j].children[s].getAttribute('framespan'))
 					sprite.z = Number(frames[j].children[s].getAttribute('z'))

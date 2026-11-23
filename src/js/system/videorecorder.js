@@ -40,6 +40,8 @@ export class VideoRecorder {
 	constructor(app, opts = {}) {
 		this.app = app
 		this.fileStem = opts.fileStem || "game"
+		/** Called with true on arm and false on disarm (e.g. to suppress ad dialogs). */
+		this.onArmedChange = opts.onArmedChange
 		this.size = RECORD_SIZES[0]
 		this.armed = false
 		this.recorder = null
@@ -119,6 +121,7 @@ export class VideoRecorder {
 			}
 			window.addEventListener("keydown", this._onKey, true)
 			window.addEventListener("resize", this._onResize)
+			this.onArmedChange?.(true)
 		}
 		document.body.style.background = "#0b0d10"
 		this._ensurePill()
@@ -131,6 +134,7 @@ export class VideoRecorder {
 		this.armed = false
 		window.removeEventListener("keydown", this._onKey, true)
 		window.removeEventListener("resize", this._onResize)
+		this.onArmedChange?.(false)
 		const container = document.getElementById("gameContainer")
 		if (container) container.setAttribute("style", this._saved?.container || "")
 		document.body.style.background = this._saved?.bodyBg || ""

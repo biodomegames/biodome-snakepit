@@ -418,6 +418,10 @@ export class MovieClip extends Container {
 			if (sprite.type === "subsequence") {
 				this._applyTintRulesToSubsequenceClip(sprite.name, spr)
 			}
+			// Exported instance tint is the base; tint rules below override it.
+			if (sprite.type !== "refpoint") {
+				spr.tint = sprite.tint == null ? 0xffffff : sprite.tint
+			}
 			if (this.tintrules[sprite.instancename] != undefined)
 			{
 				spr.tint = this.tintrules[sprite.instancename]
@@ -621,6 +625,10 @@ export class MovieClip extends Container {
 			this.addChild(spr)
 			if (sprite.type === "subsequence") {
 				this._applyTintRulesToSubsequenceClip(sprite.name, spr)
+			}
+			// Exported instance tint is the base; tint rules below override it.
+			if (sprite.type !== "refpoint") {
+				spr.tint = sprite.tint == null ? 0xffffff : sprite.tint
 			}
 			if (this.tintrules[sprite.instancename] != undefined)
 			{

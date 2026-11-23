@@ -11,6 +11,8 @@
 // The viewer calls globalThis.__BIODOME_FEEDBACK__.getContext() and .capture().
 // Without init() the probe still works if globalThis.__PIXI_APP__ is set.
 
+import { STARTERKIT_VERSION } from "../starterkit.js"
+
 const MAX_CRUMBS = 30
 const MAX_LOGS = 20
 const MAX_CONTEXT_BYTES = 18000
@@ -187,6 +189,7 @@ export const FeedbackProbe = {
 			probe: 1,
 			version: options.version,
 			build: options.build,
+			starterkit: STARTERKIT_VERSION,
 			state,
 			runtime: runtimeInfo(),
 			errors: logs.slice(),

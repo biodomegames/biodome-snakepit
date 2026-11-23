@@ -14,23 +14,26 @@ export function installDebugAdStandIn(manager) {
 		})
 	}
 
+	// skipAllAds: options-menu toggle. suppressAds: set while the video recorder is armed.
+	const skip = () => manager.skipAllAds || manager.suppressAds
+
 	manager.loadRewarded = (onDone) => onDone && onDone(true)
 	manager.loadInterstitial = (onDone) => onDone && onDone(true)
 
 	manager.showRewarded = (onDone) => {
-		if (manager.skipAllAds) return onDone && onDone(true)
+		if (skip()) return onDone && onDone(true)
 		show("REWARDED AD", () => onDone && onDone(true))
 	}
 
 	manager.showInterstitial = (onDone) => {
-		if (manager.skipAllAds) return onDone && onDone(true)
+		if (skip()) return onDone && onDone(true)
 		show("INTERSTITIAL", () => onDone && onDone(true))
 	}
 
 	manager.showInterstitialBetweenLevels = async (onContinue) => {
 		await manager.whenInitialized
 		if (!onContinue) return
-		if (manager.skipAllAds) return onContinue()
+		if (skip()) return onContinue()
 		show("INTERSTITIAL", onContinue)
 	}
 }

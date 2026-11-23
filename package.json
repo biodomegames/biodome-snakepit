@@ -18,6 +18,7 @@
     "build:allweb": "node scripts/update-build.js && node scripts/deploydev.mjs && node scripts/update-build.js --dont-increment-build --production && node scripts/deploy.mjs",
     "preview": "vite preview --open --host",
     "deploy": "node scripts/deploy.mjs",
+    "postdeploy": "biodome-feedback push --after-deploy",
     "set-project-name": "node scripts/set-project-name.mjs",
     "deploy:dev": "node scripts/deploydev.mjs",
     "deploy:termsandinfo": "node scripts/deploytermsandinfo.mjs",

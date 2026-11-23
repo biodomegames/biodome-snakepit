@@ -20,6 +20,7 @@ import { MusicManager, getMusicAssetsForPreload } from "./music.js"
 import { setSfxMuted } from "./soundlibrary.js"
 import { adManager } from "./system/ads.js"
 import { FeedbackProbe } from "./system/feedbackprobe.js"
+import { STARTERKIT_VERSION } from "./starterkit.js"
 //<debug>
 import { VideoRecorder } from "./system/videorecorder.js"
 //</debug>
@@ -169,6 +170,7 @@ export class GameShell extends Container {
 		pmode = "DEV"
 		//</debug>
 		optionsMenu.addLabelToOptionsMenu("Build: " + pmode)
+		optionsMenu.addLabelToOptionsMenu("Starter kit: v" + STARTERKIT_VERSION)
 
 		optionsMenu.addButtonToOptionsMenu("Changelog", () => {
 			this.changeLog.show(true)
@@ -181,7 +183,10 @@ export class GameShell extends Container {
 		})
 		//<debug>
 		optionsMenu.addButtonToOptionsMenu("Record video", () => {
-			this.videoRecorder ||= new VideoRecorder(this.app, { fileStem: Config.projectName.toLowerCase() })
+			this.videoRecorder ||= new VideoRecorder(this.app, {
+				fileStem: Config.projectName.toLowerCase(),
+				onArmedChange: (armed) => { adManager.suppressAds = armed },
+			})
 			this.videoRecorder.openDialog()
 		})
 		//</debug>
@@ -221,6 +226,14 @@ export class GameShell extends Container {
 			}
 			this.bdata.set("FPS", res)
 		}, () => this.bdata.get("FPS", false))
+
+		optionsMenu.addToggleToOptionsMenu("FPS extended", this.bdata.get("fpsextended", false), (res) => {
+			if (this.fpsDisplay) {
+				this.fpsDisplay.extendedMode = res
+				this.fpsDisplay.updateExtendedModeVisibility()
+			}
+			this.bdata.set("fpsextended", res)
+		}, () => this.bdata.get("fpsextended", false))
 
 		optionsMenu.addToggleToOptionsMenu("Debug Console", this.bdata.get("debugConsole", false), (res) => {
 			if (res) {

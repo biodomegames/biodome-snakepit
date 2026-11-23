@@ -123,6 +123,24 @@ export const UIComponentDefinitions = {
 		soundup: [UISounds.clickup1],
 	},
 
+	/** Small close X on the tiles tube art (settings panel). */
+	tiles_closebutton_s: {
+		type: ComponentTypes.BUTTON9SLICE,
+		defaultwidth: 54,
+		defaultheight: 54,
+		up: [
+			{source: "tiles_btnClose.png", left: 0, right: 0, top: 0, bottom: 0, alpha: 1, offx:0, offy:0},
+		],
+		hover: [
+			{source: "tiles_btnClose.png", left: 0, right: 0, top: 0, bottom: 0, alpha: 1, offx:0, offy:0, widthAdd: 2, heightAdd: 2},
+		],
+		down: [
+			{source: "tiles_btnClose.png", left: 0, right: 0, top: 0, bottom: 0, alpha: 1, offx:0, offy:0, widthAdd: -2, heightAdd: -2},
+		],
+		sounddown: [UISounds.clickdown1],
+		soundup: [UISounds.clickup1],
+	},
+
 	button_settings: {
 		type: ComponentTypes.BUTTON9SLICE,
 		defaultwidth: 110,

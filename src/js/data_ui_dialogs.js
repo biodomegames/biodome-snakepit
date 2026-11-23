@@ -72,6 +72,14 @@ export const DialogDefinitions = {
 			sizeRef: true,
 			blockClicks: true,
 		},
+		closebut: {
+			type: "tiles_closebutton_s",
+			res: "close",
+			text: "",
+			closeDialog: false, // closed via game.closeSettings() so the cog stays in sync
+			usePos: "absolute",
+			pos: { x: 118, y: -208 },
+		},
 		checkboxSound: {
 			type: "mechanicSoundToggle",
 			restrue: "soundon",

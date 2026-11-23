@@ -85,6 +85,12 @@ Listen in `src/js/gameevents.js` consumers and play a Howl from `src/js/soundlib
 
 UI click sounds are `src/s/ui-button-down.mp3` and `src/s/ui-button-up.mp3`. Toggle sounds are `ui-toggle-on.mp3` and `ui-toggle-off.mp3`. Music is `src/s/music.mp3`, played by `MusicManager` in `src/js/music.js`. Sound and music are stored on biodata as `Sound` and `Music`. `setSfxMuted` mutes effects and leaves music playing.
 
+## Starter kit version
+
+`STARTERKIT_VERSION` in `src/js/starterkit.js` records which iteration of the starter kit a game was made from. It shows in
+the options menu ("Starter kit: vN") and in every feedback comment's context (`starterkit`). In the starter kit repo
+(slug `biodome-starter`), bump it and add a history line when you change the kit. In a game made from the kit, leave it alone.
+
 ## Playtest feedback
 
 Testers comment on builds at `https://biodomegames.com/feedback/?game=<slug>` (`slug` from `scripts/project-identity.json`; `<slug>-dev` for the dev build). The **Feedback** button at the top of the options (debug) menu opens it too. Each comment carries the build number, a screenshot, and game state from `src/js/system/feedbackprobe.js`.
