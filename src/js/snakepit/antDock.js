@@ -1628,7 +1628,8 @@ export class AntDock extends Container {
 	 * Does nothing when the queue is empty.
 	 * @param {import('pixi.js').Container} layer screen-space parent (HUD)
 	 */
-	async playAnteater(layer) {
+	/** @param {number} [scale] on-screen size, set by the game from the board zoom */
+	async playAnteater(layer, scale = 1.35) {
 		if (this._eating || !this.ants.length) return
 		this._eating = true
 		const leftovers = this.ants.splice(0)
@@ -1662,7 +1663,6 @@ export class AntDock extends Container {
 			clip.interactiveChildren = false
 			clip.alpha = 1
 			clip.interpolate = true
-			const scale = 1.35
 			clip.scale.set(scale)
 			const w = window.getRenderWidth?.() ?? 1024
 			const h = window.getRenderHeight?.() ?? 768

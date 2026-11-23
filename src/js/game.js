@@ -42,6 +42,8 @@ const LIFE_LOST_ALPHA = 0.22
 /** Settled logo: widest it gets, and its cap as a fraction of screen height (landscape). */
 const LOGO_MAX_W = 520
 const LOGO_MAX_H_FRAC = 0.34
+/** Board zoom on a portrait phone, where the anteater's 1.35 scale was tuned. */
+const ANTEATER_REF_CAM = 2.3
 
 /**
  * Snakepit play session: hex snake-escape board + HUD + pit progression.
@@ -1149,6 +1151,15 @@ export class Game extends Container {
 		this.resize()
 	}
 
+	/**
+	 * The anteater walks in HUD space but should read as part of the board, so it
+	 * follows the board zoom. Portrait phones (cam ~2.3) keep the original 1.35.
+	 */
+	_anteaterScale() {
+		const k = (this.cam?.scale || ANTEATER_REF_CAM) / ANTEATER_REF_CAM
+		return 1.35 * Math.min(1, Math.max(0.45, k))
+	}
+
 	/** Debug: force the anteater to eat every ant currently in the queue. */
 	debugTriggerAnteater() {
 		const dock = this.activePit?.view?.dock
@@ -1157,7 +1168,7 @@ export class Game extends Container {
 			console.log("Anteater: no ants in queue")
 			return
 		}
-		void dock.playAnteater(this.hud)
+		void dock.playAnteater(this.hud, this._anteaterScale())
 	}
 
 	async _maybeAdvanceAfterClear(pit) {
@@ -1174,7 +1185,7 @@ export class Game extends Container {
 			await pit.view.dock.waitUntilIdle()
 			if (this.activePit !== pit || this.transitioning || this.gameOver) return
 			if (pit.view.dock.hasLeftoverAnts()) {
-				await pit.view.dock.playAnteater(this.hud)
+				await pit.view.dock.playAnteater(this.hud, this._anteaterScale())
 				if (this.activePit !== pit || this.transitioning || this.gameOver) return
 			}
 			// Last snake has left the lanes and leftovers are cleared.
