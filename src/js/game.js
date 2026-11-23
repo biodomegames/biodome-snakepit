@@ -475,17 +475,32 @@ export class Game extends Container {
 		return btn
 	}
 
+	/**
+	 * Refill is offered only while the run can still continue. At 0 lives the
+	 * game over is already decided (it waits for the squash or anteater eat to
+	 * finish), so the button must not appear in that gap.
+	 */
+	_livesRefillAvailable() {
+		return !this.gameOver && this.antLives > 0 && shouldShowLivesRefill(this.antLives)
+	}
+
 	_refreshLivesRefillBtn() {
 		const btn = this._ensureLivesRefillBtn()
-		const show = !this.gameOver && shouldShowLivesRefill(this.antLives)
+		const show = this._livesRefillAvailable()
 		btn.visible = show
 		if (show) adManager.loadRewarded?.(() => {})
+		else if (this._livesRefillDialog) {
+			// Last life went while the offer was open (e.g. anteater eating).
+			const open = this._livesRefillDialog
+			this._livesRefillDialog = null
+			this.hooks.getUi?.()?.closeDialog?.(open)
+		}
 		this._layoutLifeIcons()
 	}
 
 	_openLivesRefillDialog() {
-		if (this.gameOver || this._livesRefillBusy || this._livesRefillDialog) return
-		if (!shouldShowLivesRefill(this.antLives)) return
+		if (this._livesRefillBusy || this._livesRefillDialog) return
+		if (!this._livesRefillAvailable()) return
 		this.closeSettings()
 		const ui = this.hooks.getUi?.()
 		if (!ui?.displayDialog) {
@@ -501,8 +516,8 @@ export class Game extends Container {
 	}
 
 	_playLivesRefillAd() {
-		if (this.gameOver || this._livesRefillBusy) return
-		if (!shouldShowLivesRefill(this.antLives)) return
+		if (this._livesRefillBusy) return
+		if (!this._livesRefillAvailable()) return
 		this._livesRefillBusy = true
 		adManager.showRewarded((ok) => {
 			this._livesRefillBusy = false
@@ -543,7 +558,7 @@ export class Game extends Container {
 		const gap = naturalW * scale + 8
 		const n = this.lifeSprites.length
 		const livesLeft = Math.max(0, this.antLives | 0)
-		const showRefill = !this.gameOver && shouldShowLivesRefill(this.antLives)
+		const showRefill = this._livesRefillAvailable()
 		const btn = this._ensureLivesRefillBtn()
 		btn.visible = showRefill
 		const totalW = (n - 1) * gap
@@ -986,12 +1001,6 @@ export class Game extends Container {
 		this.gameOver = true
 		this.transitioning = true
 		saveProgress(this.levelIndex, pit?.session?.seed, null)
-		if (this._livesRefillDialog) {
-			const ui = this.hooks.getUi?.()
-			const open = this._livesRefillDialog
-			this._livesRefillDialog = null
-			ui?.closeDialog?.(open)
-		}
 		this._refreshLivesRefillBtn()
 		pit.view.eventMode = "none"
 		pit.view.interactiveChildren = false

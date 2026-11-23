@@ -1,3 +1,34 @@
+------- Version 0.5.0 (Build 77) -------
+
+## 2026-11-23 (monday)
+-  Refit the board camera on resize during game over (fb_toyovcb1a039) (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+-  Draw the game over sign in its own layer above the HUD so the anteater can't cover it (fb_toyou48f833c) (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+
+------- Version 0.5.0 (Build 76) -------
+
+## 2026-11-23 (monday)
+-  AGENTS.md: debug builds for everything, deploy to the main slot only (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+
+------- Version 0.5.0 (Build 75) -------
+
+## 2026-11-23 (monday)
+-  Scale the anteater with the board zoom instead of a fixed HUD size (fb_toykcy56b546) (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+-  Cap the settled logo by screen height and shrink the lives plate with it, so landscape boards get the room (fb_toykg73a8933) (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+-  Free a dock lane as soon as the leaving snake's tail clears it, not when it is off screen (Tobias)
+-  Taps on a free snake were silently dropped while the lane looked empty but was still reserved.
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+
+------- Version 0.5.0 (Build 72) -------
+
+
 ------- Version 0.5.0 (Build 71) -------
 
 ## 2026-11-23 (monday)

@@ -101,7 +101,7 @@ Tobias prefers debug builds for everything, internal testing included.
 
 ## Playtest feedback
 
-Testers comment on builds at `https://biodomegames.com/feedback/?game=<slug>` (`slug` from `scripts/project-identity.json`; `<slug>-dev` for the dev build). The **Feedback** button at the top of the options (debug) menu opens it too. Each comment carries the build number, a screenshot, and game state from `src/js/system/feedbackprobe.js`.
+Testers comment on builds at `https://biodomegames.com/feedback/?game=<slug>` (`slug` from `scripts/project-identity.json`). The **Feedback** button at the top of the options (debug) menu opens it too. Each comment carries the build number, a screenshot, and game state from `src/js/system/feedbackprobe.js`.
 
 - `npm run feedback` (`biodome-feedback pull`) writes `feedback/FEEDBACK.md`, with screenshots in `feedback/shots/`. That file contains the instructions for working through the items. When done, write `feedback/RESULTS.json` (`[{ "id", "status": "fixed|wontfix|question|open", "note" }]`).
 - `npm run feedback:push` reports the results back to the testers. Run it after building, so fixed items show the new build number.
