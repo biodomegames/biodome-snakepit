@@ -1364,7 +1364,8 @@ export class Game extends Container {
 	resize() {
 		this._layoutFloorGrass()
 		this._layoutBgTint()
-		if (this.activePit && !this.transitioning && !this.gameOver) this._focusActivePit(false)
+		// Game over still needs the camera refit; only a level pan owns it.
+		if (this.activePit && (this.gameOver || !this.transitioning)) this._focusActivePit(false)
 		if (this.logo && !this.logoIntroPlaying) {
 			this._applyLogoLayout(this.logoSettled)
 		} else {
