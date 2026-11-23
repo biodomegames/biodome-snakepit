@@ -91,6 +91,14 @@ UI click sounds are `src/s/ui-button-down.mp3` and `src/s/ui-button-up.mp3`. Tog
 the options menu ("Starter kit: vN") and in every feedback comment's context (`starterkit`). In the starter kit repo
 (slug `biodome-starter`), bump it and add a history line when you change the kit. In a game made from the kit, leave it alone.
 
+## Building and deploying
+
+Tobias prefers debug builds for everything, internal testing included.
+
+- Build with `npm run build`. It makes a debug-enabled build and bumps the build number. Don't use `build:production`, `build:allweb` or the other production variants unless asked.
+- Deploy with `npm run deploy`. It uploads that same debug build to the main slot (`/<slug>`) and then pushes feedback results (`postdeploy`).
+- Don't use `npm run deploy:dev`. It puts the build in a separate `<slug>-dev` slot, which shows up as a second build on the feedback page. Testers should only ever see one build: the one with the highest number.
+
 ## Playtest feedback
 
 Testers comment on builds at `https://biodomegames.com/feedback/?game=<slug>` (`slug` from `scripts/project-identity.json`; `<slug>-dev` for the dev build). The **Feedback** button at the top of the options (debug) menu opens it too. Each comment carries the build number, a screenshot, and game state from `src/js/system/feedbackprobe.js`.
