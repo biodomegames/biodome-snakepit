@@ -48,7 +48,8 @@ export class VideoRecorder {
 		this.chunks = []
 		this.startedAt = 0
 		this._onKey = (e) => this._handleKey(e)
-		this._onResize = () => this.armed && this._layout()
+		// _layout dispatches its own resize event; ignore that one or it recurses forever.
+		this._onResize = () => this.armed && !this._inLayout && this._layout()
 	}
 
 	/** Options-menu entry point: small dialog to choose a size and arm. */
@@ -167,7 +168,12 @@ export class VideoRecorder {
 		// Backbuffer = box × resolution = exactly w × h.
 		this.app.renderer.resize(boxW, boxH, w / boxW)
 		// Let the game run its normal resize path (reads the container, keeps the resolution).
-		window.dispatchEvent(new Event("resize"))
+		this._inLayout = true
+		try {
+			window.dispatchEvent(new Event("resize"))
+		} finally {
+			this._inLayout = false
+		}
 	}
 
 	_handleKey(e) {
