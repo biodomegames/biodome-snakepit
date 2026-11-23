@@ -1,3 +1,35 @@
+------- Version 0.5.0 (Build 71) -------
+
+## 2026-11-23 (monday)
+-  Keep grass tufts out of the lanes and ant walk-in row; more space under the lives plate (Tobias)
+-  Tufts are tested by their full leaf area against the lane box and the ant
+-  row (which runs off to the left), and the pit below drops tufts that grow
+-  up into the new pit's lanes.
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+-  Stop the video recorder's resize handler from recursing into its own resize event (crash in fb_tot42i68b880 logs) (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+-  Fade out the cleared pit's lane lines during the pan to the next level (fb_tot42i68b880) (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+-  Put ant life icons on a semi-transparent white rounded plate (fb_tosxlkf3bb0c) (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+-  Bring in starter kit v1: Anima tints, kit version, settings close X, debug menu additions (Tobias)
+-  - FlashTube reads Anima instance tint="#rrggbb" and MovieClip applies it as
+-  the base tint each frame (tint rules still override). init() reuses its
+-  promise. Snakepit's own rotation/skew handling and texture sync are kept.
+-  - STARTERKIT_VERSION = 1 (src/js/starterkit.js), shown in the options menu
+-  and sent with feedback context; AGENTS.md section added.
+-  - Settings dialog: small close X on tiles_btnClose.png, closed via
+-  game.closeSettings() so the cog stays in sync.
+-  - Options menu: "FPS extended" toggle; video recorder suppresses the debug
+-  stand-in ads while armed.
+-  - postdeploy hook pushes feedback results after deploy.
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+## 2026-11-19 (thursday)
+-  Size ant life icons to match the lane ants' on-screen length (Tobias)
+-  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+
 ------- Version 0.5.0 (Build 70) -------
 
 ## 2026-11-19 (thursday)
