@@ -39,6 +39,9 @@ const LIFE_SPRITE = "tiles_antLifeSprite.png"
 /** `antLife` clip: frame 0 alive, frame 1 dead (ghosted with an X). */
 const LIFE_CLIP = "antLife"
 const LIFE_LOST_ALPHA = 0.22
+/** Settled logo: widest it gets, and its cap as a fraction of screen height (landscape). */
+const LOGO_MAX_W = 520
+const LOGO_MAX_H_FRAC = 0.34
 
 /**
  * Snakepit play session: hex snake-escape board + HUD + pit progression.
@@ -315,14 +318,23 @@ export class Game extends Container {
 	}
 
 	/** Width of the settled wordmark. Leaves the upper-right settings cog clear. */
-	_logoTargetWidth(w, settled) {
-		if (settled) return Math.min(Math.max(160, w - 112), 520)
+	/**
+	 * Settled logo width. Also capped by screen height: in landscape the game is
+	 * only ~768 units tall, and a 520-wide logo plus lives took the board's room.
+	 */
+	_logoTargetWidth(w, settled, h = Infinity) {
+		if (settled) return Math.min(Math.max(160, w - 112), LOGO_MAX_W, h * LOGO_MAX_H_FRAC)
 		return Math.min(w * 0.94, 660)
 	}
 
-	_logoScale(w, settled) {
+	/** 1 in portrait; below 1 when the settled logo is capped by screen height. */
+	_hudScale(w, h) {
+		return Math.min(1, this._logoTargetWidth(w, true, h) / LOGO_MAX_W)
+	}
+
+	_logoScale(w, settled, h) {
 		const naturalW = Math.max(1, this.logo?.layoutWidth || 640)
-		return this._logoTargetWidth(w, settled) / naturalW
+		return this._logoTargetWidth(w, settled, h) / naturalW
 	}
 
 	/** Center the logo, shifting left when the cog would cover the last letter. */
@@ -338,7 +350,7 @@ export class Game extends Container {
 		const { w, h } = this._layoutMetrics()
 		const naturalW = Math.max(1, this.logo?.layoutWidth || 640)
 		const naturalH = Math.max(1, this.logo?.layoutHeight || 150)
-		const scale = this._logoScale(w, settled)
+		const scale = this._logoScale(w, settled, h)
 		const halfW = (naturalW * scale) / 2
 		if (settled) {
 			const height = naturalH * scale
@@ -517,7 +529,8 @@ export class Game extends Container {
 		// Lives stand upright. Make them as tall as a lane ant is long on screen,
 		// so they follow the camera zoom. Keep at least 28px so they stay readable.
 		const antLen = this._antLocalLength() * ANT_SCALE * (this.cam?.scale || 1)
-		const targetH = Math.min(64, Math.max(28, antLen))
+		const { w: lw, h: lh } = this._layoutMetrics()
+		const targetH = Math.min(64, Math.max(28 * this._hudScale(lw, lh), antLen))
 		const scale = targetH / naturalH
 		const gap = naturalW * scale + 8
 		const n = this.lifeSprites.length
@@ -802,9 +815,9 @@ export class Game extends Container {
 		const logoW = this.logo?.layoutWidth || 0
 		const logoH = this.logo?.layoutHeight || 0
 		if (logoW > 0 && logoH > 0) {
-			const scale = Math.min(Math.max(160, w - 112), 520) / logoW
+			const scale = this._logoTargetWidth(w, true, h) / logoW
 			const logoBottom = 14 + logoH * scale + 6
-			const livesH = 40
+			const livesH = 40 * this._hudScale(w, h)
 			top = Math.max(topHud, logoBottom + livesH + 36)
 		}
 		const availW = Math.max(1, w - padX * 2)
