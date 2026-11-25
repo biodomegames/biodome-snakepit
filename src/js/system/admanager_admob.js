@@ -432,8 +432,21 @@ export class AdManagerAdMob extends AdManager {
 		{
 			this.rewardedLoaded = false
 			this.isPlayingRewarded = false
+			// Closed before the reward fired (player cancelled): report failure so
+			// the caller can clear its busy state. No-op if reward already fired.
+			if (this.onRewarded) {
+				GameEvents.raise(GameEvents.events.AD_COMPLETED, {success: false})
+				this._finishRewarded(false)
+			}
 			this.loadRewarded() // load the next
 		}
+	}
+
+	/** Deliver the rewarded result to the caller exactly once. */
+	_finishRewarded(ok) {
+		const cb = this.onRewarded
+		this.onRewarded = null
+		cb && cb(ok)
 	}
 
 	createRewarded()
@@ -475,7 +488,8 @@ export class AdManagerAdMob extends AdManager {
 			},
 			showfail: (evt) => {
 				console.log("AD: Rewarded showfail")
-				this.onRewarded && this.onRewarded(false)
+				this.isPlayingRewarded = false
+				this._finishRewarded(false)
 				GameEvents.raise(GameEvents.events.AD_COMPLETED, {success: false})
 				this.cleanupRewarded()
 			},
@@ -514,7 +528,7 @@ export class AdManagerAdMob extends AdManager {
 			reward: (evt) => {
 				console.log("AD: Rewarded reward")
 
-				this.onRewarded && this.onRewarded(true)
+				this._finishRewarded(true)
 				GameEvents.raise(GameEvents.events.AD_COMPLETED, {success: true})
 			},
 		}
@@ -617,8 +631,14 @@ export class AdManagerAdMob extends AdManager {
 		if (this.rewarded && this.rewardedLoaded) {
 			console.log("AD: showRewarded rewarded exists and loaded")
 			this.isPlayingRewarded = true
-			this.rewarded.show()
+			// Set before show() so events fired during show reach this caller.
 			this.onRewarded = onRewarded
+			Promise.resolve(this.rewarded.show()).catch((err) => {
+				console.log("AD: Rewarded show threw ", err)
+				this.isPlayingRewarded = false
+				if (this.onRewarded) GameEvents.raise(GameEvents.events.AD_COMPLETED, {success: false})
+				this._finishRewarded(false)
+			})
 		}
 		else
 		{

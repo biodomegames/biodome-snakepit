@@ -6,12 +6,20 @@ import { GameEvents } from "./gameevents.js"
  * Installed from ads.js inside a //<debug> block, so production builds never include it.
  */
 export function installDebugAdStandIn(manager) {
-	const show = (label, onOk) => {
+	const show = (label, onOk, onCancel) => {
 		GameEvents.raise(GameEvents.events.AD_STARTED, { standIn: label })
-		showStandInDialog(label, () => {
-			GameEvents.raise(GameEvents.events.AD_COMPLETED, { success: true, standIn: label })
-			onOk()
-		})
+		showStandInDialog(
+			label,
+			() => {
+				GameEvents.raise(GameEvents.events.AD_COMPLETED, { success: true, standIn: label })
+				onOk()
+			},
+			onCancel &&
+				(() => {
+					GameEvents.raise(GameEvents.events.AD_COMPLETED, { success: false, standIn: label })
+					onCancel()
+				}),
+		)
 	}
 
 	// skipAllAds: options-menu toggle. suppressAds: set while the video recorder is armed.
@@ -22,7 +30,12 @@ export function installDebugAdStandIn(manager) {
 
 	manager.showRewarded = (onDone) => {
 		if (skip()) return onDone && onDone(true)
-		show("REWARDED AD", () => onDone && onDone(true))
+		// Cancel = player closed the ad before the reward, like a real rewarded ad.
+		show(
+			"REWARDED AD",
+			() => onDone && onDone(true),
+			() => onDone && onDone(false),
+		)
 	}
 
 	manager.showInterstitial = (onDone) => {
@@ -38,7 +51,7 @@ export function installDebugAdStandIn(manager) {
 	}
 }
 
-function showStandInDialog(label, onOk) {
+function showStandInDialog(label, onOk, onCancel) {
 	const backdrop = document.createElement("div")
 	backdrop.style.cssText = [
 		"position:fixed",
@@ -94,14 +107,23 @@ function showStandInDialog(label, onOk) {
 	}
 
 	let closed = false
-	ok.addEventListener("click", () => {
+	const finish = (cb) => {
 		if (closed) return
 		closed = true
 		backdrop.remove()
-		onOk()
-	})
+		cb()
+	}
+	ok.addEventListener("click", () => finish(onOk))
 
 	panel.append(title, note, ok)
+	if (onCancel) {
+		const cancel = document.createElement("button")
+		cancel.type = "button"
+		cancel.textContent = "Cancel"
+		cancel.style.cssText = ok.style.cssText + ";margin-left:12px;background:#4a5563;color:#fff"
+		cancel.addEventListener("click", () => finish(onCancel))
+		panel.append(cancel)
+	}
 	backdrop.append(panel)
 	document.body.append(backdrop)
 	ok.focus()
