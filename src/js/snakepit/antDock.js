@@ -11,6 +11,7 @@ import { paintSnakeBody, shadeForNormal } from "./snakeDraw.js"
 import { adManager } from "../system/ads.js"
 import watchAdIcon from "../../g/icon-watchad.svg"
 import * as sfx from "./sfx.js"
+import { attachPressFeedback } from "./pressFeedback.js"
 
 const STICK_H = 7
 const LANE_H = 46
@@ -452,11 +453,15 @@ export class AntDock extends Container {
 			dim.eventMode = "none"
 			overlay.addChild(dim)
 
+			// Scales on hover / press so the player can see the lane is clickable.
+			const pop = new Container()
+			pop.position.set(this._left + this._laneW / 2, lane.y)
+			pop.eventMode = "none"
+			overlay.addChild(pop)
 			const icon = new Sprite()
 			icon.anchor.set(0.5)
-			icon.position.set(this._left + this._laneW / 2, lane.y)
 			icon.eventMode = "none"
-			overlay.addChild(icon)
+			pop.addChild(icon)
 			const iconSize = Math.min(44, LANE_H - 4)
 			const applyIcon = (tex) => {
 				if (!tex || icon.destroyed) return
@@ -468,6 +473,7 @@ export class AntDock extends Container {
 			if (cached?.width > 1) applyIcon(cached)
 			else Assets.load(watchAdIcon).then(applyIcon).catch(() => {})
 
+			overlay.resetPress = attachPressFeedback(overlay, pop)
 			overlay.on("pointertap", (e) => {
 				e.stopPropagation()
 				this._openUnlockLaneDialog(lane, overlay)
@@ -479,6 +485,8 @@ export class AntDock extends Container {
 	}
 
 	_openUnlockLaneDialog(lane, overlay) {
+		// A dialog closed without a result (no callback) must not block the lane forever.
+		if (this._unlockDialog?.isClosing || this._unlockDialog?.isClosed) this._unlockDialog = null
 		if (!lane?.locked || this._adBusy || this._unlockDialog) return
 		this.onInteract?.()
 		const ui = this.getUi?.()
@@ -500,6 +508,7 @@ export class AntDock extends Container {
 		this._adBusy = true
 		adManager.showRewarded((ok) => {
 			this._adBusy = false
+			overlay?.resetPress?.()
 			if (!ok) return
 			adManager.noteRewardedCompleted()
 			this._unlockLane(lane, overlay)

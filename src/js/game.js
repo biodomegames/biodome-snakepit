@@ -23,6 +23,7 @@ import { adManager } from "./system/ads.js"
 import { FeedbackProbe } from "./system/feedbackprobe.js"
 import watchAdIcon from "../g/icon-watchad.svg"
 import * as sfx from "./snakepit/sfx.js"
+import { attachPressFeedback } from "./snakepit/pressFeedback.js"
 
 /** After game over, resume around this pit (or level 1 if not there yet). */
 const RESTART_LEVEL = 3
@@ -457,8 +458,13 @@ export class Game extends Container {
 		const icon = new Sprite()
 		icon.anchor.set(0.5)
 		icon.eventMode = "none"
-		btn.addChild(icon)
+		// Icon sits in a pop container that scales on hover / press.
+		const pop = new Container()
+		pop.eventMode = "none"
+		pop.addChild(icon)
+		btn.addChild(pop)
 		btn._icon = icon
+		btn.resetPress = attachPressFeedback(btn, pop)
 		const applyIcon = (tex) => {
 			if (!tex || icon.destroyed) return
 			icon.texture = tex
@@ -499,6 +505,9 @@ export class Game extends Container {
 	}
 
 	_openLivesRefillDialog() {
+		// A dialog closed without a result (no callback) must not block the button forever.
+		const d = this._livesRefillDialog
+		if (d?.isClosing || d?.isClosed) this._livesRefillDialog = null
 		if (this._livesRefillBusy || this._livesRefillDialog) return
 		if (!this._livesRefillAvailable()) return
 		this.closeSettings()
@@ -521,6 +530,7 @@ export class Game extends Container {
 		this._livesRefillBusy = true
 		adManager.showRewarded((ok) => {
 			this._livesRefillBusy = false
+			this.livesRefillBtn?.resetPress?.()
 			if (!ok) return
 			adManager.noteRewardedCompleted()
 			this.antLives = Math.min(ANT_LIVES, (this.antLives | 0) + livesRefillAmount())

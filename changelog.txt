@@ -1,3 +1,9 @@
+------- Version 0.5.0 (Build 83) -------
+
+## 2026-11-25 (wednesday)
+-  Report closed rewarded ads as failed; bump build to 82 (Tobias)
+
+
 ------- Version 0.5.0 (Build 79) -------
 
 
